@@ -1,0 +1,18 @@
+{
+  "name": "job-board",
+  "version": "1.0.0",
+  "description": "this is my second project",
+  "main": "index.js",
+  "author": "Hashim",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "ejs": "^3.1.5",
+    "express": "^4.17.1",
+    "nodemailer": "^6.4.14",
+    "npm": "^6.14.8"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
+}
