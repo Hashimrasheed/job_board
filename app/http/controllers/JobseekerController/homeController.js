@@ -10,7 +10,9 @@ const messagebird = require('messagebird')(process.env.MESSAGEBIRD_API_KEY)
 function homeController() {
     return {
         home(req, res) {
-            res.render('home')
+            console.log(req.user)
+            res.render('home');
+            // res.render('home', {name:req.user.displayName,pic:req.user.photos[0].value,email:req.user.emails[0].value})
         },
         login(req, res) {
             res.render('user/login')
@@ -24,9 +26,9 @@ function homeController() {
                     res.redirect('/')
                 } 
             })
-            bcrypt.compare(myPlaintextPassword, hash, function(err, result) {
+            // bcrypt.compare(myPlaintextPassword, hash, function(err, result) {
                 // result == true
-            });
+            // });
         },
         otpLogin(req, res) {
             res.render('user/otpLogin')
@@ -87,6 +89,9 @@ function homeController() {
         postGoogleLogin(req, res) {
             res.redirect('/')
         },
+        postfacebookLogin(req, res) {
+            res.redirect('/')
+        },
         register(req, res) {
             res.render('user/register')
         },
@@ -123,7 +128,9 @@ function homeController() {
 
         },
         logout(req, res) {
+            console.log(req.session);
             req.session = null;
+            console.log(req.session);
             req.logout();
             res.redirect('/login')
         }

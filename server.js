@@ -3,15 +3,18 @@ const ejs = require('ejs');
 const path = require('path');
 const bodyParser = require('body-parser');
 const db = require('./app/config/connection');
+const cors = require('cors');
 const jobseekerRouter = require('./routes/jobseekerRouter');
 const employerRouter = require('./routes/employerRouter');
 const adminRouter = require('./routes/adminRouter');
 const passport = require('passport');
+const session = require('express-session');
 const cookieSession = require('cookie-session')
-require('./app/config/googlepassport')
+require('./app/config/googlepassport');
+require('./app/config/facebookpassport');
 
 const app = express();
-
+app.use(cors());
 const PORT = process.env.PORT || 3000
 
 
@@ -33,7 +36,7 @@ app.use(express.static('public'))
 //passport setup
 app.use(passport.initialize());
 app.use(passport.session());
-
+app.use(session({secret: "thisissecretkey"}))
 
 app.set('views', path.join(__dirname, '/views'))
 app.set('view engine', 'ejs')
