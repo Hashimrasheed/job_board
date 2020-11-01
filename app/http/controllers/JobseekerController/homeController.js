@@ -11,8 +11,13 @@ function homeController() {
     return {
         home(req, res) {
             console.log(req.user)
-            res.render('home');
-            // res.render('home', {name:req.user.displayName,pic:req.user.photos[0].value,email:req.user.emails[0].value})
+            console.log(req.user.id)
+            if(req.user.provider == 'facebook') {
+                res.render('home', {name:req.user.displayName,pic:req.user.photos[0].value});
+            } else if(req.user.provider == 'google') {
+                res.render('home', {name:req.user.givenName,pic:req.user.photos[0].value,email:req.user.emails[0].value})
+            }
+            
         },
         login(req, res) {
             res.render('user/login')

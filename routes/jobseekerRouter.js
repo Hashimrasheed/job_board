@@ -9,20 +9,19 @@ const isLoggedIn = (req, res, next) => {
     if (req.user) {
         next();
     } else {
-        // res.sendStatus(401);
-        console.log('failed');
+        res.sendStatus(401);
     }
 }
 
 //Get routers
-app.get('/',  homeController().home)
+app.get('/', isLoggedIn,  homeController().home)
 app.get('/login', homeController().login)
 app.get('/register', homeController().register)
 app.get('/otplogin', homeController().otpLogin)
 app.get('/googlelogin', passport.authenticate('google', {scope: ['profile', 'email']}))
 app.get('/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), homeController().postGoogleLogin)
 app.get('/facebooklogin', passport.authenticate('facebook', {scope: 'email'}))
-app.get('/facebook/callback', passport.authenticate('facebook', {successRedirect: '/', failureRedirect: '/login' }), homeController().postfacebookLogin)
+app.get('/facebook/callback', passport.authenticate('facebook', {failureRedirect: '/login' }), homeController().postfacebookLogin)
 
 app.post('/logout', homeController().logout)
 

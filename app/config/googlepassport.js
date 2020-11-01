@@ -4,11 +4,13 @@ const db = require('../config/connection')
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 passport.serializeUser(function(user, done) {
-  done(null, user.id);
+  console.log("hinoi");
+  console.log(user.id);
+  done(null, user);
 });
 
-passport.deserializeUser(function(id, done) {
-  db.get().collection('users').findOne({_id: id}, function(err, user) {
+passport.deserializeUser(function(user, done) {
+  db.get().collection('users').findOne({_id: user.id}, function(err, data) {
     done(err, user);
   });
 });
@@ -19,10 +21,8 @@ passport.use(new GoogleStrategy({
     callbackURL: "http://localhost:3000/google/callback"
   },
   function(accessToken, refreshToken, profile, done) {
-  //   db.get().collection('users').insertOne({ googleId: profile.id }, function (err, user) {
-  //     return done(err, user);
-  //   });
-    console.log(profile)
+ 
+    // console.log(profile)
     // done(null, profile);
 
     process.nextTick(function() {
@@ -38,14 +38,14 @@ passport.use(new GoogleStrategy({
           // if the user is found, then log them in
           if (user) {
               console.log("user found")
-              return done(null, user); // user found, return that user
+              return done(null, profile); // user found, return that user
           } else {
               // if there is no user found with that facebook id, create them
 
               var newUser            = {
                   // set all of the facebook information in our user model
                   uid    : profile.id, // set the users facebook id                   
-                  name  : profile.name.givenName + ' ' + profile.name.familyName, // look at the passport user profile to see how names are returned
+                  name  : profile.name.displayName, // look at the passport user profile to see how names are returned
                   email : profile.emails[0].value, // facebook can return multiple emails so we'll take the first
                   pic : profile.photos[0].value
               }
@@ -55,7 +55,7 @@ passport.use(new GoogleStrategy({
                       throw err;
 
                   // if successful, return the new user
-                  return done(err, newUser);
+                  return done(err, profile);
               })
               
               // save our user to the database

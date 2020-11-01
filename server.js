@@ -13,6 +13,7 @@ const cookieSession = require('cookie-session')
 require('./app/config/googlepassport');
 require('./app/config/facebookpassport');
 
+
 const app = express();
 app.use(cors());
 const PORT = process.env.PORT || 3000
@@ -33,10 +34,16 @@ app.use(cookieSession({
 app.use(express.static('public'))
 
 
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: true }
+  }))
 //passport setup
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(session({secret: "thisissecretkey"}))
+
 
 app.set('views', path.join(__dirname, '/views'))
 app.set('view engine', 'ejs')

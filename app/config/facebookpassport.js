@@ -5,10 +5,10 @@ const FacebookStrategy = require('passport-facebook').Strategy;
 
 
 
-passport.serializeUser(function(user, done) {
-    // console.log(user.id);
-    done(null, user.uid);
-});
+// passport.serializeUser(function(user, done) {
+//     // console.log(user.id);
+//     done(null, user.uid);
+// });
 
 // used to deserialize the user
 // passport.deserializeUser(function(id, done) {
@@ -24,7 +24,7 @@ passport.use(new FacebookStrategy({
     profileFields: [ 'displayName', 'name','picture.type(large)', 'email']
   },
   function(token, refreshToken, profile, done) {
-      console.log(profile);
+    //   console.log(profile);
     //   return done(null, profile);
    
     // asynchronous
@@ -41,8 +41,8 @@ passport.use(new FacebookStrategy({
             // if the user is found, then log them in
             if (user) {
                 console.log("user found")
-                console.log(user)
-                return done(null, user); // user found, return that user
+                // console.log(user)
+                return done(null, profile); // user found, return that user
             } else {
                 // if there is no user found with that facebook id, create them
 
@@ -59,7 +59,7 @@ passport.use(new FacebookStrategy({
                         throw err;
 
                     // if successful, return the new user
-                    return done(err, newUser);
+                    return done(null, profile);
                 })
                 
                 // save our user to the database
