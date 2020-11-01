@@ -1,23 +1,26 @@
 const db = require('../../../config/connection');
 const bcrypt = require('bcrypt');
 // const { default: messagebird } = require('messagebird/types');
-require('dotenv').config();
 const passport = require('passport');
-// var request = require('request');
+var request = require('request');
+let axios = require('axios')
+let FormData = require('form-data')
 
-const messagebird = require('messagebird')(process.env.MESSAGEBIRD_API_KEY)
+let otpId;
+let phone;
 
 function homeController() {
     return {
         home(req, res) {
-            console.log(req.user)
-            console.log(req.user.id)
-            if(req.user.provider == 'facebook') {
-                res.render('home', {name:req.user.displayName,pic:req.user.photos[0].value});
-            } else if(req.user.provider == 'google') {
-                res.render('home', {name:req.user.displayName,pic:req.user.photos[0].value,email:req.user.emails[0].value})
+            if(!req.user) {
+                res.render('home', {name: ' ',pic:' '})
+            }else {
+                if(req.user.provider == 'facebook') {
+                    res.render('home', {name:req.user.displayName,pic:req.user.photos[0].value});
+                } else if(req.user.provider == 'google') {
+                    res.render('home', {name:req.user.displayName,pic:req.user.photos[0].value,email:req.user.emails[0].value})
+                }
             }
-            
         },
         login(req, res) {
             res.render('user/login')
@@ -38,55 +41,75 @@ function homeController() {
         otpLogin(req, res) {
             res.render('user/otpLogin')
         },
-        postOtpLogin(req, res) {
-            let phone = req.body.phone;
-
-            var options = {
-            'method': 'POST',
-            'url': 'https://d7networks.com/api/verifier/send',
-            'headers': {
-                'Authorization': 'Token {D7 verify token}'
-            },
-            formData: {
-                'mobile': '97150900XXXX',
-                'sender_id': 'SMSINFO',
-                'message': 'Your otp code is {code}',
-                'expiry': '900'
+        async postOtpLogin(req, res) {
+            phone = req.body.phone;
+            res.redirect('/otpVerify')
+            if(!phone) {
+                res.redirect('/otplogin')
             }
-            };
-            request(options, function (error, response) {
-                if (error) throw new Error(error);
-                console.log(response.body);
-            });
+            await db.get().collection('users').findOne({phone: phone}, (err, result) => {
+                if(result) {
+                    let data = new FormData();
+                    data.append('mobile', '91' + phone)
+                    data.append('sender_id', 'SMSINFO')
+                    data.append('message', 'Your otp code is {code}')
+                    data.append('expiry', '900')
 
-
-            // make request to verify the api
-            // messagebird.verify.create(phone, {
-            //     template: "your verification code is token"
-            // }, function(err, response) {
-            //     if(err) {
-            //         console.log(err);
-            //         res.render('user/otpLogin', {error: err.error[0].discription})
-            //     }else {
-            //         console.log(response);
-            //         res.render('user/otpVerify', {id: response.id})
-            //     }
-            // })
-        },
-        postOtpVerify(req, res) {
-            let id = req.body.id;
-            let token = req.body.token;
-
-            // make request to verify api
-            messagebird.verify.verify(id, token, function(err, response) {
-                if(err) {
-                    //verification has failed
-                    res.render('user/otpVerify', {error: err.errors[0].discription, id: id})
-                }else {
-                    //verification successful
-                    res.render('users/otpLogin')
+                    var config = {
+                        'method': 'post',
+                        'url': 'https://d7networks.com/api/verifier/send',
+                        'headers': {
+                            'Authorization': 'Token 278b0d5aec962cac55a52a07175ce33c5b6fc0db',
+                            ...data.getHeaders()
+                        },
+                        data: data
+                    };
+                    axios(config).then(function(response) {
+                        console.log(JSON.stringify(response.data));
+                        otpId = response.data.otp_id;
+                        res.redirect('/otpVerify')
+                    }).catch(function(error) {
+                        req.redirect('/otplogin')
+                    })
+                } else {
+                    res.redirect('/otplogin')
                 }
             })
+        },
+        otpVerify(req, res) {
+            res.render('user/otpVerify')
+        },
+        async postOtpVerify(req, res) {
+            let otp = req.body.otp
+            var data = new FormData();
+            data.append('otp_id', otp_id);
+            data.append('otp_code', req.body.otp);
+
+            var config = {
+                'method': 'POST',
+                'url': 'https://d7networks.com/api/verifier/verify',
+                'headers': {
+                  'Authorization': 'Token 278b0d5aec962cac55a52a07175ce33c5b6fc0db',
+                  ...data.getHeaders()
+                },
+                data: data
+            };
+            
+            await axios(config)
+                .then((response) => {
+                    console.log(response.data.status);
+                    if (response.data.status == 'success') {
+                        db.get().collection('users').findOne({ phone: phone }, (err, result) => {
+                            
+                            res.redirect('/');
+                        })
+
+                    }
+                })
+                .catch(function (error) {
+                    res.redirect('/otpVerify');
+                });
+            
         },
         googleLogin(req, res) {
             
