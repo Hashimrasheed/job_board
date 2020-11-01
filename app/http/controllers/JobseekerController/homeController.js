@@ -15,7 +15,7 @@ function homeController() {
             if(req.user.provider == 'facebook') {
                 res.render('home', {name:req.user.displayName,pic:req.user.photos[0].value});
             } else if(req.user.provider == 'google') {
-                res.render('home', {name:req.user.givenName,pic:req.user.photos[0].value,email:req.user.emails[0].value})
+                res.render('home', {name:req.user.displayName,pic:req.user.photos[0].value,email:req.user.emails[0].value})
             }
             
         },
