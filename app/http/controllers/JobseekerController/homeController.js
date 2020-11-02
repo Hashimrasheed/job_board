@@ -2,12 +2,10 @@ const db = require('../../../config/connection');
 const bcrypt = require('bcrypt');
 // const { default: messagebird } = require('messagebird/types');
 const passport = require('passport');
-var request = require('request');
-let axios = require('axios')
-let FormData = require('form-data')
+var axios = require('axios');
+var FormData = require('form-data');
 
 let otpId;
-let phone;
 
 function homeController() {
     return {
@@ -41,74 +39,54 @@ function homeController() {
         otpLogin(req, res) {
             res.render('user/otpLogin')
         },
-        async postOtpLogin(req, res) {
-            phone = req.body.phone;
-            res.redirect('/otpVerify')
+        postOtpLogin(req, res) {
+            let phone = req.body.phone;
+
             if(!phone) {
                 res.redirect('/otplogin')
             }
-            await db.get().collection('users').findOne({phone: phone}, (err, result) => {
-                if(result) {
-                    let data = new FormData();
-                    data.append('mobile', '91' + phone)
-                    data.append('sender_id', 'SMSINFO')
-                    data.append('message', 'Your otp code is {code}')
-                    data.append('expiry', '900')
-
-                    var config = {
-                        'method': 'post',
-                        'url': 'https://d7networks.com/api/verifier/send',
-                        'headers': {
-                            'Authorization': 'Token 278b0d5aec962cac55a52a07175ce33c5b6fc0db',
-                            ...data.getHeaders()
-                        },
-                        data: data
-                    };
-                    axios(config).then(function(response) {
-                        console.log(JSON.stringify(response.data));
-                        otpId = response.data.otp_id;
-                        res.redirect('/otpVerify')
-                    }).catch(function(error) {
-                        req.redirect('/otplogin')
-                    })
-                } else {
-                    res.redirect('/otplogin')
+            var config = {
+                'method': 'POST',
+                'url': 'https://d7networks.com/api/verifier/send',
+                'headers': {
+                    'Authorization': 'Token 278b0d5aec962cac55a52a07175ce33c5b6fc0db'
+                },
+                formData: {
+                    'mobile': '91' + phone,
+                    'sender_id': 'SMSINFO',
+                    'message': 'Your otp code is {code}',
+                    'expiry': '900'
                 }
-            })
+            };
+            request(config, function (error, response) {
+                if (error) throw new Error(error);
+                console.log(response.body);
+                otpId = response.body
+                console.log(otpId);
+            });
+            res.redirect('/otpVerify')
+
         },
         otpVerify(req, res) {
             res.render('user/otpVerify')
         },
-        async postOtpVerify(req, res) {
+        postOtpVerify(req, res) {
             let otp = req.body.otp
-            var data = new FormData();
-            data.append('otp_id', otp_id);
-            data.append('otp_code', req.body.otp);
-
             var config = {
                 'method': 'POST',
                 'url': 'https://d7networks.com/api/verifier/verify',
                 'headers': {
-                  'Authorization': 'Token 278b0d5aec962cac55a52a07175ce33c5b6fc0db',
-                  ...data.getHeaders()
+                  'Authorization': 'Token 278b0d5aec962cac55a52a07175ce33c5b6fc0db'
                 },
-                data: data
-            };
-            
-            await axios(config)
-                .then((response) => {
-                    console.log(response.data.status);
-                    if (response.data.status == 'success') {
-                        db.get().collection('users').findOne({ phone: phone }, (err, result) => {
-                            
-                            res.redirect('/');
-                        })
-
-                    }
-                })
-                .catch(function (error) {
-                    res.redirect('/otpVerify');
-                });
+                formData: {
+                  'otp_id': otpId,
+                  'otp_code': otp
+                }
+              };
+              request(config, function (error, response) {
+                if (error) throw new Error(error);
+                console.log(response.body);
+            });
             
         },
         googleLogin(req, res) {
