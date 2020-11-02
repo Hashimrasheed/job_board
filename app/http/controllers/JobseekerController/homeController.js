@@ -2,12 +2,11 @@ const db = require('../../../config/connection');
 const bcrypt = require('bcrypt');
 // const { default: messagebird } = require('messagebird/types');
 const passport = require('passport');
-var request = require('request');
 let axios = require('axios')
 let FormData = require('form-data')
 
 let otpId;
-let phone;
+let mobile;
 
 function homeController() {
     return {
@@ -41,77 +40,88 @@ function homeController() {
         otpLogin(req, res) {
             res.render('user/otpLogin')
         },
-        async postOtpLogin(req, res) {
-            phone = req.body.phone;
-            res.redirect('/otpVerify')
-            if(!phone) {
-                res.redirect('/otplogin')
-            }
-            await db.get().collection('users').findOne({phone: phone}, (err, result) => {
-                if(result) {
-                    let data = new FormData();
-                    data.append('mobile', '91' + phone)
-                    data.append('sender_id', 'SMSINFO')
-                    data.append('message', 'Your otp code is {code}')
-                    data.append('expiry', '900')
-
-                    var config = {
-                        'method': 'post',
-                        'url': 'https://d7networks.com/api/verifier/send',
-                        'headers': {
-                            'Authorization': 'Token 278b0d5aec962cac55a52a07175ce33c5b6fc0db',
-                            ...data.getHeaders()
-                        },
-                        data: data
+        postOtpLogin(req, res) {
+            mobile = req.body.phone;
+            console.log(mobile);
+            db.get().collection('users').findOne({mobile}, (err, result) => {
+                if(err) throw err;
+                    const data = new FormData();
+                    data.append('mobile', `91${mobile}`);
+                    data.append('sender_id', 'SMSINFO');
+                    data.append('message', 'Your otp code is {code}');
+                    data.append('expiry', '900');
+          
+                    const config = {
+                      method: 'post',
+                      url: 'https://d7networks.com/api/verifier/send',
+                      headers: {
+                        Authorization: 'Token 278b0d5aec962cac55a52a07175ce33c5b6fc0db',
+                        ...data.getHeaders(),
+                      },
+                      data,
                     };
-                    axios(config).then(function(response) {
-                        console.log(JSON.stringify(response.data));
+          
+                    axios(config)
+                      .then((response) => {
                         otpId = response.data.otp_id;
-                        res.redirect('/otpVerify')
-                    }).catch(function(error) {
-                        req.redirect('/otplogin')
-                    })
-                } else {
-                    res.redirect('/otplogin')
-                }
+                        res.redirect('/otpVerify');
+                      })
+                      .catch(() => {
+                        // req.flash('error', 'No user with this number');
+                        res.redirect('/otplogin');
+                      });
             })
         },
         otpVerify(req, res) {
             res.render('user/otpVerify')
         },
-        async postOtpVerify(req, res) {
+        postOtpVerify(req, res) {
             let otp = req.body.otp
-            var data = new FormData();
-            data.append('otp_id', otp_id);
-            data.append('otp_code', req.body.otp);
+            const data = new FormData();
+            data.append('otp_id', otpId);
+            data.append('otp_code', otp);
 
-            var config = {
-                'method': 'POST',
-                'url': 'https://d7networks.com/api/verifier/verify',
-                'headers': {
-                  'Authorization': 'Token 278b0d5aec962cac55a52a07175ce33c5b6fc0db',
-                  ...data.getHeaders()
+            const config = {
+                method: 'post',
+                url: 'https://d7networks.com/api/verifier/verify',
+                headers: {
+                  Authorization: 'Token 278b0d5aec962cac55a52a07175ce33c5b6fc0db',
+                  ...data.getHeaders(),
                 },
-                data: data
+                data: data,
             };
-            
-            await axios(config)
+            let user = {
+                mobile: mobile
+            }
+            axios(config)
                 .then((response) => {
                     console.log(response.data.status);
                     if (response.data.status == 'success') {
-                        db.get().collection('users').findOne({ phone: phone }, (err, result) => {
+                        db.get().collection('users').findOne({mobile: mobile}, (err, result) => {
+                            if (err) throw err;
+                            if(result == null) {
+                                db.get().collection('users').insertOne(user, (err, done) => {
+                                    if(err) throw err;
+                                    console.log('one user logged in');
+                                     // req.session.user = result._id;
+                                    res.redirect('/')
+                                })
+                            } else {
+                                console.log("user already exist");
+                                 // req.session.user = result._id;
+                                res.redirect('/')
+                            }
                             
-                            res.redirect('/');
                         })
 
+                    } else {
+                        res.redirect('/otplogin')
                     }
                 })
                 .catch(function (error) {
+                    // req.flash('error', 'Something went wrong');
                     res.redirect('/otpVerify');
                 });
-            
-        },
-        googleLogin(req, res) {
             
         },
         postGoogleLogin(req, res) {

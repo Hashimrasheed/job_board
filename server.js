@@ -9,12 +9,14 @@ const employerRouter = require('./routes/employerRouter');
 const adminRouter = require('./routes/adminRouter');
 const passport = require('passport');
 const session = require('express-session');
+const flash = require('connect-flash')
 const cookieSession = require('cookie-session')
 require('./app/config/googlepassport');
 require('./app/config/facebookpassport');
 
 
 const app = express();
+app.use(flash())
 app.use(cors());
 const PORT = process.env.PORT || 3000
 
@@ -38,7 +40,7 @@ app.use(session({
     secret: 'keyboard cat',
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: true }
+    cookie: { secure: true, maxAge: 60000 }
   }))
 //passport setup
 app.use(passport.initialize());
