@@ -2,21 +2,10 @@
 <link rel="stylesheet" href="/css/app.css">
 
 
-<div class="login-form">
-    <form action="/user/login" method="post">
-        <h2 class="text-center">Sign in</h2>		
-        <div class="text-center social-btn">
-            <a href="/user/otplogin" class="btn btn-info btn-block"><i class="fa fa-phone"></i> Sign in with <b>OTP</b></a>
-            <a href="/user/facebooklogin" class="btn btn-primary btn-block"><i class="fa fa-facebook"></i> Sign in with <b>Facebook</b></a>
-			<a href="/user/googlelogin" class="btn btn-danger btn-block"><i class="fa fa-google"></i> Sign in with <b>Google</b></a>
-        </div>
-        <div class="or-seperator"><i>or</i></div>
-        <% if(error.length > 0) { %>
-            <div class="alert alert-danger">
-                <%= error %>
-            </div>
+<div class="login-form" style="margin-top:10rem;">
+    <form action="/admin/login" method="post">
+        <h2 class="text-center">Admin Login</h2>		
         
-        <% } %>
         <div class="form-group">
         	<div class="input-group">                
                 <div class="input-group-prepend">
@@ -40,9 +29,7 @@
         <div class="form-group">
             <button type="submit" class="btn btn-success btn-block login-btn">Sign in</button>
         </div>
-        
     </form>
-    <div class="hint-text">Don't have an account? <a href="#" class="text-success">Register Now!</a></div>
 </div>
 
 

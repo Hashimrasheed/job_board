@@ -1,6 +1,5 @@
 const db = require('../../../config/connection');
 const bcrypt = require('bcrypt');
-// const { default: messagebird } = require('messagebird/types');
 const passport = require('passport');
 let axios = require('axios')
 let FormData = require('form-data')
@@ -11,31 +10,46 @@ let mobile;
 function homeController() {
     return {
         home(req, res) {
-            if(!req.user) {
-                res.render('home', {name: ' ',pic:' '})
-            }else {
-                if(req.user.provider == 'facebook') {
-                    res.render('home', {name:req.user.displayName,pic:req.user.photos[0].value});
-                } else if(req.user.provider == 'google') {
-                    res.render('home', {name:req.user.displayName,pic:req.user.photos[0].value,email:req.user.emails[0].value})
-                }
+            if(req.user) {
+                req.session.user = req.user.id
             }
+            if(req.session.user) {
+                if(!req.user) {
+                    res.render('home', {name: 'req.session.user',pic:' '})
+                }else {
+                    if(req.user.provider == 'facebook') {
+                        res.render('home', {name:req.user.displayName,pic:req.user.photos[0].value});
+                    } else if(req.user.provider == 'google') {
+                        res.render('home', {name:req.user.displayName,pic:req.user.photos[0].value,email:req.user.emails[0].value})
+                    }
+                }
+            } else {
+                res.render('home', {name: null, pic : null })
+            }
+            
         },
         login(req, res) {
-            res.render('user/login')
+            res.render('user/login', {error: req.flash('error')})
         },
         async postLogin(req, res) {
-            await db.get().collection('users').findOne({email: req.body.email, password: req.body.password}, (err, data) => {
-                if(data == null) {
-                    console.log("No user exist with this email");
-                    res.redirect('/login')
-                }else {
-                    res.redirect('/')
-                } 
-            })
-            // bcrypt.compare(myPlaintextPassword, hash, function(err, result) {
-                // result == true
-            // });
+            const email = req.body.email;
+            const password = req.body.password;
+            if(email && password) {
+                await db.get().collection('users').findOne({email: req.body.email}, async (err, data) => {
+                    const isMatch = await bcrypt.compare(req.body.password, data.password)
+                    if(isMatch === false) {
+                        req.flash('error', 'Incorrect password')
+                        res.redirect('/user/login')
+                    }else {
+                        req.session.user = data._id;
+                        res.redirect('/user')
+                    } 
+                })
+            } else {
+                req.flash('error', 'Please fill all fields')
+                res.redirect('/user/login')
+            }
+            
         },
         otpLogin(req, res) {
             res.render('user/otpLogin')
@@ -64,11 +78,11 @@ function homeController() {
                     axios(config)
                       .then((response) => {
                         otpId = response.data.otp_id;
-                        res.redirect('/otpVerify');
+                        res.redirect('/user/otpVerify');
                       })
                       .catch(() => {
                         // req.flash('error', 'No user with this number');
-                        res.redirect('/otplogin');
+                        res.redirect('/user/otplogin');
                       });
             })
         },
@@ -103,32 +117,32 @@ function homeController() {
                                 db.get().collection('users').insertOne(user, (err, done) => {
                                     if(err) throw err;
                                     console.log('one user logged in');
-                                     // req.session.user = result._id;
-                                    res.redirect('/')
+                                     req.session.user = user._id;
+                                    res.redirect('/user')
                                 })
                             } else {
                                 console.log("user already exist");
-                                 // req.session.user = result._id;
-                                res.redirect('/')
+                                 req.session.user = result._id;
+                                res.redirect('/user')
                             }
                             
                         })
 
                     } else {
-                        res.redirect('/otplogin')
+                        res.redirect('/user/otplogin')
                     }
                 })
                 .catch(function (error) {
                     // req.flash('error', 'Something went wrong');
-                    res.redirect('/otpVerify');
+                    res.redirect('/user/otpVerify');
                 });
             
         },
         postGoogleLogin(req, res) {
-            res.redirect('/')
+            res.redirect('/user')
         },
         postfacebookLogin(req, res) {
-            res.redirect('/')
+            res.redirect('/user')
         },
         register(req, res) {
             res.render('user/register')
@@ -152,13 +166,14 @@ function homeController() {
                     db.get().collection('users').insertOne(user, (err, done) => {
                         if(err) throw err;
                         console.log('one user logged in');
-                        res.redirect('/')
+                        req.session.user = user
+                        res.redirect('/user')
                     })
 
                 }
                 else {
                     console.log("user already exist");
-                    res.redirect('/register')
+                    res.redirect('/user/register')
                 }
             })
 
@@ -170,7 +185,7 @@ function homeController() {
             req.session = null;
             console.log(req.session);
             req.logout();
-            res.redirect('/login')
+            res.redirect('/user/login')
         }
     }
 }
