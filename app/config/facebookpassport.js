@@ -20,12 +20,10 @@ const FacebookStrategy = require('passport-facebook').Strategy;
 passport.use(new FacebookStrategy({
     clientID: '3596005423794082',
     clientSecret: '356c4d9b315fd54184f33269d80d9af5',
-    callbackURL: "http://localhost:3000/facebook/callback",
+    callbackURL: "http://localhost:3000/user/facebook/callback",
     profileFields: [ 'displayName', 'name','picture.type(large)', 'email']
   },
   function(token, refreshToken, profile, done) {
-    //   console.log(profile);
-    //   return done(null, profile);
    
     // asynchronous
     process.nextTick(function() {
@@ -40,8 +38,6 @@ passport.use(new FacebookStrategy({
 
             // if the user is found, then log them in
             if (user) {
-                console.log("user found")
-                // console.log(user)
                 return done(null, profile); // user found, return that user
             } else {
                 // if there is no user found with that facebook id, create them

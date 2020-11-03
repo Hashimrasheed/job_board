@@ -4,8 +4,7 @@ const db = require('../config/connection')
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 passport.serializeUser(function(user, done) {
-  console.log("hinoi");
-  console.log(user.id);
+
   done(null, user);
 });
 
@@ -18,10 +17,10 @@ passport.deserializeUser(function(user, done) {
 passport.use(new GoogleStrategy({
     clientID: '149726536644-483oep39csd6bd7bh9o1rg77lgilkvpq.apps.googleusercontent.com',
     clientSecret: '_BamcoGQyBjdxSoLW1RjyaMq',
-    callbackURL: "http://localhost:3000/google/callback"
+    callbackURL: "http://localhost:3000/user/google/callback"
   },
   function(accessToken, refreshToken, profile, done) {
- 
+
     // console.log(profile)
     // done(null, profile);
 
@@ -37,7 +36,6 @@ passport.use(new GoogleStrategy({
 
           // if the user is found, then log them in
           if (user) {
-              console.log("user found")
               return done(null, profile); // user found, return that user
           } else {
               // if there is no user found with that facebook id, create them

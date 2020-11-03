@@ -2,27 +2,30 @@ const express = require('express')
 const homeController = require('../app/http/controllers/JobseekerController/homeController')
 const app = express.Router();
 const passport = require('passport');
-// require('../app/config/googlepassport')
 const isLogged = require('../app/http/midlewares/googleAuth')
 
-// const isLoggedIn = (req, res, next) => {
-//     if (req.user) {
-//         next();
-//     } else {
-//         res.sendStatus(401);
-//     }
-// }
+
+const loginProtect = (req, res, next) => {
+
+    if (req.session.user) {
+        res.redirect('/user');
+    }else {
+        next();
+    }
+}
+
+
 
 //Get routers
 app.get('/',  homeController().home)
-app.get('/login', homeController().login)
-app.get('/register', homeController().register)
+app.get('/login', loginProtect, homeController().login)
+app.get('/register', loginProtect, homeController().register)
 app.get('/otplogin', homeController().otpLogin)
 app.get('/otpverify', homeController().otpVerify)
 app.get('/googlelogin', passport.authenticate('google', {scope: ['profile', 'email']}))
-app.get('/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), homeController().postGoogleLogin)
+app.get('/google/callback', passport.authenticate('google', { failureRedirect: '/user/login' }), homeController().postGoogleLogin)
 app.get('/facebooklogin', passport.authenticate('facebook', {scope: 'email'}))
-app.get('/facebook/callback', passport.authenticate('facebook', {failureRedirect: '/login' }), homeController().postfacebookLogin)
+app.get('/facebook/callback', passport.authenticate('facebook', {failureRedirect: '/user/login' }), homeController().postfacebookLogin)
 
 app.get('/logout', homeController().logout)
 
