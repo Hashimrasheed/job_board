@@ -38,8 +38,8 @@ app.use(cookieSession({
 app.use(session({
     secret: 'usersecret',
     resave: false,
-    saveUninitialized: true,
-    cookie: { secure: true, maxAge: 1000 * 60 * 60 * 24 },
+    saveUninitialized: false,
+    cookie: {maxAge: 1000 * 60 * 60 * 24 },
     store: new MongoStore({
         url: 'mongodb://localhost:27017/jobBoard',
         collection: 'userSession'

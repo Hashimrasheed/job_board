@@ -13,18 +13,19 @@ function homeController() {
             if(req.user) {
                 req.session.user = req.user.id
             }
+            console.log(req.session);
             if(req.session.user) {
                 if(!req.user) {
-                    res.render('home', {name: 'req.session.user',pic:' '})
+                    res.render('home', {name: ' ',pic:' ', user: true})
                 }else {
                     if(req.user.provider == 'facebook') {
-                        res.render('home', {name:req.user.displayName,pic:req.user.photos[0].value});
+                        res.render('home', {name:req.user.displayName,pic:req.user.photos[0].value, user: true});
                     } else if(req.user.provider == 'google') {
-                        res.render('home', {name:req.user.displayName,pic:req.user.photos[0].value,email:req.user.emails[0].value})
+                        res.render('home', {name:req.user.displayName,pic:req.user.photos[0].value,email:req.user.emails[0].value, user: true})
                     }
                 }
             } else {
-                res.render('home', {name: null, pic : null })
+                res.render('home', {name: null, pic : null , user: true})
             }
             
         },
@@ -36,14 +37,20 @@ function homeController() {
             const password = req.body.password;
             if(email && password) {
                 await db.get().collection('users').findOne({email: req.body.email}, async (err, data) => {
-                    const isMatch = await bcrypt.compare(req.body.password, data.password)
-                    if(isMatch === false) {
-                        req.flash('error', 'Incorrect password')
+                    if(data == null) {
+                        req.flash('error', 'No user in this mail')
                         res.redirect('/user/login')
-                    }else {
-                        req.session.user = data._id;
-                        res.redirect('/user')
-                    } 
+                    } else {
+                        const isMatch = await bcrypt.compare(req.body.password, data.password)
+                        if(isMatch === false) {
+                            req.flash('error', 'Incorrect password')
+                            res.redirect('/user/login')
+                        }else {
+                            req.session.user = data._id;
+                            res.redirect('/user')
+                        } 
+                    }
+                    
                 })
             } else {
                 req.flash('error', 'Please fill all fields')
@@ -182,7 +189,7 @@ function homeController() {
         },
         logout(req, res) {
             console.log(req.session);
-            req.session = null;
+            req.session.user = null;
             console.log(req.session);
             req.logout();
             res.redirect('/user/login')

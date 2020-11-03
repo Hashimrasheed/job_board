@@ -27,7 +27,7 @@
                             <!-- <a href="login.html" class="site-button"><i class="fa fa-lock"></i> login</a> -->
                             <a href="#" style="text-decoration: none;" class="site-button"><%= name %></a>
                             
-                            <img src="<%=pic%>" style="border-radius: 50%;" width="60" height="60" alt=" ">
+                            <img src="<%=pic%>" style="border-radius: 50%; margin-left: 3rem;" width="50" height="60" alt=" ">
                         </div>
                     </div>
                     <!-- Quik search -->
@@ -62,6 +62,18 @@
 									<li><a href="submit-resume.html" class="dez-page">Submit Resume</a></li>
 								</ul>
 							</li>
+							
+							<li>
+								<a href="#">Blog <i class="fa fa-chevron-down"></i></a>
+								<ul class="sub-menu">
+									<li><a href="blog-classic.html" class="dez-page">Classic</a></li>
+									<li><a href="blog-classic-sidebar.html" class="dez-page">Classic Sidebar</a></li>
+									<li><a href="blog-detailed-grid.html" class="dez-page">Detailed Grid</a></li>
+									<li><a href="blog-detailed-grid-sidebar.html" class="dez-page">Detailed Grid Sidebar</a></li>
+									<li><a href="blog-left-img.html" class="dez-page">Left Image Sidebar</a></li>
+									<li><a href="blog-details.html" class="dez-page">Blog Details</a></li>
+								</ul>
+							</li>
 							<li>
 								<a href="#">Pages <i class="fa fa-chevron-down"></i></a>
 								<ul class="sub-menu">
@@ -76,19 +88,13 @@
 										</ul>
 									</li>
 									<li><a href="contact.html" class="dez-page">Contact Us</a></li>
-									<li><a href="register.html" class="dez-page">Register</a></li>
-                                    <li><a href="/user/logout" class="dez-page">Logout</a></li>
-								</ul>
-							</li>
-							<li>
-								<a href="#">Blog <i class="fa fa-chevron-down"></i></a>
-								<ul class="sub-menu">
-									<li><a href="blog-classic.html" class="dez-page">Classic</a></li>
-									<li><a href="blog-classic-sidebar.html" class="dez-page">Classic Sidebar</a></li>
-									<li><a href="blog-detailed-grid.html" class="dez-page">Detailed Grid</a></li>
-									<li><a href="blog-detailed-grid-sidebar.html" class="dez-page">Detailed Grid Sidebar</a></li>
-									<li><a href="blog-left-img.html" class="dez-page">Left Image Sidebar</a></li>
-									<li><a href="blog-details.html" class="dez-page">Blog Details</a></li>
+									
+									<% if(user == true) {%>
+										<li><a href="/user/logout" class="dez-page">Logout</a></li>
+									<% } else { %>
+										<li><a href="/user/register" class="dez-page">Register</a></li>
+										<li><a href="/user/login" class="dez-page">Login</a></li>
+									<% } %>
 								</ul>
 							</li>
 						</ul>			

@@ -36,7 +36,6 @@ passport.use(new GoogleStrategy({
 
           // if the user is found, then log them in
           if (user) {
-              console.log("user found")
               return done(null, profile); // user found, return that user
           } else {
               // if there is no user found with that facebook id, create them
