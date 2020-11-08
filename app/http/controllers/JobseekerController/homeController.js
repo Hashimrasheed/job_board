@@ -22,7 +22,6 @@ function homeController() {
                         console.log('hi');
                         res.render('home', {name: req.session.user.name,pic:'/assets/images/avatars/guest-user.jpg', user: true})
                     }
-                    
                 }else {
                     if(req.user.provider == 'facebook') {
                         res.render('home', {name:req.user.displayName,pic:req.user.photos[0].value, user: true});
@@ -118,7 +117,11 @@ function homeController() {
                 data: data,
             };
             let user = {
-                mobile: mobile
+                pic: '/assets/images/avatars/guest-user.jpg',
+                name: '.....',
+                email: '.....',
+                mobile: mobile,
+                provider: otp
             }
             axios(config)
                 .then((response) => {
@@ -138,7 +141,6 @@ function homeController() {
                                  req.session.user = result;
                                 res.redirect('/user')
                             }
-                            
                         })
 
                     } else {

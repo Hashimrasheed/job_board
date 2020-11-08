@@ -7,6 +7,9 @@ function authController() {
             const employer = await db.get().collection(collection.EMPLOYERS).find().toArray()
             console.log(employer);
             res.render('admin/employers', {employer})
+        },
+        editEmployer(req, res) {
+            res.render('admin/editEmployers')
         }
     }
 }
