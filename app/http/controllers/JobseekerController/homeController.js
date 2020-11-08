@@ -67,34 +67,6 @@ function homeController() {
             res.render('user/otpLogin')
         },
         postOtpLogin(req, res) {
-<<<<<<< HEAD
-            let phone = req.body.phone;
-
-            if(!phone) {
-                res.redirect('/otplogin')
-            }
-            var config = {
-                'method': 'POST',
-                'url': 'https://d7networks.com/api/verifier/send',
-                'headers': {
-                    'Authorization': 'Token 278b0d5aec962cac55a52a07175ce33c5b6fc0db'
-                },
-                formData: {
-                    'mobile': '91' + phone,
-                    'sender_id': 'SMSINFO',
-                    'message': 'Your otp code is {code}',
-                    'expiry': '900'
-                }
-            };
-            request(config, function (error, response) {
-                if (error) throw new Error(error);
-                console.log(response.body);
-                otpId = response.body
-                console.log(otpId);
-            });
-            res.redirect('/otpVerify')
-
-=======
             mobile = req.body.phone;
             console.log(mobile);
             db.get().collection('users').findOne({mobile}, (err, result) => {
@@ -125,30 +97,12 @@ function homeController() {
                         res.redirect('/user/otplogin');
                       });
             })
->>>>>>> master
         },
         otpVerify(req, res) {
             res.render('user/otpVerify')
         },
         postOtpVerify(req, res) {
             let otp = req.body.otp
-<<<<<<< HEAD
-            var config = {
-                'method': 'POST',
-                'url': 'https://d7networks.com/api/verifier/verify',
-                'headers': {
-                  'Authorization': 'Token 278b0d5aec962cac55a52a07175ce33c5b6fc0db'
-                },
-                formData: {
-                  'otp_id': otpId,
-                  'otp_code': otp
-                }
-              };
-              request(config, function (error, response) {
-                if (error) throw new Error(error);
-                console.log(response.body);
-            });
-=======
             const data = new FormData();
             data.append('otp_id', otpId);
             data.append('otp_code', otp);
@@ -197,7 +151,6 @@ function homeController() {
                     // req.flash('error', 'Something went wrong');
                     res.redirect('/user/otpVerify');
                 });
->>>>>>> master
             
         },
         postGoogleLogin(req, res) {
