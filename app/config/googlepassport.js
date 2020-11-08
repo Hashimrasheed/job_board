@@ -40,14 +40,15 @@ passport.use(new GoogleStrategy({
           } else {
               // if there is no user found with that facebook id, create them
 
-              var newUser            = {
+              var newUser = {
                   // set all of the facebook information in our user model
                   uid    : profile.id, // set the users facebook id                   
-                  name  : profile.name.displayName, // look at the passport user profile to see how names are returned
+                  name  : profile.displayName, // look at the passport user profile to see how names are returned
                   email : profile.emails[0].value, // facebook can return multiple emails so we'll take the first
-                  pic : profile.photos[0].value
+                  pic : profile.photos[0].value,
+                  mobile: '.....'
               }
-
+              console.log(profile.displayName);
               db.get().collection('users').insertOne(newUser, (err) => {
                   if (err)
                       throw err;

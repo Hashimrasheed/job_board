@@ -1,0 +1,23 @@
+<%- include('../partials/header.ejs') %>
+<link rel="stylesheet" href="/css/app.css">
+
+<div class="login-form">
+    <form action="/employer/otpverify" method="post">
+        <div class="form-group">
+        	<div class="input-group">                
+                <div class="input-group-prepend">
+                    <span class="input-group-text">
+                        <span class="fa fa-user"></span>
+                    </span>                    
+                </div>
+                <input type="text" class="form-control" name="otp" placeholder="Phone Number" required="required">
+            </div>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-success btn-block login-btn">Sign in</button>
+        </div>
+        
+    </form>
+</div>
+
+<%- include('../partials/footer.ejs') %>
