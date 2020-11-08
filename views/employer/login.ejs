@@ -5,13 +5,13 @@
 <div class="login-form">
     <form action="/employer/login" method="post">
         <h2 class="text-center">Sign in</h2>		
-        <!-- <div class="text-center social-btn">
-            <a href="/user/otplogin" class="btn btn-info btn-block"><i class="fa fa-phone"></i> Sign in with <b>OTP</b></a>
-            <a href="/user/facebooklogin" class="btn btn-primary btn-block"><i class="fa fa-facebook"></i> Sign in with <b>Facebook</b></a>
-			<a href="/user/googlelogin" class="btn btn-danger btn-block"><i class="fa fa-google"></i> Sign in with <b>Google</b></a>
+        <div class="text-center social-btn">
+            <a href="/employer/otplogin" class="btn btn-info btn-block"><i class="fa fa-phone"></i> Sign in with <b>OTP</b></a>
+            <!-- <a href="/user/facebooklogin" class="btn btn-primary btn-block"><i class="fa fa-facebook"></i> Sign in with <b>Facebook</b></a>
+			<a href="/user/googlelogin" class="btn btn-danger btn-block"><i class="fa fa-google"></i> Sign in with <b>Google</b></a> -->
         </div>
         <div class="or-seperator"><i>or</i></div>
-        -->
+       
         <% if(error.length > 0) { %>
             <div class="alert alert-danger">
                 <%= error %>

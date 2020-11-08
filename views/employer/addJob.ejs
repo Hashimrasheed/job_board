@@ -1,0 +1,106 @@
+<%- include('../partials/employerHeader.ejs') %>
+
+
+<div class="app-main__outer">
+    <div class="app-main__inner">
+ 
+
+    <div class="page-wraper">
+        <div id="loading-area"></div>
+            
+            <!-- header END -->
+            <!-- Content -->
+            <div class="page-content bg-white">
+                <!-- inner page banner -->
+                <div class="overlay-black-dark">
+                    <div class="container">
+                        <div class="">
+                            <h1 class="text-white">Submit Resume</h1>
+                           
+                        </div>
+                    </div>
+                </div>
+                <!-- inner page banner END -->
+                <!-- contact area -->
+                <div class="content-block">
+                    <!-- Submit Resume -->
+                    <div class="section-full bg-white submit-resume">
+                        <div class="container pb-5">
+                            <form action="/employer/addJob" method="POST" enctype="multipart/form-data">
+                                <div class="form-group" aria-required="true">
+                                    <label>Job header</label>
+                                    <input type="text" class="form-control" name="header" placeholder="Job header">
+                                </div>
+                                <div class="form-group" aria-required="true">
+                                    <label>Company name for this job</label>
+                                    <input type="text" class="form-control" name="companyName" placeholder="company Name">
+                                </div>
+                                <div class="form-group" aria-required="true">
+                                    <label>Location</label>
+                                    <input type="text" class="form-control" name="location" placeholder="Location">
+                                </div>
+                                <div class="form-group" aria-required="true">
+                                    <label>How many hires?</label>
+                                    <input type="number" class="form-control" name="hiresNum" placeholder="number of hires">
+                                </div>
+                                <label>How much experience?</label>
+                                <div class="d-flex" aria-required="true">
+                                    <div class="form-group">
+                                        <input type="number" class="form-control" name="minExp" placeholder="Minimum Experience">
+                                    </div>
+                                    <h6 class="mx-5"> to </h6>
+
+                                    <div class="form-group">
+                                        <input type="number" class="form-control" name="maxExp" placeholder="Maximum Experience">
+                                    </div>
+                                </div>
+                                <label>Minimum Salary</label>
+                                <div class="d-flex" aria-required="true">
+                                    <div class="form-group">
+                                        <input type="number" class="form-control" name="minimumSalary" placeholder="Minimum Salary">
+                                    </div>
+                                    <h6 class="mx-5"> to </h6>
+
+                                    <div class="form-group">
+                                        <input type="number" class="form-control" name="maximumSalary" placeholder="Maximum Salary">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group" aria-required="true">
+                                    <label>Logo</label>
+                                    <div class="custom-file">
+                                        <input type="file" class="site-button" name="logo" id="customFile">
+                                    </div>
+                                </div>
+                                <div class="form-group" aria-required="true">
+                                    <label>What type of employment is it?</label>
+                                    <input type="text" class="form-control" name="workTime" placeholder="Type of employment">
+                                </div>
+                                
+                                <div class="form-group" aria-required="true">
+                                    <label>Job Discription</label>
+                                    <textarea class="form-control" name="discription" placeholder="Job Discription"></textarea>
+                                </div>
+                                <div class="form-group" aria-required="true">
+                                    <label>Required Skills</label>
+                                    <input type="text" class="form-control" name="skills" placeholder="Required Skills">
+                                </div>
+                                <input type="hidden" name="email" value="<%= employer.email %>">
+                                <button type="submit" class="site-button">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- Submit Resume END -->
+                </div>
+            </div>
+            <!-- Content END-->
+           
+            <button class="scroltop fa fa-chevron-up"></button>
+
+    </div>
+</div>
+
+
+
+
+<%- include('../partials/employerFooter.ejs') %>

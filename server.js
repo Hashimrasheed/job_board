@@ -12,6 +12,7 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const flash = require('connect-flash')
 const cookieSession = require('cookie-session')
+const fileUpload = require('express-fileupload');
 require('./app/config/googlepassport');
 require('./app/config/facebookpassport');
 const homeController = require('./app/http/controllers/JobseekerController/homeController')
@@ -19,6 +20,7 @@ const PORT = process.env.PORT || 3000
 
 const app = express();
 app.use(flash())
+app.use(fileUpload());
 app.use(cors());
 app.use(express.static('public'))
 

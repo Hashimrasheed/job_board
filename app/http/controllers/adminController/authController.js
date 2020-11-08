@@ -8,8 +8,8 @@ function authController() {
             console.log(req.session);
         },
         postLogin(req, res) {
-            const email = "admin@jobboard.com";
-            const password = "12345"
+            const email = "admin@gmail.com";
+            const password = "1234"
             req.session.admin = email;
             if(req.body.email === email && req.body.password === password) {
                 res.render('admin/dashboard')

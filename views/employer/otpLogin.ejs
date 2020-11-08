@@ -1,0 +1,28 @@
+<%- include('../partials/header.ejs') %>
+<link rel="stylesheet" href="/css/app.css">
+
+<div class="login-form">
+    <form action="/employer/otplogin" method="post">
+        <h2 class="text-center">Sign in</h2>		
+        <div class="text-center social-btn">
+            <a href="/employer/login" class="btn btn-info btn-block"><i class="fa fa-google"></i> Sign in with <b>Email</b></a>
+        </div>
+		<div class="or-seperator"><i>or</i></div>
+        <div class="form-group">
+        	<div class="input-group">                
+                <div class="input-group-prepend">
+                    <span class="input-group-text">
+                        <span class="fa fa-user"></span>
+                    </span>                    
+                </div>
+                <input type="tel" class="form-control" name="phone" placeholder="Phone Number" required="required">
+            </div>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-success btn-block login-btn">Sign in</button>
+        </div>
+        
+    </form>
+</div>
+
+<%- include('../partials/footer.ejs') %>

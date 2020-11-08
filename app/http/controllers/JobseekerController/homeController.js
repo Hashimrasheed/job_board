@@ -13,10 +13,16 @@ function homeController() {
             if(req.user) {
                 req.session.user = req.user.id
             }
-            console.log(req.session);
             if(req.session.user) {
                 if(!req.user) {
-                    res.render('home', {name: ' ',pic:' ', user: true})
+                    if(req.session.user.mobile == Number) {
+                        console.log('ho');
+                        res.render('home', {name: 'Hi..',pic:'/assets/images/avatars/guest-user.jpg', user: true})
+                    } else {
+                        console.log('hi');
+                        res.render('home', {name: req.session.user.name,pic:'/assets/images/avatars/guest-user.jpg', user: true})
+                    }
+                    
                 }else {
                     if(req.user.provider == 'facebook') {
                         res.render('home', {name:req.user.displayName,pic:req.user.photos[0].value, user: true});
@@ -46,7 +52,7 @@ function homeController() {
                             req.flash('error', 'Incorrect password')
                             res.redirect('/user/login')
                         }else {
-                            req.session.user = data._id;
+                            req.session.user = data;
                             res.redirect('/user')
                         } 
                     }
@@ -124,12 +130,12 @@ function homeController() {
                                 db.get().collection('users').insertOne(user, (err, done) => {
                                     if(err) throw err;
                                     console.log('one user logged in');
-                                     req.session.user = user._id;
+                                     req.session.user = user;
                                     res.redirect('/user')
                                 })
                             } else {
                                 console.log("user already exist");
-                                 req.session.user = result._id;
+                                 req.session.user = result;
                                 res.redirect('/user')
                             }
                             
@@ -162,7 +168,9 @@ function homeController() {
 
             //user details
             const user = {
-                username: req.body.username,
+                pic: '/assets/images/avatars/guest-user.jpg',
+                mobile: '.....',
+                name: req.body.username,
                 email: req.body.email,
                 password: hashPassword
             }
@@ -172,14 +180,12 @@ function homeController() {
                 if(data == null) {
                     db.get().collection('users').insertOne(user, (err, done) => {
                         if(err) throw err;
-                        console.log('one user logged in');
                         req.session.user = user
                         res.redirect('/user')
                     })
 
                 }
                 else {
-                    console.log("user already exist");
                     res.redirect('/user/register')
                 }
             })

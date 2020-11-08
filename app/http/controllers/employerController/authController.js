@@ -1,5 +1,7 @@
 const db = require('../../../config/connection');
 const bcrypt = require('bcrypt');
+let axios = require('axios')
+let FormData = require('form-data')
 
 function authController() {
     return {
@@ -21,7 +23,7 @@ function authController() {
                             req.flash('error', 'Incorrect password')
                             res.redirect('/employer/login')
                         }else {
-                            req.session.employer = data._id;
+                            req.session.employer = data;
                             res.redirect('/employer/dashboard')
                         }
                     }
@@ -66,16 +68,14 @@ function authController() {
                 }
             })
 
-            
-
         },
         otpLogin(req, res) {
-            res.render('user/otpLogin')
+            res.render('employer/otpLogin')
         },
         postOtpLogin(req, res) {
             mobile = req.body.phone;
             console.log(mobile);
-            db.get().collection('users').findOne({mobile}, (err, result) => {
+            db.get().collection('employer').findOne({mobile}, (err, result) => {
                 if(err) throw err;
                     const data = new FormData();
                     data.append('mobile', `91${mobile}`);
@@ -96,16 +96,16 @@ function authController() {
                     axios(config)
                       .then((response) => {
                         otpId = response.data.otp_id;
-                        res.redirect('/user/otpVerify');
+                        res.redirect('/employer/otpVerify');
                       })
                       .catch(() => {
                         // req.flash('error', 'No user with this number');
-                        res.redirect('/user/otplogin');
+                        res.redirect('/employer/otplogin');
                       });
             })
         },
         otpVerify(req, res) {
-            res.render('user/otpVerify')
+            res.render('employer/otpVerify')
         },
         postOtpVerify(req, res) {
             let otp = req.body.otp
@@ -122,37 +122,36 @@ function authController() {
                 },
                 data: data,
             };
-            let user = {
+            let employer = {
                 mobile: mobile
             }
             axios(config)
                 .then((response) => {
                     console.log(response.data.status);
                     if (response.data.status == 'success') {
-                        db.get().collection('users').findOne({mobile: mobile}, (err, result) => {
+                        db.get().collection('employer').findOne({mobile: mobile}, (err, result) => {
                             if (err) throw err;
                             if(result == null) {
-                                db.get().collection('users').insertOne(user, (err, done) => {
+                                db.get().collection('employer').insertOne(employer, (err, done) => {
                                     if(err) throw err;
-                                    console.log('one user logged in');
-                                     req.session.user = user._id;
-                                    res.redirect('/user')
+                                     req.session.employer = employer._id;
+                                    res.redirect('/employer/dashboard')
                                 })
                             } else {
-                                console.log("user already exist");
-                                 req.session.user = result._id;
-                                res.redirect('/user')
+                                console.log("employer already exist");
+                                req.session.employer = result._id;
+                                res.redirect('/employer/dashboard')
                             }
                             
                         })
 
                     } else {
-                        res.redirect('/user/otplogin')
+                        res.redirect('/employer/otplogin')
                     }
                 })
                 .catch(function (error) {
                     // req.flash('error', 'Something went wrong');
-                    res.redirect('/user/otpVerify');
+                    res.redirect('/employer/otpVerify');
                 });
             
         },
@@ -163,9 +162,8 @@ function authController() {
             res.redirect('/employer/login')
         },
         dashboard(req, res) {
-            console.log(req.session.employer);
-            console.log(req.session);
-            res.render('employer/dashboard')
+            const employer = req.session.employer
+            res.render('employer/dashboard', {employer})
         }
     }
 }
