@@ -84,10 +84,13 @@
 							<% if(jobs) {%>
 							<% jobs.forEach(function(jobs) { %>
 										<li>
-											<a href="#">
-												<div class="d-flex m-b30">
+											<form action="/user/jobdetails" method="POST" name="jobdetail" id="jobdetail">
+												<input type="hidden" name="jobId" value="<%= jobs._id %>">
+
+											<a href="javascript:{}" onClick="document.forms['jobdetail'].submit();">
+												<div class="d-flex m-b30" >
 													<div class="job-post-company">
-														<span><img src="/images/brandLogo/<%= jobs._id %>.png" style="width: 100px; height: 100px;"/></span>
+														<span><img src="/images/brandLogo/<%= jobs._id %>.png" /></span>
 													</div>
 													<div class="job-post-info">
 														<h4 class="job-time"><%= jobs.header %></h4>
@@ -117,6 +120,7 @@
 													</div>
 												</div>
 											</a>
+											</form>
 										</li>
 										
 									
@@ -191,7 +195,6 @@
 		</div>
 		<!-- About Us END -->
 		<!-- Call To Action -->
-		
 		
 	</div>
 	<!-- Footer -->

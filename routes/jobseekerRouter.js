@@ -29,7 +29,7 @@ app.get('/facebooklogin', passport.authenticate('facebook', {scope: 'email'}))
 app.get('/facebook/callback', passport.authenticate('facebook', {failureRedirect: '/user/login' }), homeController().postfacebookLogin)
 app.get('/logout', homeController().logout)
 app.get('/alljobs',  jobController().displayJobs)
-app.get('/jobDetails',  jobController().jobDetails)
+app.get('/jobdetails',  jobController().jobDetails)
 
 
 //post routers
@@ -37,5 +37,6 @@ app.post('/register', homeController().postRegister)
 app.post('/login', homeController().postLogin)
 app.post('/otplogin', homeController().postOtpLogin)
 app.post('/otpverify', homeController().postOtpVerify)
+app.post('/jobdetails', jobController().postjobDetails)
 
 module.exports = app;

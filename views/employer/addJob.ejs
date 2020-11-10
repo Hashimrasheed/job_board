@@ -3,7 +3,7 @@
 
 
 
-<div class="app-main__outer">
+<div class="container pt-5 app-main__outer">
     <div class="app-main__inner">
  
 
@@ -95,6 +95,8 @@
                                     <input type="text" class="form-control" name="skills" placeholder="Required Skills">
                                 </div>
                                 <input type="hidden" name="email" value="<%= employer.email %>">
+                                <a href="/employer/jobs" class="px-3"><input class="btn btn-danger" style="height: 2.7rem;" type="button" value="Cancel"></a>
+
                                 <button type="submit" class="site-button">Submit</button>
                             </form>
                         </div>

@@ -1,5 +1,6 @@
 const db = require('../../../config/connection');
 const collection = require('../../../config/collections')
+var ObjectID = require('mongodb').ObjectID;
 
 function jobController() {
     return {
@@ -29,9 +30,14 @@ function jobController() {
             }
         },
         jobDetails(req, res) {
-            res.render('user/jobDetails', {name: null, pic : null , user: true})
+            res.render('user/jobDetails', {name: null, pic : null , user: true, job})
+        },
+        async postjobDetails(req, res) {
+            const jobId = new ObjectID(req.body.jobId)
+            console.log(jobId);
+            const job = await db.get().collection(collection.JOBS).find({_id : jobId}).toArray();
+            res.render('user/jobDetails', {name: null, pic : null , user: true, job: job[0]})
         }
-        
     }
 }
 
