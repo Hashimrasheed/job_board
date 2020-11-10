@@ -1291,9 +1291,9 @@ dl dd {
 .bg-transparent {
     background-color: transparent;
 }
-.bg-primary {
+/* .bg-primary {
     background-color: ;
-}
+} */
 .bg-white {
     background-color: #FFF;
 }
@@ -3434,7 +3434,7 @@ blockquote:before {
         padding: 4px 0;
     }
     .header-nav .nav > li > a {
-        padding: ;
+        /* padding: ; */
     }
     .header-nav .nav i {
         margin-top: 6px;
@@ -5531,7 +5531,6 @@ ol.comment-list li.comment .comment-respond .comment-form p {
     border: 1px solid #e1e6eb;
     text-align: center;
     border-radius: 4px 0 0 4px;
-    -webkit- border-radius: 4px 0 0 4px;
 }
 .comments-area p.comment-form-author:before {
     content: "\e602";
@@ -6193,7 +6192,7 @@ ol.comment-list li.comment .comment-respond .comment-form p {
 .widget-testimonial .testimonial-position{
 	text-transform:uppercase;
 	font-family: "Montserrat",sans-serif;
-	color:#888q;
+	color:#888;
 	font-size:12px;
 	font-style: inherit;
 }
@@ -9439,7 +9438,7 @@ ul[class*="list-"]{
 .testimonial-10 .testimonial-position{
 	text-transform:uppercase;
 	font-family: "Montserrat",sans-serif;
-	color:#888q;
+	color: #888;
 	font-size:12px;
 	font-style: inherit;
 }
@@ -10019,7 +10018,7 @@ ul[class*="list-"]{
 .overlay-primary-middle:after,
 .overlay-primary-dark:after,
 .overlay-primary:after {
-    background: ;
+    /* background: ; */
 }
 .overlay-black-light:after {
     opacity: 0.3;
@@ -13080,5 +13079,10 @@ ol.commentlist li .star-rating {
 .icon-bx-wraper:hover .hwp a,
 .hwp:hover a{
 	color:#fff;
+}
+.bt-buy-now, .bt-support-now{
+    display: none;
+    /* text-decoration: none;
+    color: white; */
 }
 

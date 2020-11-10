@@ -19,7 +19,6 @@ function jobController() {
             let job = {
                 header: req.body.header,
                 companyName: req.body.companyName,
-                category: req.body.category,
                 location: req.body.location,
                 hiresNum: req.body.hiresNum,
                 minimumSalary: req.body.minimumSalary,

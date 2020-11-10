@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="main-card mb-3 card">
-                    <div class="card-header">All Users
+                    <div class="card-header">Blocked Users
                         
                     </div>
                     <div class="table-responsive">
@@ -16,12 +16,12 @@
                                 <th class="pl-5">Name</th>
                                 <th class="text-center">email</th>
                                 <th class="text-center">phone</th>
-                                <!-- <th class="text-center">Edit</th> -->
-                                <th class="text-center">Block</th>
+                                <th class="text-center">Edit</th>
+                                <th class="text-center">Unblock</th>
                             </tr>
                             </thead>
                             <tbody>
-                                <% for(let i = 0; i < users.length; i++) { %>
+                                <% for(let i = 0; i < employer.length; i++) { %>
                                     <tr>
                                         <td class="text-center text-muted"><%= [i+1] %></td>
                                         <td>
@@ -29,29 +29,29 @@
                                                 <div class="widget-content-wrapper">
                                                     <div class="widget-content-left mr-3">
                                                         <div class="widget-content-left">
-                                                            <img width="40" class="rounded-circle" src="<%= users[i].pic %>">
+                                                            <img width="40" class="rounded-circle" src="<%= employer[i].pic %>">
                                                         </div>
                                                     </div>
                                                     <div class="widget-content-left flex2">
-                                                        <div class="widget-heading"><%= users[i].name %></div>
+                                                        <div class="widget-heading"><%= employer[i].username %></div>
                                                         <!-- <div class="widget-subheading opacity-7">Web Developer</div> -->
                                                     </div>
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="text-center"><%= users[i].email %></td>
-                                        <td class="text-center"><%= users[i].mobile %></td>
-                                        <!-- <form action="/admin/postuseredit" method="POST">
-                                            <input type="hidden" name="id" value="<%= users[i]._id %>">
+                                        <td class="text-center"><%= employer[i].email %></td>
+                                        <td class="text-center"><%= employer[i].mobile %></td>
+                                        <form action="/admin/postemployeredit" method="POST">
+                                            <input type="hidden" name="id" value="<%= employer[i]._id %>">
                                             <td class="text-center">
                                                 <button type="submit" class="mr-2 btn-icon btn-icon-only btn btn-outline-primary"><i class="pe-7s-pen btn-icon-wrapper"> </i></button>
                                             </td>
-                                        </form> -->
+                                        </form>
                                         
-                                        <form action="/admin/userblock" method="POST">
-                                            <input type="hidden" name="id" value="<%= users[i]._id %>">
+                                        <form action="/admin/employerUnblock" method="POST">
+                                            <input type="hidden" name="id" value="<%= employer[i]._id %>">
                                             <td class="text-center">
-                                                <button type="submit" onclick="return confirm('Are you sure to block user?')" class="mr-2 btn-icon btn-icon-only btn btn-outline-danger"><i class="fa fa-ban btn-icon-wrapper"> </i></button>
+                                                <button type="submit" class="mr-2 btn-icon btn-icon-only btn btn-outline-danger"><i class="fa fa-ban btn-icon-wrapper"> </i></button>
                                             </td>
                                         </form>
                                         
@@ -66,8 +66,6 @@
         </div>
     </div>
 </div>
-
-
 
 
 

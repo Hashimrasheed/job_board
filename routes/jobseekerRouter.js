@@ -2,7 +2,8 @@ const express = require('express')
 const homeController = require('../app/http/controllers/JobseekerController/homeController')
 const app = express.Router();
 const passport = require('passport');
-const isLogged = require('../app/http/midlewares/googleAuth')
+const isLogged = require('../app/http/midlewares/googleAuth');
+const jobController = require('../app/http/controllers/JobseekerController/jobController');
 
 
 const loginProtect = (req, res, next) => {
@@ -26,8 +27,9 @@ app.get('/googlelogin', passport.authenticate('google', {scope: ['profile', 'ema
 app.get('/google/callback', passport.authenticate('google', { failureRedirect: '/user/login' }), homeController().postGoogleLogin)
 app.get('/facebooklogin', passport.authenticate('facebook', {scope: 'email'}))
 app.get('/facebook/callback', passport.authenticate('facebook', {failureRedirect: '/user/login' }), homeController().postfacebookLogin)
-
 app.get('/logout', homeController().logout)
+app.get('/alljobs',  jobController().displayJobs)
+app.get('/jobDetails',  jobController().jobDetails)
 
 
 //post routers

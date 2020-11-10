@@ -16,7 +16,7 @@
                                 <th class="pl-5">Name</th>
                                 <th class="text-center">email</th>
                                 <th class="text-center">phone</th>
-                                <th class="text-center">Edit</th>
+                                <!-- <th class="text-center">Edit</th> -->
                                 <th class="text-center">Unblock</th>
                             </tr>
                             </thead>
@@ -41,12 +41,12 @@
                                         </td>
                                         <td class="text-center"><%= users[i].email %></td>
                                         <td class="text-center"><%= users[i].mobile %></td>
-                                        <form action="/admin/postuseredit" method="POST">
+                                        <!-- <form action="/admin/postuseredit" method="POST">
                                             <input type="hidden" name="id" value="<%= users[i]._id %>">
                                             <td class="text-center">
                                                 <button type="submit" class="mr-2 btn-icon btn-icon-only btn btn-outline-primary"><i class="pe-7s-pen btn-icon-wrapper"> </i></button>
                                             </td>
-                                        </form>
+                                        </form> -->
                                         
                                         <form action="/admin/userUnblock" method="POST">
                                             <input type="hidden" name="id" value="<%= users[i]._id %>">

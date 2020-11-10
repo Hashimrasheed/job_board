@@ -33,15 +33,20 @@ app.get('/employers', loginProtect,employerController().employers)
 app.get('/editemployer', loginProtect,employerController().editEmployer)
 app.get('/edituser', loginProtect,userController().editUser)
 app.get('/blockedusers', loginProtect,userController().blockedUsers)
+app.get('/blockedemployers', loginProtect,employerController().blockedEmployers)
 
 
 
 app.post('/login',loginController().postLogin)
 app.post('/logout',loginController().logout)
 app.post('/postuseredit',userController().postuseredit)
+app.post('/postemployeredit',employerController().postEmployeredit)
 app.post('/usereditsave',userController().usereditsave)
+app.post('/employereditsave',employerController().employereditsave)
 app.post('/userblock',userController().userblock)
+app.post('/employerblock',employerController().employerblock)
 app.post('/userUnblock',userController().userUnblock)
+app.post('/employerUnblock',employerController().employerUnblock)
 
 
 module.exports = app;
