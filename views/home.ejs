@@ -84,10 +84,8 @@
 							<% if(jobs) {%>
 							<% jobs.forEach(function(jobs) { %>
 										<li>
-											<form action="/user/jobdetails" method="POST" name="jobdetail" id="jobdetail">
-												<input type="hidden" name="jobId" value="<%= jobs._id %>">
 
-											<a href="javascript:{}" onClick="document.forms['jobdetail'].submit();">
+											<a href="/user/jobdetails/<%= jobs._id %>">
 												<div class="d-flex m-b30" >
 													<div class="job-post-company">
 														<span><img src="/images/brandLogo/<%= jobs._id %>.png" /></span>
@@ -120,7 +118,6 @@
 													</div>
 												</div>
 											</a>
-											</form>
 										</li>
 										
 									

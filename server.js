@@ -15,7 +15,6 @@ const cookieSession = require('cookie-session')
 const fileUpload = require('express-fileupload');
 require('./app/config/googlepassport');
 require('./app/config/facebookpassport');
-const homeController = require('./app/http/controllers/JobseekerController/homeController')
 const PORT = process.env.PORT || 3000
 
 const app = express();
@@ -31,38 +30,54 @@ db.connect((err) => {
 });
 
 
-//session
-app.use(cookieSession({
-    name: 'jobboard',
-    keys: ['key1', 'key2']
-}))
-
-app.use(session({
+//user session
+app.use('/user', session({
+    name: 'userCookie',
     secret: 'usersecret',
+    store: new MongoStore({
+         url: 'mongodb://localhost:27017/jobBoard',
+         collection: 'userSession'
+    }),
     resave: false,
     saveUninitialized: false,
-    cookie: {maxAge: 1000 * 60 * 60 * 24 },
+    cookie: { maxAge: 1000 * 60 * 60 * 24 },
+}));
+
+//employer session
+app.use('/employer', session({
+    name: 'employerCookie',
+    secret: 'employersecret',
     store: new MongoStore({
-        url: 'mongodb://localhost:27017/jobBoard',
-        collection: 'userSession'
-      })
-}))
+         url: 'mongodb://localhost:27017/jobBoard',
+         collection: 'employerSession'
+    }),
+    resave: false,
+    saveUninitialized: false,
+    cookie: { maxAge: 1000 * 60 * 60 * 24 },
+}));
 
-// app.use('/employer', session({
-//     secret: 'employersecret',
-//     resave: false,
-//     saveUninitialized: true,
-//     cookie: { secure: true, maxAge: 1000 * 60 * 60 * 24 },
-//     store: new MongoStore({
-//         url: 'mongodb://localhost:27017/jobBoard',
-//         collection: 'employerSession'
-//       })
-// }))
-
+//admin session
+app.use('/admin', session({
+    name: 'adminCookie',
+    secret: 'adminsecret',
+    store: new MongoStore({
+         url: 'mongodb://localhost:27017/jobBoard',
+         collection: 'adminSession'
+    }),
+    resave: false,
+    saveUninitialized: false,
+    cookie: { maxAge: 1000 * 60 * 60 * 24 },
+}));
 
 //passport setup
 app.use(passport.initialize());
 app.use(passport.session());
+
+// locals middlewares
+app.use('/user', (req, res, next) => {
+      res.locals.usersession = req.session.user;
+    next();
+  });
 
 //view engine setup
 app.set('views', path.join(__dirname, '/views'))
@@ -72,7 +87,9 @@ app.set('view engine', 'ejs')
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
-app.get('/',  homeController().home)
+app.get('/', (req, res) => {
+    res.redirect('/user')
+});
 app.use('/user', jobseekerRouter);
 app.use('/employer', employerRouter);
 app.use('/admin', adminRouter);

@@ -1,11 +1,12 @@
 const db = require('../../../config/connection');
 const collection = require('../../../config/collections')
+var ObjectID = require('mongodb').ObjectID;
+
 
 function jobController() {
     return {
         async displayJobs(req, res) {
             const jobs = await db.get().collection(collection.JOBS).find({companyEmail: req.session.employer.email}).toArray()
-            console.log(jobs);
             const employer = req.session.employer
             res.render('employer/jobs', {jobs, employer})
             
@@ -26,20 +27,34 @@ function jobController() {
                 minExp: req.body.minExp,
                 maxExp: req.body.maxExp,
                 workTime: req.body.workTime,
-                discription: req.body.discription,
+                description: req.body.description,
                 skills: req.body.skills,
-                companyEmail: req.body.email
+                companyEmail: req.body.email,
+                requirements: req.body.jobrequirements,
+                status: 'progress'
+
             }
             db.get().collection(collection.JOBS).insertOne(job).then((data) => {
                 let id = data.ops[0]._id
                 logo.mv('public/images/brandLogo/'+id+'.png', (err) => {
                     if(!err) {
-                        res.redirect('/employer/jobs')
+                        res.redirect(`/employer/jobquestions/${id}`)
                     } else {
                         console.log(err);
                     }
                 })
             })
+        },
+        async jobQuestions(req, res) {
+            const jobId = new ObjectID(req.params.id)
+            res.render('employer/jobquestions', {jobId})
+        },
+        postjobQuestions(req, res) {
+            const jobId = new ObjectID(req.body.id)
+            db.get().collection(collection.JOBS).updateOne({_id: jobId}, {$set: {jobquestions: req.body.jobquestions, status: 'completed'}}, () => {
+                res.redirect('/employer/jobs')
+            })
+
         }
     }
 }

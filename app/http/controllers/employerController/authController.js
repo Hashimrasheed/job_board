@@ -157,12 +157,14 @@ function authController() {
         },
         logout(req, res){
             req.session.employer = null
-            // req.session.destroy();
-            // res.clearCookie('adminCookie')
+            req.session.destroy();
+            res.clearCookie('employerCookie');
+            req.logout();
             res.redirect('/employer/login')
         },
         dashboard(req, res) {
             const employer = req.session.employer
+            console.log(req.session);
             res.render('employer/dashboard', {employer})
         }
     }

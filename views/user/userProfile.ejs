@@ -1,0 +1,216 @@
+<%- include('../partials/header.ejs') %>
+<%- include('../partials/usernav.ejs') %>
+
+
+<div class="page-content bg-white">
+    
+    <!-- contact area -->
+
+    <div class="container">
+        <div class="main-body">
+        
+        
+              <div class="row gutters-sm">
+                <div class="col-md-4 mb-3">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="d-flex flex-column align-items-center text-center">
+                        <img src="<%= usersession.pic %>" alt="Admin" class="rounded-circle" width="150">
+                        <div class="mt-3">
+                          <h4><%= usersession.name %></h4>
+                          <p class="text-secondary mb-1" style="font-weight: bold;"><%= user.professionalTitle %></p>
+                          <p class="text-muted font-size-sm"><%= user.location %></p>
+                          <!-- <button class="btn btn-primary">Follow</button> -->
+                          <form action="/user/profileEdit">
+                            <button class="btn btn-outline-primary" type="submit">Edit Profile</button>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="card mt-3">
+                    <ul class="list-group list-group-flush">
+                        <div class="card">
+                            <div class="card-body">
+                              <% if(user.resume == true) { %>
+                                <h5 class="card-title">Your Resume</h5>
+                              <embed src="/images/userResume/<%= usersession._id %>.pdf" type="application/pdf"/>
+                                
+                              <a href="/images/userResume/<%= usersession._id %>.pdf" download="newfilename.pdf" class="text-primary pr-5">Download</a>
+                              <!-- <a href="#" class="text-primary pr-3">Delete</a> -->
+                              <a href="/user/resumeupload" class="text-primary pr-3">Replace</a>
+                              <% } else { %>
+                                <h5 class="card-title">Attach Resume</h5>
+
+                              <a href="/user/resumeupload" class="text-primary pr-3">Click here</a>
+                              <% } %>
+                              
+                            </div>
+                          </div>
+                      
+                    </ul>
+                  </div>
+                </div>
+                <div class="col-md-8">
+                  <div class="card mb-3">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <h6 class="mb-0">Full Name</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary">
+                          <%= user.name %>
+                        </div>
+                      </div>
+                      <hr>
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <h6 class="mb-0">Email</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary">
+                            <%= user.email %>
+                        </div>
+                      </div>
+                      <hr>
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <h6 class="mb-0">Phone</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary">
+                            <%= user.mobile %>
+                        </div>
+                      </div>
+                      <hr>
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <h6 class="mb-0">Address</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary">
+                            <%= user.location %>
+                        </div>
+                      </div>
+                      <hr>
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <h6 class="mb-0">Key Skills</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary">
+                            <%= user.skills %>
+                        </div>
+                      </div>
+                      <hr>
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <h6 class="mb-0">Education</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary">
+                            <%= user.education %>
+                        </div>
+                      </div>
+                      <hr>
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <h6 class="mb-0">Profile Summary</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary">
+                            <%= user.profilesummary %>
+                        </div>
+                      </div>
+                      <hr>
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <h6 class="mb-0">Experience</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary">
+                            <%= user.experience %>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+
+
+    
+</div>
+<!-- footer -->
+<footer class="site-footer">
+    <div class="footer-top">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-5 col-lg-4 col-md-12 col-sm-12">
+                    <div class="widget">
+                        <img src="images/logo-white.png" width="180" class="m-b15" alt=""/>
+                        <p class="text-capitalize m-b20">Lorem Ipsum is simply dummy text of the printing and typesetting industry has been the industry's standard dummy text ever since the..</p>
+                        <div class="subscribe-form m-b20">
+                            <form class="dzSubscribe" action="http://job-board.w3itexperts.com/xhtml/script/mailchamp.php" method="post">
+                                <div class="dzSubscribeMsg"></div>
+                                <div class="input-group">
+                                    <input name="dzEmail" required="required"  class="form-control" placeholder="Your Email Id" type="email">
+                                    <span class="input-group-btn">
+                                        <button name="submit" value="Submit" type="submit" class="site-button radius-xl">Subscribe</button>
+                                    </span> 
+                                </div>
+                            </form>
+                        </div>
+                        <ul class="list-inline m-a0">
+                            <li><a href="#" class="site-button white facebook circle "><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#" class="site-button white google-plus circle "><i class="fa fa-google-plus"></i></a></li>
+                            <li><a href="#" class="site-button white linkedin circle "><i class="fa fa-linkedin"></i></a></li>
+                            <li><a href="#" class="site-button white instagram circle "><i class="fa fa-instagram"></i></a></li>
+                            <li><a href="#" class="site-button white twitter circle "><i class="fa fa-twitter"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xl-5 col-lg-5 col-md-8 col-sm-8 col-12">
+                    <div class="widget border-0">
+                        <h5 class="m-b30 text-white">Frequently Asked Questions</h5>
+                        <ul class="list-2 list-line">
+                            <li><a href="#">Privacy & Seurty</a></li>
+                            <li><a href="#">Terms of Serice</a></li>
+                            <li><a href="#">Communications</a></li>
+                            <li><a href="#">Referral Terms</a></li>
+                            <li><a href="#">Lending Licnses</a></li>
+                            <li><a href="#">Support</a></li>
+                            <li><a href="#">How It Works</a></li>
+                            <li><a href="#">For Employers</a></li>
+                            <li><a href="#">Underwriting</a></li>
+                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="#">Lending Licnses</a></li>
+                            <li><a href="#">Support</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-12">
+                    <div class="widget border-0">
+                        <h5 class="m-b30 text-white">Find Jobs</h5>
+                        <ul class="list-2 w10 list-line">
+                            <li><a href="#">US Jobs</a></li>
+                            <li><a href="#">Canada Jobs</a></li>
+                            <li><a href="#">UK Jobs</a></li>
+                            <li><a href="#">Emplois en Fnce</a></li>
+                            <li><a href="#">Jobs in Deuts</a></li>
+                            <li><a href="#">Vacatures China</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- footer bottom part -->
+    <div class="footer-bottom">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center"><span><a target="_blank" href="https://www.templateshub.net">Templates Hub</a></span></div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- Footer END -->
+<button class="scroltop fa fa-chevron-up"></button>
+
+<%- include('../partials/footer.ejs') %>
+

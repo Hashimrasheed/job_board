@@ -11,23 +11,20 @@ let mobile;
 function homeController() {
     return {
         async home(req, res) {
-            const jobs = await db.get().collection(collection.JOBS).find().sort({ _id : -1 }).limit(5).toArray();
+            const jobs = await db.get().collection(collection.JOBS).find({status: 'completed'}).sort({ _id : -1 }).limit(5).toArray();
             const employers = await db.get().collection(collection.EMPLOYERS).find().toArray();
-            if(req.user) {
-                req.session.user = req.user.id
-            }
             if(req.session.user) {
                 if(!req.user) {
-                        res.render('home', {name: req.session.user.name,pic:'/assets/images/avatars/guest-user.jpg', user: true, jobs, employers})
+                        res.render('home', {name: req.session.user.name,pic:'/assets/images/avatars/guest-user.jpg', jobs, employers})
                 }else {
                     if(req.user.provider == 'facebook') {
-                        res.render('home', {name:req.user.displayName,pic:req.user.photos[0].value, user: true, jobs, employers});
+                        res.render('home', {name:req.user.displayName,pic:req.user.photos[0].value, jobs, employers});
                     } else if(req.user.provider == 'google') {
-                        res.render('home', {name:req.user.displayName,pic:req.user.photos[0].value,email:req.user.emails[0].value, user: true, jobs, employers})
+                        res.render('home', {name:req.user.displayName,pic:req.user.photos[0].value, jobs, employers})
                     }
                 }
             } else {
-                res.render('home', {name: null, pic : null , user: false, jobs, employers})
+                res.render('home', {name: null, pic : null , jobs, employers})
             }
             
         },
@@ -151,10 +148,16 @@ function homeController() {
             
         },
         postGoogleLogin(req, res) {
-            res.redirect('/user')
+            db.get().collection(collection.USERS).findOne({uid: req.user.id}).then((data) => {
+                req.session.user = data
+                res.redirect('/user')
+            })
         },
         postfacebookLogin(req, res) {
-            res.redirect('/user')
+            db.get().collection(collection.USERS).findOne({uid: req.user.id}).then((data) => {
+                req.session.user = data
+                res.redirect('/user')
+            })
         },
         register(req, res) {
             res.render('user/register')
@@ -193,9 +196,8 @@ function homeController() {
 
         },
         logout(req, res) {
-            console.log(req.session);
-            req.session.user = null;
-            console.log(req.session);
+            req.session.destroy();
+            res.clearCookie('userCookie');
             req.logout();
             res.redirect('/user/login')
         }

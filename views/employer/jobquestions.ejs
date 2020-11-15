@@ -1,0 +1,94 @@
+<%- include('../partials/employerHeader.ejs') %>
+
+
+
+
+<div class="container pt-5 app-main__outer">
+    <div class="app-main__inner">
+ 
+
+    <div class="page-wraper">
+        <div id="loading-area"></div>
+            
+            <!-- header END -->
+            <!-- Content -->
+            <div class="page-content bg-white">
+                <!-- inner page banner -->
+                <div class="overlay-black-dark">
+                    <div class="container">
+                        <div class="">
+                            <h1 class="text-white">Post Job Requirements</h1>
+                           
+                        </div>
+                    </div>
+                </div>
+                <!-- inner page banner END -->
+                <!-- contact area -->
+                <div class="content-block">
+                    <!-- Submit Resume -->
+                    <div class="section-full bg-white submit-resume">
+                        <div class="container pb-5">
+                            <a href="javascript:void(0);" class="add_button" title="Add field"><button class=" btn btn-primary" style=" margin:5px;">Add More Field</button></a>
+
+                            <form action="/employer/jobquestions" method="POST" >
+                                <div class="form-group" aria-required="true">
+                                    <label>Job Requirements</label>
+                                    <div class="input_field_wrapper">
+                                        <div>
+                                            <input type="text" style="width: 90%; float: left; margin-bottom: 3rem;" class="form-control" name="jobquestions" value=""/>
+                                            
+                                        </div>
+                                    </div>
+                                    <!-- <input type="text" class="form-control" name="header" placeholder="Job header"> -->
+                                </div>
+
+                                <div class="mt-5">
+                                    <br>
+                                    <a href="/employer/addjobs" class="px-3"><input class="btn btn-danger" style="height: 2.7rem;" type="button" value="Cancel"></a>
+                                    <input type="hidden" name="id" value="<%= jobId%>">
+                                    <button type="submit" class="site-button">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- Submit Resume END -->
+                </div>
+            </div>
+            <!-- Content END-->
+           
+            <button class="scroltop fa fa-chevron-up"></button>
+
+
+    </div>
+</div>
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"
+			  integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+			  crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        console.log('hiadjfk');
+        var maxFieldLimit = 6; //Input fields increment limitation
+        // var add_more_button = $('.add_button'); //Add button selector
+        // var Fieldwrapper = $('.input_field_wrapper'); //Input field wrapper
+        var fieldHTML = '<div><input type="text" style="width: 90%; float: left; margin-bottom: 3rem;" class="form-control pt-5" name="jobquestions" value=""/><a href="javascript:void(0);" class="remove_button" style=" float: left;" title="Remove field"><i style="padding: 1rem;" class="fa fa-times" aria-hidden="true"></i></a></div>'; //New input field html 
+        var x = 1; //Initial field counter is 1
+        $('.add_button').click(function(){ //Once add button is clicked
+            if(x < maxFieldLimit){ //Check maximum number of input fields
+                x++; //Increment field counter
+                $('.input_field_wrapper').append(fieldHTML); // Add field html
+            }
+        });
+        $('.input_field_wrapper').on('click', '.remove_button', function(e){ //Once remove button is clicked
+            e.preventDefault();
+            $(this).parent('div').remove(); //Remove field html
+            x--; //Decrement field counter
+        });
+    });
+</script>
+
+<%- include('../partials/employerFooter.ejs') %>

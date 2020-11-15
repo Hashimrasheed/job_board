@@ -1,0 +1,274 @@
+
+
+<script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+
+
+<%- include('../partials/header.ejs') %>
+<%- include('../partials/usernav.ejs') %>
+
+
+<div class="page-content bg-white">
+    
+    <!-- contact area -->
+
+    <div class="container">
+        <div class="main-body">
+            <div class="file-upload">
+                <form action="/user/resumeAdd" enctype="multipart/form-data" method="POST">
+                    <div class="image-upload-wrap">
+                        <input class="file-upload-input" type='file' name="resume" onchange="readURL(this);" accept="image/*" required/>
+                        <div class="drag-text">
+                          <h3>Drag and drop your Resume or select the area</h3>
+                        </div>
+                      </div>
+                      <div class="file-upload-content pt-5">
+                        <img class="file-upload-image" src="#" alt="File Attached" />
+                        <div class="image-title-wrap">
+                          <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>
+                        </div>
+                      </div>
+                    <input type="hidden" name="id" value="<%= usersession._id %>">
+                    <button class="file-upload-btn mt-5" type="submit">Add Resume</button>
+
+                </form>
+
+            </div>
+              
+        </div>
+    </div>
+</div>
+
+<!-- footer -->
+<footer class="site-footer">
+    <div class="footer-top">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-5 col-lg-4 col-md-12 col-sm-12">
+                    <div class="widget">
+                        <img src="images/logo-white.png" width="180" class="m-b15" alt=""/>
+                        <p class="text-capitalize m-b20">Lorem Ipsum is simply dummy text of the printing and typesetting industry has been the industry's standard dummy text ever since the..</p>
+                        <div class="subscribe-form m-b20">
+                            <form class="dzSubscribe" action="" method="post">
+                                <div class="dzSubscribeMsg"></div>
+                                <div class="input-group">
+                                    <input name="dzEmail" required="required"  class="form-control" placeholder="Your Email Id" type="email">
+                                    <span class="input-group-btn">
+                                        <button name="submit" value="Submit" type="submit" class="site-button radius-xl">Subscribe</button>
+                                    </span> 
+                                </div>
+                            </form>
+                        </div>
+                        <ul class="list-inline m-a0">
+                            <li><a href="#" class="site-button white facebook circle "><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#" class="site-button white google-plus circle "><i class="fa fa-google-plus"></i></a></li>
+                            <li><a href="#" class="site-button white linkedin circle "><i class="fa fa-linkedin"></i></a></li>
+                            <li><a href="#" class="site-button white instagram circle "><i class="fa fa-instagram"></i></a></li>
+                            <li><a href="#" class="site-button white twitter circle "><i class="fa fa-twitter"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xl-5 col-lg-5 col-md-8 col-sm-8 col-12">
+                    <div class="widget border-0">
+                        <h5 class="m-b30 text-white">Frequently Asked Questions</h5>
+                        <ul class="list-2 list-line">
+                            <li><a href="#">Privacy & Seurty</a></li>
+                            <li><a href="#">Terms of Serice</a></li>
+                            <li><a href="#">Communications</a></li>
+                            <li><a href="#">Referral Terms</a></li>
+                            <li><a href="#">Lending Licnses</a></li>
+                            <li><a href="#">Support</a></li>
+                            <li><a href="#">How It Works</a></li>
+                            <li><a href="#">For Employers</a></li>
+                            <li><a href="#">Underwriting</a></li>
+                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="#">Lending Licnses</a></li>
+                            <li><a href="#">Support</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-12">
+                    <div class="widget border-0">
+                        <h5 class="m-b30 text-white">Find Jobs</h5>
+                        <ul class="list-2 w10 list-line">
+                            <li><a href="#">US Jobs</a></li>
+                            <li><a href="#">Canada Jobs</a></li>
+                            <li><a href="#">UK Jobs</a></li>
+                            <li><a href="#">Emplois en Fnce</a></li>
+                            <li><a href="#">Jobs in Deuts</a></li>
+                            <li><a href="#">Vacatures China</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- footer bottom part -->
+    <div class="footer-bottom">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center"><span><a target="_blank" href="https://www.templateshub.net">Templates Hub</a></span></div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- Footer END -->
+<button class="scroltop fa fa-chevron-up"></button>
+
+<%- include('../partials/footer.ejs') %>
+
+
+<style>
+    body {
+  font-family: sans-serif;
+  background-color: #ffffff;
+}
+
+.file-upload {
+  background-color: #ffffff;
+  width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.file-upload-btn {
+  width: 100%;
+  margin: 0;
+  color: #fff;
+  background: #2e55fa;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  border-bottom: 4px solid #061d86;
+  transition: all .2s ease;
+  outline: none;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.file-upload-btn:hover {
+  background: #0324bb;
+  color: #ffffff;
+  transition: all .2s ease;
+  cursor: pointer;
+}
+
+.file-upload-btn:active {
+  border: 0;
+  transition: all .2s ease;
+}
+
+.file-upload-content {
+  display: none;
+  text-align: center;
+}
+
+.file-upload-input {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  outline: none;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.image-upload-wrap {
+  margin-top: 20px;
+  border: 4px dashed #2e55fa;
+  position: relative;
+}
+
+.image-dropping,
+.image-upload-wrap:hover {
+  background-color: #3e5ad8;
+  border: 4px dashed #ffffff;
+}
+
+.image-title-wrap {
+  padding: 0 15px 15px 15px;
+  color: #222;
+}
+
+.drag-text {
+  text-align: center;
+}
+
+.drag-text h3 {
+  font-weight: 100;
+  text-transform: uppercase;
+  color: #7280c2;
+  padding: 60px 0;
+}
+
+.file-upload-image {
+  max-height: 200px;
+  max-width: 200px;
+  margin: auto;
+  padding: 20px;
+}
+
+.remove-image {
+  width: 200px;
+  margin: 0;
+  color: #fff;
+  background: #cd4535;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  border-bottom: 4px solid #b02818;
+  transition: all .2s ease;
+  outline: none;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.remove-image:hover {
+  background: #c13b2a;
+  color: #ffffff;
+  transition: all .2s ease;
+  cursor: pointer;
+}
+
+.remove-image:active {
+  border: 0;
+  transition: all .2s ease;
+}
+
+</style>
+
+<script>
+    function readURL(input) {
+  if (input.files && input.files[0]) {
+
+    var reader = new FileReader();
+
+    reader.onload = function(e) {
+      $('.image-upload-wrap').hide();
+
+      $('.file-upload-image').attr('src', e.target.result);
+      $('.file-upload-content').show();
+
+      $('.image-title').html(input.files[0].name);
+    };
+    console.log(input.files[0]);
+    reader.readAsDataURL(input.files[0]);
+
+  } else {
+    removeUpload();
+  }
+}
+
+function removeUpload() {
+  $('.file-upload-input').replaceWith($('.file-upload-input').clone());
+  $('.file-upload-content').hide();
+  $('.image-upload-wrap').show();
+}
+$('.image-upload-wrap').bind('dragover', function () {
+$('.image-upload-wrap').addClass('image-dropping');
+});
+$('.image-upload-wrap').bind('dragleave', function () {
+$('.image-upload-wrap').removeClass('image-dropping');
+});
+
+</script>

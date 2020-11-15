@@ -1,0 +1,62 @@
+
+
+<%- include('../partials/header.ejs') %>
+<%- include('../partials/usernav.ejs') %>
+
+
+
+
+    <div class="container page-wraper">
+        <div id="">
+            
+            <!-- header END -->
+            <!-- Content -->
+            <div class="page-content bg-white">
+                <!-- inner page banner -->
+                <div class="overlay-black-dark">
+                    <div class="container">
+                        <div class="">
+                            <h1 class="text-white"><%= job.header %></h1>
+                        </div>
+                    </div>
+                </div>
+                <h5 class="text-dark pl-3" style="text-align: left;"><%= job.companyName %></h5>
+
+                <!-- inner page banner END -->
+                <!-- contact area -->
+                <div class="content-block">
+                    <!-- Submit Resume -->
+                    <div class="section-full bg-white submit-resume">
+                        <div class="container pb-5">
+
+                            <form action="/user/jobquestions" method="POST" >
+                                <% job.jobquestions.forEach(questions => { %>
+                                    <div class="form-group" aria-required="true">
+                                        <label><%= questions %></label>
+                                        <input type="hidden" name="questions" value="<%= questions %>">
+                                        <input type="text" class="form-control" name="userAnswers" placeholder="">
+                                    </div>
+    
+                                <% }) %>
+                                
+                                <div class="mt-5">
+                                    <input type="hidden" name="userId" value="<%= user %>">
+                                    <input type="hidden" name="id" value="<%= job._id %>">
+                                    <button type="submit" class="site-button">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- Submit Resume END -->
+                </div>
+            </div>
+            <!-- Content END-->
+           
+            <button class="scroltop fa fa-chevron-up"></button>
+
+
+    </div>
+</div>
+
+
+<%- include('../partials/footer.ejs') %>

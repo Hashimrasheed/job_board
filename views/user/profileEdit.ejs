@@ -1,0 +1,691 @@
+
+<%- include('../partials/header.ejs') %>
+<%- include('../partials/usernav.ejs') %>
+
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<div class="container">
+<div class="row flex-lg-nowrap">
+  <div class="col-12 col-lg-auto mb-3" style="width: 200px;">
+    
+  </div>
+
+  <div class="col pt-3">
+    <div class="row">
+      <div class="col mb-3">
+        <div class="card ">
+          <div class="card-body">
+            <div class="e-profile">
+              <form action="/user/editprofile" method="POST">
+
+              <div class="row ">
+                <div class="col-12 col-sm-auto mb-3">
+                  <div class="mx-auto" style="width: 140px;">
+                    <div class="d-flex justify-content-center align-items-center rounded" style="height: 140px; background-color: rgb(233, 236, 239);">
+                      <span style="color: rgb(166, 168, 170); font: bold 8pt Arial;"><img src="<%= usersession.pic %>" alt=""></span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
+                  <div class="text-center text-sm-left mb-2 mb-sm-0">
+                    <h4 class="pt-sm-2 pb-1 mb-0 text-nowrap"><%= usersession.name %></h4>
+                    <div class="mt-2">
+                      <button class="btn btn-primary" type="button">
+                        <i class="fa fa-fw fa-camera"></i>
+                        <span><input type="file">Change Photo</button></span>
+                      </button>
+                    </div>
+                  </div>
+                  <!-- <div class="text-center text-sm-right">
+                    <span class="badge badge-secondary">administrator</span>
+                    <div class="text-muted"><small>Joined 09 Dec 2017</small></div>
+                  </div> -->
+                </div>
+              </div>
+              <ul class="nav nav-tabs">
+                <li class="nav-item"><a href="" class="active nav-link">Personal Information</a></li>
+              </ul>
+              <div class="tab-content pt-3">
+                <div class="tab-pane active">
+                  <form class="form" novalidate="">
+                    <div class="row">
+                      <div class="col">
+                        <div class="row">
+                          <div class="col">
+                            <div class="form-group">
+                              <label>First Name</label>
+                              <input class="form-control" name="fname" value="" placeholder="First name" type="text" required>
+                            </div>
+                          </div>
+                          <div class="col">
+                            <div class="form-group">
+                              <label>Last Name</label>
+                              <input class="form-control" name="lname" value="" placeholder="Last name" type="text" required>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col">
+                            <div class="form-group">
+                              <label>Email</label>
+                              <input class="form-control" name="email" value="" placeholder="Email" type="email" required>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col">
+                            <div class="form-group">
+                              <label>Mobile Number</label>
+                              <input class="form-control" name="mobile" value="" placeholder="Mobile Number" type="tel" required>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col">
+                            <div class="form-group">
+                              <label>Professional Title</label>
+                              <input class="form-control" name="professionalTitle" value="" placeholder="Professional Title" type="text" required>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col">
+                            <div class="form-group">
+                              <label>Profile Summary</label>
+                              <textarea class="form-control" name="profilesummary" id="" cols="30" rows="5" placeholder="Profile Summary" required></textarea>
+                            </div>
+                          </div>
+                        </div>
+              
+                        <div class="row">
+                          <div class="col">
+                            <div class="form-group">
+                              <label>Location</label>
+                              <input class="form-control" name="location" value="" placeholder="Location" type="text" required>
+                            </div>
+                          </div>
+                        </div>
+              
+                        <div class="row">
+                          <div class="form-group skills">
+                            <label for="exist-values" style="padding-left: 1rem;">Key Skills:   
+                                <input type="text" id="exist-values" class="tagged form-control" data-removeBtn="true" name="skills" value="" placeholder="Skills" required>
+                                <span style="font-weight: lighter;">clicking Enter key to add more</span>
+                            </label>
+                           
+                            <!-- <button id="destroy">destroy</button> -->
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col">
+                            <div class="form-group">
+                              <label>Education</label>
+                              <input class="form-control" name="education" value="" placeholder="Highest Education" type="text" required>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col">
+                            <div class="form-group">
+                              <label>Experience</label>
+                              <input class="form-control" name="experience" value="" placeholder="Your Experience" type="text" required>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        
+                      </div>
+                    </div>
+                    
+                    <div class="row">
+                      <div class="col d-flex justify-content-end">
+                        <input type="hidden" name="id" value="<%= usersession._id %>" id="">
+                        <input class="btn btn-default pr-3" value="Cancel" type="reset">
+                        <button class="btn btn-primary pr-3" type="submit">Save Changes</button>
+                      </div>
+                    </div>
+                  </form>
+
+                </div>
+              </div>
+            </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-3 mb-3">
+        
+        
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<!-- footer -->
+<footer class="site-footer">
+    <div class="footer-top">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-5 col-lg-4 col-md-12 col-sm-12">
+                    <div class="widget">
+                        <img src="images/logo-white.png" width="180" class="m-b15" alt=""/>
+                        <p class="text-capitalize m-b20">Lorem Ipsum is simply dummy text of the printing and typesetting industry has been the industry's standard dummy text ever since the..</p>
+                        <div class="subscribe-form m-b20">
+                            <form class="dzSubscribe" action="http://job-board.w3itexperts.com/xhtml/script/mailchamp.php" method="post">
+                                <div class="dzSubscribeMsg"></div>
+                                <div class="input-group">
+                                    <input name="dzEmail" required="required"  class="form-control" placeholder="Your Email Id" type="email">
+                                    <span class="input-group-btn">
+                                        <button name="submit" value="Submit" type="submit" class="site-button radius-xl">Subscribe</button>
+                                    </span> 
+                                </div>
+                            </form>
+                        </div>
+                        <ul class="list-inline m-a0">
+                            <li><a href="#" class="site-button white facebook circle "><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#" class="site-button white google-plus circle "><i class="fa fa-google-plus"></i></a></li>
+                            <li><a href="#" class="site-button white linkedin circle "><i class="fa fa-linkedin"></i></a></li>
+                            <li><a href="#" class="site-button white instagram circle "><i class="fa fa-instagram"></i></a></li>
+                            <li><a href="#" class="site-button white twitter circle "><i class="fa fa-twitter"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xl-5 col-lg-5 col-md-8 col-sm-8 col-12">
+                    <div class="widget border-0">
+                        <h5 class="m-b30 text-white">Frequently Asked Questions</h5>
+                        <ul class="list-2 list-line">
+                            <li><a href="#">Privacy & Seurty</a></li>
+                            <li><a href="#">Terms of Serice</a></li>
+                            <li><a href="#">Communications</a></li>
+                            <li><a href="#">Referral Terms</a></li>
+                            <li><a href="#">Lending Licnses</a></li>
+                            <li><a href="#">Support</a></li>
+                            <li><a href="#">How It Works</a></li>
+                            <li><a href="#">For Employers</a></li>
+                            <li><a href="#">Underwriting</a></li>
+                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="#">Lending Licnses</a></li>
+                            <li><a href="#">Support</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-12">
+                    <div class="widget border-0">
+                        <h5 class="m-b30 text-white">Find Jobs</h5>
+                        <ul class="list-2 w10 list-line">
+                            <li><a href="#">US Jobs</a></li>
+                            <li><a href="#">Canada Jobs</a></li>
+                            <li><a href="#">UK Jobs</a></li>
+                            <li><a href="#">Emplois en Fnce</a></li>
+                            <li><a href="#">Jobs in Deuts</a></li>
+                            <li><a href="#">Vacatures China</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- footer bottom part -->
+    <div class="footer-bottom">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center"><span><a target="_blank" href="https://www.templateshub.net">Templates Hub</a></span></div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- Footer END -->
+<button class="scroltop fa fa-chevron-up"></button>
+
+<style>
+  body{
+    margin-top:20px;
+    background:#f8f8f8
+}
+    .skills body {
+	 padding: 20px;
+	 font-family: "Segoe UI", Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.skills form {
+	 margin-bottom: 30px;
+}
+.skills .form-control {
+	 display: block;
+	 width: 100%;
+	 font-size: 14px;
+	 height: 34px;
+	 padding: 4px 8px;
+}
+ *, *:before, *:after {
+	 box-sizing: border-box;
+}
+.skills .tags-container {
+	 display: flex;
+	 flex-flow: row wrap;
+	 width: 100%;
+	 min-height: 34px;
+	 padding: 2px 5px;
+	 font-size: 14px;
+	 line-height: 1.6;
+	 background-color: transparent;
+	 border: 1px solid #ccc;
+	 border-radius: 1px;
+	 overflow: hidden;
+	 word-wrap: break-word;
+	 box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+.skills input.tag-input {
+	 flex: 3;
+	 border: 0;
+	 outline: 0;
+}
+.skills .tag {
+	 position: relative;
+	 margin: 2px 6px 2px 0;
+	 padding: 1px 20px 1px 8px;
+	 font-size: inherit;
+	 font-weight: 400;
+	 text-align: center;
+	 color: #fff;
+	 background-color: #317caf;
+	 border-radius: 3px;
+	 transition: background-color 0.3s ease;
+	 cursor: default;
+}
+.skills .tag:first-child {
+	 margin-left: 0;
+}
+.skills .tag--marked {
+	 background-color: #6fadd7;
+}
+.skills .tag--exists {
+	 background-color: #edb5a1;
+	 animation: shake 1s linear;
+}
+.skills .tag__name {
+	 margin-right: 3px;
+}
+.skills .tag__remove {
+	 position: absolute;
+	 right: 0;
+	 bottom: 0;
+	 width: 20px;
+	 height: 100%;
+	 padding: 0 5px;
+	 font-size: 16px;
+	 font-weight: 400;
+	 transition: opacity 0.3s ease;
+	 opacity: 0.5;
+	 cursor: pointer;
+	 border: 0;
+	 background-color: transparent;
+	 color: #fff;
+	 line-height: 1;
+}
+.skills .tag__remove:hover {
+	 opacity: 1;
+}
+.skills .tag__remove:focus {
+	 outline: 5px auto #fff;
+}
+ @keyframes shake {
+	 0%, 100% {
+		 transform: translate3d(0, 0, 0);
+	}
+	 10%, 30%, 50%, 70%, 90% {
+		 transform: translate3d(-5px, 0, 0);
+	}
+	 20%, 40%, 60%, 80% {
+		 transform: translate3d(5px, 0, 0);
+	}
+}
+ 
+</style>
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/bootstrap.tagsinput/0.4.2/bootstrap-tagsinput.css"> -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+<script>
+// https://github.com/k-ivan/Tags
+(function() {
+
+'use strict';
+
+// Helpers
+function $$(selectors, context) {
+  return (typeof selectors === 'string') ? (context || document).querySelectorAll(selectors) : [selectors];
+}
+function $(selector, context) {
+  return (typeof selector === 'string') ? (context || document).querySelector(selector) : selector;
+}
+function create(tag, attr) {
+  var element = document.createElement(tag);
+  if(attr) {
+    for(var name in attr) {
+      if(element[name] !== undefined) {
+        element[name] = attr[name];
+      }
+    }
+  }
+  return element;
+}
+function whichTransitionEnd() {
+  var root = document.documentElement;
+  var transitions = {
+    'transition'       : 'transitionend',
+    'WebkitTransition' : 'webkitTransitionEnd',
+    'MozTransition'    : 'mozTransitionEnd',
+    'OTransition'      : 'oTransitionEnd otransitionend'
+  };
+
+  for(var t in transitions){
+    if(root.style[t] !== undefined){
+      return transitions[t];
+    }
+  }
+  return false;
+}
+function oneListener(el, type, fn, capture) {
+  capture = capture || false;
+  el.addEventListener(type, function handler(e) {
+    fn.call(this, e);
+    el.removeEventListener(e.type, handler, capture)
+  }, capture);
+}
+function hasClass(cls, el) {
+  return new RegExp('(^|\\s+)' + cls + '(\\s+|$)').test(el.className);
+}
+function addClass(cls, el) {
+  if( ! hasClass(cls, el) )
+    return el.className += (el.className === '') ? cls : ' ' + cls;
+}
+function removeClass(cls, el) {
+  el.className = el.className.replace(new RegExp('(^|\\s+)' + cls + '(\\s+|$)'), '');
+}
+function toggleClass(cls, el) {
+  ( ! hasClass(cls, el)) ? addClass(cls, el) : removeClass(cls, el);
+}
+
+function Tags(tag) {
+
+  var el = $(tag);
+
+  if(el.instance) return;
+  el.instance = this;
+
+  var type = el.type;
+  var transitionEnd = whichTransitionEnd();
+
+  var tagsArray = [];
+  var KEYS = {
+    ENTER: 13,
+    COMMA: 188,
+    BACK: 8
+  };
+  var isPressed = false;
+
+  var timer;
+  var wrap;
+  var field;
+
+  function init() {
+
+    // create and add wrapper
+    wrap = create('div', {
+      'className': 'tags-container',
+    });
+    field = create('input', {
+      'type': 'text',
+      'className': 'tag-input',
+      'placeholder': el.placeholder || ''
+    });
+
+    wrap.appendChild(field);
+
+    if(el.value.trim() !== '') {
+      hasTags();
+    }
+
+    el.type = 'hidden';
+    el.parentNode.insertBefore(wrap, el.nextSibling);
+
+    wrap.addEventListener('click', btnRemove, false);
+    wrap.addEventListener('keydown', keyHandler, false);
+    wrap.addEventListener('keyup', backHandler, false);
+  }
+
+  function hasTags() {
+    var arr = el.value.trim().split(',');
+    arr.forEach(function(item) {
+      item = item.trim();
+      if(~tagsArray.indexOf(item)) {
+        return;
+      }
+      var tag = createTag(item);
+      tagsArray.push(item);
+      wrap.insertBefore(tag, field);
+    });
+  }
+
+  function createTag(name) {
+    var tag = create('div', {
+      'className': 'tag',
+      'innerHTML': '<span class="tag__name">' + name + '</span>'+
+                   '<button class="tag__remove">&times;</button>'
+    });
+//       var tagName = create('span', {
+//         'className': 'tag__name',
+//         'textContent': name
+//       });
+//       var delBtn = create('button', {
+//         'className': 'tag__remove',
+//         'innerHTML': '&times;'
+//       });
+    
+//       tag.appendChild(tagName);
+//       tag.appendChild(delBtn);
+    return tag;
+  }
+
+  function btnRemove(e) {
+    e.preventDefault();
+    if(e.target.className === 'tag__remove') {
+      var tag  = e.target.parentNode;
+      var name = $('.tag__name', tag);
+      wrap.removeChild(tag);
+      tagsArray.splice(tagsArray.indexOf(name.textContent), 1);
+      el.value = tagsArray.join(',')
+    }
+    field.focus();
+  }
+
+  function keyHandler(e) {
+
+    if(e.target.tagName === 'INPUT' && e.target.className === 'tag-input') {
+
+      var target = e.target;
+      var code = e.which || e.keyCode;
+
+      if(field.previousSibling && code !== KEYS.BACK) {
+        removeClass('tag--marked', field.previousSibling);
+      }
+
+      var name = target.value.trim();
+
+      // if(code === KEYS.ENTER || code === KEYS.COMMA) {
+      if(code === KEYS.ENTER) {
+
+        target.blur();
+
+        addTag(name);
+
+        if(timer) clearTimeout(timer);
+        timer = setTimeout(function() { target.focus(); }, 10 );
+      }
+      else if(code === KEYS.BACK) {
+        if(e.target.value === '' && !isPressed) {
+          isPressed = true;
+          removeTag();
+        }
+      }
+    }
+  }
+  function backHandler(e) {
+    isPressed = false;
+  }
+
+  function addTag(name) {
+
+    // delete comma if comma exists
+    name = name.toString().replace(/,/g, '').trim();
+
+    if(name === '') return field.value = '';
+
+    if(~tagsArray.indexOf(name)) {
+
+      var exist = $$('.tag', wrap);
+
+      Array.prototype.forEach.call(exist, function(tag) {
+        if(tag.firstChild.textContent === name) {
+
+          addClass('tag--exists', tag);
+
+          if(transitionEnd) {
+            oneListener(tag, transitionEnd, function() {
+              removeClass('tag--exists', tag);
+            });
+          } else {
+            removeClass('tag--exists', tag);
+          }
+
+
+        }
+
+      });
+
+      return field.value = '';
+    }
+
+    var tag = createTag(name);
+    wrap.insertBefore(tag, field);
+    tagsArray.push(name);
+    field.value = '';
+    el.value += (el.value === '') ? name : ',' + name;
+  }
+
+  function removeTag() {
+    if(tagsArray.length === 0) return;
+
+    var tags = $$('.tag', wrap);
+    var tag = tags[tags.length - 1];
+
+    if( ! hasClass('tag--marked', tag) ) {
+      addClass('tag--marked', tag);
+      return;
+    }
+
+    tagsArray.pop();
+
+    wrap.removeChild(tag);
+
+    el.value = tagsArray.join(',');
+  }
+
+  init();
+
+  /* Public API */
+
+  this.getTags = function() {
+    return tagsArray;
+  }
+
+  this.clearTags = function() {
+    if(!el.instance) return;
+    tagsArray.length = 0;
+    el.value = '';
+    wrap.innerHTML = '';
+    wrap.appendChild(field);
+  }
+
+  this.addTags = function(name) {
+    if(!el.instance) return;
+    if(Array.isArray(name)) {
+      for(var i = 0, len = name.length; i < len; i++) {
+        addTag(name[i])
+      }
+    } else {
+      addTag(name);
+    }
+    return tagsArray;
+  }
+
+  this.destroy = function() {
+    if(!el.instance) return;
+
+    wrap.removeEventListener('click', btnRemove, false);
+    wrap.removeEventListener('keydown', keyHandler, false);
+    wrap.removeEventListener('keyup', keyHandler, false);
+
+    wrap.parentNode.removeChild(wrap);
+
+    tagsArray = null;
+    timer = null;
+    wrap = null;
+    field = null;
+    transitionEnd = null;
+
+    delete el.instance;
+    el.type = type;
+  }
+}
+
+window.Tags = Tags;
+
+})();
+
+// Use
+var tags = new Tags('.tagged');
+
+document.getElementById('get').addEventListener('click', function(e) {
+e.preventDefault();
+alert(tags.getTags());
+});
+document.getElementById('clear').addEventListener('click', function(e) {
+e.preventDefault();
+tags.clearTags();
+});
+document.getElementById('add').addEventListener('click', function(e) {
+e.preventDefault();
+tags.addTags('New');
+});
+document.getElementById('addArr').addEventListener('click', function(e) {
+e.preventDefault();
+tags.addTags(['Steam Machines', 'Nintendo Wii U', 'Shield Portable']);
+});
+document.getElementById('destroy').addEventListener('click', function(e) {
+e.preventDefault();
+if(this.textContent === 'destroy') {
+  tags.destroy();
+  this.textContent = 'reinit';
+} else {
+  this.textContent = 'destroy';
+  tags = new Tags('.tagged');
+}
+
+});
+
+</script>
+
+<%- include('../partials/footer.ejs') %>
+
+
+

@@ -33,6 +33,7 @@ app.get('/register', dashboardredirect,loginController().register)
 app.get('/dashboard', loginProtect,loginController().dashboard)
 app.get('/jobs', loginProtect,jobController().displayJobs)
 app.get('/addjobs', loginProtect,jobController().addJobs)
+app.get('/jobquestions/:id', loginProtect,jobController().jobQuestions)
 
 app.post('/login',loginController().postLogin)
 app.post('/otplogin',loginController().postOtpLogin)
@@ -40,5 +41,6 @@ app.post('/otpverify',loginController().postOtpVerify)
 app.post('/register',loginController().postRegister)
 app.post('/logout',loginController().logout)
 app.post('/addjob', jobController().postAddJob)
+app.post('/jobquestions', jobController().postjobQuestions)
 
 module.exports = app;
