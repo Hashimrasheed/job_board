@@ -15,7 +15,11 @@
                   <div class="card">
                     <div class="card-body">
                       <div class="d-flex flex-column align-items-center text-center">
-                        <img src="<%= usersession.pic %>" alt="Admin" class="rounded-circle" width="150">
+                        <% if(usersession.profilePic == true) { %>
+                          <img src="/images/userProfile/<%= usersession._id %>.jpg" alt="Admin" class="rounded-circle" width="150">
+                        <% } else {%>
+                          <img src="<%= usersession.pic %>" alt="Admin" class="rounded-circle" width="150">
+                        <% } %>
                         <div class="mt-3">
                           <h4><%= usersession.name %></h4>
                           <p class="text-secondary mb-1" style="font-weight: bold;"><%= user.professionalTitle %></p>
