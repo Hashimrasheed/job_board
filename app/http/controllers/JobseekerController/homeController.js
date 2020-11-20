@@ -49,7 +49,6 @@ function homeController() {
                             res.redirect('/user')
                         } 
                     }
-                    
                 })
             } else {
                 req.flash('error', 'Please fill all fields')

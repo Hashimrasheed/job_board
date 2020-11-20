@@ -48,16 +48,14 @@ function jobController() {
                     }
                 }
             }
-            console.log('ho');
             const jobId = new ObjectID(req.body.id)
-            // const userId = new ObjectID(req.body.userId)
-            console.log(req.body.userId);
-            const user = await db.get().collection(collection.USERS).findOne({_id: req.body.userId})
-            console.log(user);
-            
-            // db.get().collection(collection.JOBS).updateOne({_id: jobId}, {$set: {Questions: [questions]}}, () => {
-            //     // res.redirect(`/user/jobdetails/${jobId}`)
-            // })
+            const userId = new ObjectID(req.body.userId)
+            // const user = await db.get().collection(collection.USERS).findOne({_id: userId})
+            // console.log(user);
+            console.log(questions);
+            db.get().collection(collection.JOBS).updateOne({_id: jobId}, {$push: {jobrequests:  {userId: ObjectID(userId), questions: questions}}}, () => {
+                res.redirect(`/user/jobdetails/${jobId}`)
+            })
         }
     }
 }

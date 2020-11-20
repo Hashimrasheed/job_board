@@ -1,0 +1,227 @@
+<%- include('../partials/employerHeader.ejs') %>
+<%- include('../partials/employernav.ejs') %>
+
+
+
+
+                <!-- this is the main page content -->
+                <div class="app-main__outer">
+                    <div class="app-main__inner">
+
+                        <div class="tab-content">
+                            <div class="tab-pane tabs-animation fade show active" id="tab-content-0" role="tabpanel">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="main-card mb-3 card">
+                                            <div class="card-body"><h5 class="card-title">Jobseeker Details</h5>
+                                                <div class="row" style="min-height: 50vh;">
+                                                    <div class="col-lg-12">
+                                                        
+                                                        <ul class="post-job-bx">
+                                                            <% if(jobs) {%>
+                                                                <% jobs.forEach((jobs) => { %>
+                                                                    <li>
+                                                                        <a href="#" style="padding-top: 10px;padding-bottom: 10px; padding-right: 25px; padding-left: 25px;">
+                                                                            <div class="d-flex m-b5">
+                                                                                <div class="job-post-company">
+                                                                                    <% if(jobs.userRequests.profilePic == true) { %>
+                                                                                        <span><img src="/images/userProfile/<%= jobs.userRequests._id %>.jpg"/></span>
+                                                                                    <% } else {%>
+                                                                                        <span><img src="<%= jobs.userRequests.pic %>"/></span>
+                                                                                    <% } %>
+                                                                                </div>
+                                                                                <div class="job-post-info">
+                                                                                    <h4 class="job-time"><%= jobs.userRequests.name %></h4>
+                                                                                    <div class="d-flex">
+                                                                                        <div class="job-time mr-auto">
+                                                                                            <span><%= jobs.userRequests.professionalTitle %></span>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                           
+                                                                        </a>
+                                                                    </li>
+                                                                          
+                                                                    
+                                                                <% }) %>
+                                                            <% } %>
+                                                            
+                                                            <li>
+                                                                <a href="" style="padding-top: 10px;padding-bottom: 10px; padding-right: 25px; padding-left: 25px;">
+                                                                    <% jobs.forEach((jobs) => { %>
+
+                                                                    <div class="pt-3">
+                                                                        <div class="card mb-3">
+                                                                        <div class="card-body">
+                                                                            
+                                                                            <div class="row">
+                                                                            <div class="col-sm-3">
+                                                                                <h6 class="mb-0">Email</h6>
+                                                                            </div>
+                                                                            <div class="col-sm-9 text-secondary">
+                                                                                <%= jobs.userRequests.email %>
+                                                                            </div>
+                                                                            </div>
+                                                                            <hr>
+                                                                            <div class="row">
+                                                                            <div class="col-sm-3">
+                                                                                <h6 class="mb-0">Phone</h6>
+                                                                            </div>
+                                                                            <div class="col-sm-9 text-secondary">
+                                                                                <%= jobs.userRequests.mobile %>
+                                                                            </div>
+                                                                            </div>
+                                                                            <hr>
+                                                                            <div class="row">
+                                                                            <div class="col-sm-3">
+                                                                                <h6 class="mb-0">Address</h6>
+                                                                            </div>
+                                                                            <div class="col-sm-9 text-secondary">
+                                                                                <%= jobs.userRequests.location %>
+                                                                            </div>
+                                                                            </div>
+                                                                            <hr>
+                                                                            <div class="row">
+                                                                            <div class="col-sm-3">
+                                                                                <h6 class="mb-0">Key Skills</h6>
+                                                                            </div>
+                                                                            <div class="col-sm-9 text-secondary">
+                                                                                <%= jobs.userRequests.skills %>
+                                                                            </div>
+                                                                            </div>
+                                                                            <hr>
+                                                                            <div class="row">
+                                                                            <div class="col-sm-3">
+                                                                                <h6 class="mb-0">Education</h6>
+                                                                            </div>
+                                                                            <div class="col-sm-9 text-secondary">
+                                                                                <%= jobs.userRequests.education %>
+                                                                            </div>
+                                                                            </div>
+                                                                            <hr>
+                                                                            <div class="row">
+                                                                            <div class="col-sm-3">
+                                                                                <h6 class="mb-0">Profile Summary</h6>
+                                                                            </div>
+                                                                            <div class="col-sm-9 text-secondary">
+                                                                                <%= jobs.userRequests.profilesummary %>
+                                                                            </div>
+                                                                            </div>
+                                                                            <hr>
+                                                                            <div class="row">
+                                                                            <div class="col-sm-3">
+                                                                                <h6 class="mb-0">Experience</h6>
+                                                                            </div>
+                                                                            <div class="col-sm-9 text-secondary">
+                                                                                <%= jobs.userRequests.experience %>
+                                                                            </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        </div>
+                                                                    </div>
+                                                                <% }) %>
+                                                            </a>
+                                                            </li>
+
+                                                            <li>
+                                                                <a href="#" style="padding-top: 10px;padding-bottom: 10px; padding-right: 25px; padding-left: 25px;">
+                                                                        <div class="form-group" aria-required="true">
+                                                                            <% Object.keys(questions).forEach((ele) => { %>
+                                                                                <label><%= ele %></label>
+                                                                                <input type="text" readonly class="answers form-control" placeholder="<%= questions[ele] %>" desabled>
+                                                                            <% }) %>
+                                                                        </div>
+                                                                </a>
+                                                                
+                                                            </li>
+                                                            <li>
+                                                                <a  href="#" style="padding-top: 0px;padding-bottom: 0px; padding-right: 0px; padding-left: 0px;">
+
+                                                                <% if(jobs) {%>
+                                                                    <% jobs.forEach((jobs) => { %>
+
+                                                                            <div class="d-flex m-b5">
+                                                                                <div class="card-body">
+                                                                                    <h5 class="card-title" style="margin-left: 2rem;">Jobseeker Resume</h5>
+                                                                                    
+                                                                                        <object style="margin-left: 6rem;" data="/images/userResume/<%= jobs.userRequests._id %>.pdf" type="application/pdf" width="300" height="200">
+
+                                                                                            </object>
+                                                                                            <a href="/images/userResume/<%= jobs.userRequests._id %>.pdf" style="float: left;"><input type="button" class="site-button btn-block" style="width: 10rem;" value="View"></a>
+                                                                                            <a style=" float: left;" href="/images/userResume/<%= jobs.userRequests._id %>.pdf" download="newfilename.pdf" class="text-primary pr-5"><input type="button" class="site-button btn-block" style="width: 10rem;" value="Download"></a>
+
+                                                                                    <!-- <a href="#" class="text-primary pr-3">Delete</a> -->
+                                                                                    
+                                                                                </div>
+                                                                                
+                                                                            </div>
+                                                                        
+                                                                <% }) %>
+                                                                <% } %>
+                                                            </a>
+                                                        </li>
+                                                           
+                                                        </ul>
+                                                    </div>
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                   
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <!-- footer part -->
+                    <div class="app-wrapper-footer">
+                        <div class="app-footer">
+                            <div class="app-footer__inner">
+                                <div class="app-footer-left">
+                                    <ul class="nav">
+                                        <li class="nav-item">
+                                            <a href="javascript:void(0);" class="nav-link">
+                                                Footer Link 1
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="javascript:void(0);" class="nav-link">
+                                                Footer Link 2
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="app-footer-right">
+                                    <ul class="nav">
+                                        <li class="nav-item">
+                                            <a href="javascript:void(0);" class="nav-link">
+                                                Footer Link 3
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="javascript:void(0);" class="nav-link">
+                                                <div class="badge badge-success mr-1 ml-0">
+                                                    <small>NEW</small>
+                                                </div>
+                                                Footer Link 4
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>    
+                </div>
+        </div>
+    </div>
+
+<script>
+    function disableTxt() {
+        document.getElementsByClassName("answers").disabled = true;
+    }
+    disableTxt();
+</script>
+
+<%- include('../partials/employerFooter.ejs') %>

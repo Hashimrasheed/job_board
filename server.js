@@ -77,7 +77,12 @@ app.use(passport.session());
 app.use('/user', (req, res, next) => {
       res.locals.usersession = req.session.user;
     next();
-  });
+});
+
+app.use('/employer', (req, res, next) => {
+    res.locals.employersession = req.session.employer;
+  next();
+});
 
 //view engine setup
 app.set('views', path.join(__dirname, '/views'))

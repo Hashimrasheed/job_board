@@ -2,7 +2,8 @@ const express = require('express')
 const app = express.Router();
 const loginController = require('../app/http/controllers/employerController/authController')
 const jobController = require('../app/http/controllers/employerController/jobController')
-
+const jobseekerController = require('../app/http/controllers/employerController/jobseekerController')
+const employerProfileController = require('../app/http/controllers/employerController/employerProfileController')
 
 
 
@@ -34,6 +35,10 @@ app.get('/dashboard', loginProtect,loginController().dashboard)
 app.get('/jobs', loginProtect,jobController().displayJobs)
 app.get('/addjobs', loginProtect,jobController().addJobs)
 app.get('/jobquestions/:id', loginProtect,jobController().jobQuestions)
+app.get('/jobrequests/:id', loginProtect,jobseekerController().jobrequests)
+app.get('/jobrequestsDetails/:jobId/:userId', loginProtect,jobseekerController().jobrequestsDetails)
+app.get('/employerProfile', loginProtect,employerProfileController().jobrequestsDetails)
+app.get('/profileEdit', loginProtect,employerProfileController().profileEdit)
 
 app.post('/login',loginController().postLogin)
 app.post('/otplogin',loginController().postOtpLogin)
@@ -42,5 +47,6 @@ app.post('/register',loginController().postRegister)
 app.post('/logout',loginController().logout)
 app.post('/addjob', jobController().postAddJob)
 app.post('/jobquestions', jobController().postjobQuestions)
+app.post('/editprofile', employerProfileController().postProfileEdit)
 
 module.exports = app;
