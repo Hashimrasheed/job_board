@@ -5,6 +5,7 @@ const passport = require('passport');
 const isLogged = require('../app/http/midlewares/googleAuth');
 const jobController = require('../app/http/controllers/JobseekerController/jobController');
 const profileController = require('../app/http/controllers/JobseekerController/profileController');
+const searchController = require('../app/http/controllers/JobseekerController/searchController');
 
 
 const loginProtect = (req, res, next) => {
@@ -36,6 +37,7 @@ app.get('/profile/:id', profileController().userProfile)
 app.get('/profileEdit', profileController().editProfile)
 app.get('/resumeupload', profileController().resumeUpload)
 app.get('/appliedjobs/:id', jobController().appliedJobs)
+app.get('/searchdomain', searchController().domainSearch)
 
 
 //post routers
@@ -46,5 +48,6 @@ app.post('/otpverify', homeController().postOtpVerify)
 app.post('/jobquestions', jobController().postJobQuestions)
 app.post('/editprofile', profileController().postEditProfile)
 app.post('/resumeAdd', profileController().resumeAdd)
+app.post('/postDomainIndexes', searchController().postDomainIndexes)
 
 module.exports = app;

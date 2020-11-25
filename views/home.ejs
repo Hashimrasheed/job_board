@@ -15,20 +15,19 @@
 							<div class="row">
 								<div class="col-lg-4 col-md-6">
 									<div class="form-group">
-										<label>Job Title, Keywords, or Phrase</label>
 										<div class="input-group">
-											<input type="text" class="form-control" placeholder="">
+											<input type="text" class="form-control" id="domainInput" onkeyup="displayDomain()" placeholder="Job Title, Keywords, or Phrase">
 											<div class="input-group-append">
 											  <span class="input-group-text"><i class="fa fa-search"></i></span>
 											</div>
 										</div>
 									</div>
 								</div>
+
 								<div class="col-lg-3 col-md-6">
 									<div class="form-group">
-										<label>City, State or ZIP</label>
 										<div class="input-group">
-											<input type="text" class="form-control" placeholder="">
+											<input type="text" class="form-control" placeholder="City, State or ZIP">
 											<div class="input-group-append">
 											  <span class="input-group-text"><i class="fa fa-map-marker"></i></span>
 											</div>
@@ -274,3 +273,55 @@
 
 
 <%- include('./partials/footer.ejs') %>
+
+
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+	let domainHeader = [];
+	function displayDomain() {
+		let input = document.getElementById('domainInput').value;
+		input = input.toLowerCase().replace(/\s/g, "")
+		console.log(input);
+		axios.get('/user/searchdomain', {input})
+			.then((res) => {
+				let indexes = [];
+				let x = res.data
+				for (let i = 0; i < x.length; i++) {
+					if(x[i].includes(input)) {
+						indexes = [...indexes, i]						
+					}
+				} 
+				if(indexes.length > 0) {
+					axios.post('/user/postDomainIndexes', indexes)
+						.then(response => {
+							domainHeader = response.data
+						})
+				}
+			})
+	}
+	console.log(domainHeader);
+
+	
+</script>
+
+
+
+<!-- <script>
+
+// JavaScript code 
+function search_animal() {
+    let input = document.getElementById('searchbar').value 
+    input=input.toLowerCase();
+    let x = document.getElementsByClassName('animals'); 
+    
+    for (i = 0; i < x.length; i++) {
+        if (!x[i].innerHTML.toLowerCase().includes(input)) { 
+            x[i].style.display="none"; 
+        }
+        else { 
+            x[i].style.display="list-item";                  
+        } 
+    } 
+} 
+
+</script> -->
