@@ -29,7 +29,7 @@ function jobController() {
         async jobDetails(req, res) {
             const jobId = new ObjectID(req.params.id)
             const job = await db.get().collection(collection.JOBS).find({_id: jobId}).toArray()
-            res.render('user/jobDetails', {name: null, pic : null , user: true, job: job[0]})
+            res.render('user/jobDetails', {name: null, pic : null , user: true, job: job[0], success: req.flash('success')})
         },
         async jobQuestions(req, res) {
             const jobId = new ObjectID(req.params.id)
@@ -53,9 +53,53 @@ function jobController() {
             // const user = await db.get().collection(collection.USERS).findOne({_id: userId})
             // console.log(user);
             console.log(questions);
-            db.get().collection(collection.JOBS).updateOne({_id: jobId}, {$push: {jobrequests:  {userId: ObjectID(userId), questions: questions}}}, () => {
-                res.redirect(`/user/jobdetails/${jobId}`)
-            })
+            await db.get().collection(collection.JOBS).updateOne({_id: jobId}, {$push: {jobrequests:  {userId: ObjectID(userId), questions: questions}}})
+            await db.get().collection(collection.USERS).updateOne({_id: userId}, {$push: {appliedJobs:  {jobId: ObjectID(jobId), createdAt: Date.now()}}})
+            req.flash('success', 'Applied for this job')
+
+            res.redirect(`/user/jobdetails/${jobId}`)
+        },
+        async appliedJobs(req, res) {
+            const userId = req.params.id
+            const user = await db.get().collection(collection.USERS).aggregate([
+                {
+                    $match: {_id: ObjectID(userId)}
+                },
+                
+                {
+                    $unwind: "$appliedJobs"
+                },
+                {
+                    $project: {
+                        name: '$name',
+                        jobs: '$appliedJobs.jobId',
+                        createdAt: '$appliedJobs.createdAt'
+
+                    }
+                },
+                {
+                    $sort : { createdAt : -1 }
+                },
+                {
+                    $lookup: {
+                        from: collection.JOBS,
+                        localField: 'jobs',
+                        foreignField: '_id',
+                        as: 'applied'
+                    }
+                },
+                {
+                    $unwind: "$applied"
+                },
+                {
+                    $project: {
+
+                        jobs: '$applied',
+                        
+                    }
+                },
+            ]).toArray()
+            res.render('user/appliedJobs', {jobs: user})
         }
     }
 }

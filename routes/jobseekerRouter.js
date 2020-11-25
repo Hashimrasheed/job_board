@@ -35,6 +35,7 @@ app.get('/jobquestions/:id', jobController().jobQuestions)
 app.get('/profile/:id', profileController().userProfile)
 app.get('/profileEdit', profileController().editProfile)
 app.get('/resumeupload', profileController().resumeUpload)
+app.get('/appliedjobs/:id', jobController().appliedJobs)
 
 
 //post routers

@@ -5,77 +5,18 @@
 	
     <!-- Content -->
     <div class="page-content">
-		<!-- Section Banner -->
-		<div class="dez-bnr-inr">
-            <div class="container">
-                <div class="dez-bnr-inr-entry align-m ">
-					<div class="find-job-bx">
-						<form class="dezPlaceAni">
-							<div class="row">
-								<div class="col-lg-4 col-md-6">
-									<div class="form-group">
-										<label>Job Title, Keywords, or Phrase</label>
-										<div class="input-group">
-											<input type="text" class="form-control" placeholder="">
-											<div class="input-group-append">
-											  <span class="input-group-text"><i class="fa fa-search"></i></span>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-3 col-md-6">
-									<div class="form-group">
-										<label>City, State or ZIP</label>
-										<div class="input-group">
-											<input type="text" class="form-control" placeholder="">
-											<div class="input-group-append">
-											  <span class="input-group-text"><i class="fa fa-map-marker"></i></span>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-3 col-md-6">
-									<div class="form-group">
-										<select>
-											<option>Select Sector</option>
-											<option>Construction</option>
-											<option>Corodinator</option>
-											<option>Employer</option>
-											<option>Financial Career</option>
-											<option>Information Technology</option>
-											<option>Marketing</option>
-											<option>Quality check</option>
-											<option>Real Estate</option>
-											<option>Sales</option>
-											<option>Supporting</option>
-											<option>Teaching</option> 
-										</select>
-									</div>
-								</div>
-								<div class="col-lg-2 col-md-6">
-									<button type="submit" class="site-button btn-block">Find Job</button>
-								</div>
-							</div>
-						</form>
-					</div>
-				</div>
-            </div>
-        </div>
-		<!-- Section Banner END -->
+		
 
 
 		<!-- Call To Action END -->
 		<!-- Our Job -->
-		<div class="section-full bg-gray content-inner-2">
+		<div class="section-full bg-gray pt-3 pb-5">
 			<div class="container">
 				<div class="d-flex job-title-bx section-head">
 					<div class="mr-auto">
-						<h2 class="m-b5">Recent Jobs</h2>
-						<h6 class="fw4 m-b0">20+ Recently Added Jobs</h5>
+						<h2 class="m-b5">Applied Jobs</h2>
 					</div>
-					<div class="align-self-end">
-						<a href="#" class="site-button button-sm">Browse All Jobs <i class="fa fa-long-arrow-right"></i></a>
-					</div>
+					
 				</div>
 				<div class="row">
 					<div class="col-lg-9">
@@ -83,36 +24,36 @@
 							<% if(jobs) {%>
 							<% jobs.forEach(function(jobs) { %>
 										<li>
-											<a href="#">
+											<a href="/user/jobdetails/<%= jobs.jobs._id %>"">
 												<div class="d-flex m-b30">
 													<div class="job-post-company">
 														<span><img src="/images/brandLogo/5fb21e814d208a79c6d351a4.png" /></span>
 													</div>
 													<div class="job-post-info">
-														<h4 class="job-time"><%= jobs.header %></h4>
+														<h4 class="job-time"><%= jobs.jobs.header %></h4>
 														<div class="d-flex">
 															<div class="job-time mr-auto">
-																<span><%= jobs.companyName %></span>
+																<span><%= jobs.jobs.companyName %></span>
 															</div>
 														</div>
 														<ul>
-															<li><i class="fa fa-map-marker"></i><%= jobs.location %></li>
+															<li><i class="fa fa-map-marker"></i><%= jobs.jobs.location %></li>
 															<!-- <li><i class="fa fa-bookmark-o"></i> Full Time</li> -->
-															<li><i class="fa fa-briefcase"></i><%= jobs.minExp %>-<%= jobs.maxExp %> yrs</li>
+															<li><i class="fa fa-briefcase"></i><%= jobs.jobs.minExp %>-<%= jobs.jobs.maxExp %> yrs</li>
 															<li><i class="fa fa-clock-o"></i> Published 11 months ago</li>
 														</ul>
 														<ul>
-															<li><%= jobs.skills %></li>
+															<li><%= jobs.jobs.skills %></li>
 															<!-- <li><i class="fa fa-clock-o"></i> Published 11 months ago</li> -->
 														</ul>
 													</div>
 												</div>
 												<div class="d-flex">
 													<div class="job-time mr-auto">
-														<span><%= jobs.workTime %></span>
+														<span><%= jobs.jobs.workTime %></span>
 													</div>
 													<div class="salary-bx">
-														<span>₹<%= jobs.minimumSalary %> - ₹<%= jobs.maximumSalary %></span>
+														<span>₹<%= jobs.jobs.minimumSalary %> - ₹<%= jobs.jobs.maximumSalary %></span>
 													</div>
 												</div>
 											</a>
@@ -124,26 +65,7 @@
 					</ul>
 						
 					</div>
-					<div class="col-lg-3">
-						<div class="sticky-top">
-							<div class="candidates-are-sys m-b30">
-								<div class="candidates-bx">
-									<div class="testimonial-pic radius"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTI_xOk9ShQP87jx25MByABMrLUanH1Mu2nWaZbCkDCod-U7Em0dUG0Aw98JEQuJjoZTz8bj7CZ_UGJTi93ZQfwhtySwnroG7I&usqp=CAU&ec=45725303" alt="" width="100" height="100"></div>
-									<div class="testimonial-text">
-										<p>The moment you have an instinct to act on a goal you must physically move within 5 seconds or your brain will stop you.</p>
-									</div>
-									<div class="testimonial-detail"> <strong class="testimonial-name">Mel Robbins</strong> <span class="testimonial-position">Nevada, USA</span> </div>
-								</div>
-							</div>
-							<div class="quote-bx">
-								<div class="quote-info">
-									<h4>Make a Change In Your Career!</h4>
-									<p><span style="font-weight: bolder; font-size: 3rem;">SPS</span> offers hands on industry relevant technical skill training for more than 12 domains in the field of Information Technology.</p>
-									<a href="https://packapeer.com/" class="site-button">Link to Site</a>
-								</div>
-							</div>
-						</div>
-					</div>
+					
 				</div>
 			</div>
 		</div>

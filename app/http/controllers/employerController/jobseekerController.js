@@ -7,7 +7,7 @@ function jobController() {
     return {
         async jobrequests(req, res) {
             const jobId = req.params.id
-
+            console.log('hi');
             const jobs = await db.get().collection(collection.JOBS).aggregate([
                 {
                     $match: { _id: ObjectID(jobId) }
