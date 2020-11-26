@@ -10,50 +10,37 @@
             <div class="container">
                 <div class="dez-bnr-inr-entry align-m ">
 					<div class="find-job-bx">
-						<form class="dezPlaceAni">
+						<form class="dezPlaceAni" autocomplete="off" action="/user/submitSearch" method="POST" >
 							<div class="row">
-								<div class="col-lg-4 col-md-6">
+								<div class="col-lg-5 col-md-6">
 									<div class="form-group">
-										<label>Job Title, Keywords, or Phrase</label>
 										<div class="input-group">
-											<input type="text" class="form-control" placeholder="">
+											<input type="text" list="domains" class="form-control" name="header" id="domainInput" onkeyup="displayDomain()" placeholder="Job Title, Keywords, or Phrase">
+											<datalist id="domains">
+												
+											  </datalist>
 											<div class="input-group-append">
 											  <span class="input-group-text"><i class="fa fa-search"></i></span>
 											</div>
 										</div>
 									</div>
 								</div>
-								<div class="col-lg-3 col-md-6">
+								
+								<div class="col-lg-5 col-md-6">
 									<div class="form-group">
-										<label>City, State or ZIP</label>
 										<div class="input-group">
-											<input type="text" class="form-control" placeholder="">
+											<input type="text" list="location" id="locations" name="location" class="form-control" onkeyup="displayLocation()" placeholder="City, Location">
+											<datalist id="location">
+												
+											</datalist>
 											<div class="input-group-append">
 											  <span class="input-group-text"><i class="fa fa-map-marker"></i></span>
 											</div>
 										</div>
 									</div>
 								</div>
-								<div class="col-lg-3 col-md-6">
-									<div class="form-group">
-										<select>
-											<option>Select Sector</option>
-											<option>Construction</option>
-											<option>Corodinator</option>
-											<option>Employer</option>
-											<option>Financial Career</option>
-											<option>Information Technology</option>
-											<option>Marketing</option>
-											<option>Quality check</option>
-											<option>Real Estate</option>
-											<option>Sales</option>
-											<option>Supporting</option>
-											<option>Teaching</option> 
-										</select>
-									</div>
-								</div>
 								<div class="col-lg-2 col-md-6">
-									<button type="submit" class="site-button btn-block">Find Job</button>
+									<button type="button" onclick="postSearch()" class="site-button btn-block">Find Job</button>
 								</div>
 							</div>
 						</form>
@@ -66,63 +53,25 @@
 
 		<!-- Call To Action END -->
 		<!-- Our Job -->
-		<div class="section-full bg-gray content-inner-2">
+		<div id="noResult">
+
+		</div>
+		<div class="section-full bg-gray content-inner-2" id="alljosSearched">
 			<div class="container">
-				<div class="d-flex job-title-bx section-head">
+				<!-- <div class="d-flex job-title-bx section-head">
 					<div class="mr-auto">
-						<h2 class="m-b5">Recent Jobs</h2>
-						<h6 class="fw4 m-b0">20+ Recently Added Jobs</h5>
+						<h2 class="m-b5">Jobs</h2>
+						<h6 class="fw4 m-b0"> Recently Added Jobs</h5>
 					</div>
 					<div class="align-self-end">
 						<a href="#" class="site-button button-sm">Browse All Jobs <i class="fa fa-long-arrow-right"></i></a>
 					</div>
-				</div>
+				</div> -->
 				<div class="row">
 					<div class="col-lg-9">
-						<ul class="post-job-bx">
-							<% if(jobs) {%>
-							<% jobs.forEach(function(jobs) { %>
-										<li>
-											<a href="#">
-												<div class="d-flex m-b30">
-													<div class="job-post-company">
-														<span><img src="/images/brandLogo/5fb21e814d208a79c6d351a4.png" /></span>
-													</div>
-													<div class="job-post-info">
-														<h4 class="job-time"><%= jobs.header %></h4>
-														<div class="d-flex">
-															<div class="job-time mr-auto">
-																<span><%= jobs.companyName %></span>
-															</div>
-														</div>
-														<ul>
-															<li><i class="fa fa-map-marker"></i><%= jobs.location %></li>
-															<!-- <li><i class="fa fa-bookmark-o"></i> Full Time</li> -->
-															<li><i class="fa fa-briefcase"></i><%= jobs.minExp %>-<%= jobs.maxExp %> yrs</li>
-															<li><i class="fa fa-clock-o"></i> Published 11 months ago</li>
-														</ul>
-														<ul>
-															<li><%= jobs.skills %></li>
-															<!-- <li><i class="fa fa-clock-o"></i> Published 11 months ago</li> -->
-														</ul>
-													</div>
-												</div>
-												<div class="d-flex">
-													<div class="job-time mr-auto">
-														<span><%= jobs.workTime %></span>
-													</div>
-													<div class="salary-bx">
-														<span>₹<%= jobs.minimumSalary %> - ₹<%= jobs.maximumSalary %></span>
-													</div>
-												</div>
-											</a>
-										</li>
-										
-									
-							<% }) %>
-						<% } %>
-					</ul>
-						
+						<ul class="post-job-bx" id="jobssearched">
+							<!-- here is the jobs desplay -->
+						</ul>
 					</div>
 					<div class="col-lg-3">
 						<div class="sticky-top">
@@ -229,3 +178,148 @@
 
 
 <%- include('../partials/footer.ejs') %>
+
+
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+
+	myFunction()
+	
+	let domainHeader = [];
+	async function displayDomain() {
+		let input = document.getElementById('domainInput').value;
+		input = input.toLowerCase().replace(/\s/g, "")
+		console.log(input);
+		await axios.get('/user/searchdomain', {input})
+			.then(async (res) => {
+				let indexes = [];
+				let x = res.data
+				for (let i = 0; i < x.length; i++) {
+					if(x[i].includes(input)) {
+						indexes = [...indexes, i]						
+					}
+				} 
+				if(indexes.length > 0) {
+					await axios.post('/user/postDomainIndexes', indexes)
+						.then(response => {
+							domainHeader = response.data
+							var datalist, i;
+							let option = '';
+				
+							datalist = document.getElementById('domains');
+							for ( i = 0; i < domainHeader.length; i ++ ) {
+								option += '<option value="' + domainHeader[i] + '" />';
+
+							}
+							document.getElementById('domains').innerHTML = option;
+						})
+				}
+			})
+				
+
+	}
+
+	function displayLocation () {
+		axios.get('/user/getLocations')
+			.then((res) => {
+				let locations = res.data;
+				var datalist, i;
+				let option = '';
+				datalist = document.getElementById('location');
+				for ( i = 0; i < locations.length; i ++ ) {
+					option += '<option value="' + locations[i] + '" />';
+
+				}
+				document.getElementById('location').innerHTML = option;
+			})
+	}
+
+	
+
+	function postSearch() {
+		
+		document.getElementById('noResult').innerHTML = ''
+		
+		let header = document.getElementById('domainInput').value
+		let location = document.getElementById('locations').value
+
+		
+			axios.post('/user/submitSearch', {header, location})
+				.then(res => {
+					let jobs = res.data
+					console.log(jobs.length);
+					let html = ''
+					if(jobs.length == 0) {
+						var x = document.getElementById("alljosSearched");
+						if (x.style.display === "block") {
+							myFunction()
+						}
+
+						html = `<div class="container">\
+								<div class="card" style="align-items: center; padding-top: 3rem; padding-bottom: 3rem;">\
+									<div class="img"></div>\
+									<div class="title"><h3>No Jobs Found!</h3></div>\
+									<div class="text">\
+									<p>No jobs available in your category or in your location.</p></div>\
+								</div>\
+							</div>`
+
+						document.getElementById('noResult').innerHTML = html
+							
+					} else {
+						var x = document.getElementById("alljosSearched");
+						if (x.style.display === "none") {
+							myFunction()
+						}
+						jobs.forEach(function (jobs) {
+						
+						html += `<li>\
+											<a href="/user/jobdetails/${jobs._id}">\
+												<div class="d-flex m-b30">\
+													<div class="job-post-company">\
+														<span><img src="/images/brandLogo/${jobs._id}.png" /></span>\
+													</div>\
+													<div class="job-post-info">\
+														<h4 class="job-time">${jobs.header}</h4>\
+														<div class="d-flex">\
+															<div class="job-time mr-auto">\
+																<span>${jobs.companyName}</span>\
+															</div>\
+														</div>\
+														<ul>\
+															<li><i class="fa fa-map-marker"></i>${jobs.location}</li>\
+															<li><i class="fa fa-briefcase"></i>${jobs.minExp}-${jobs.maxExp} yrs</li>\
+															<li><i class="fa fa-clock-o"></i> Published 11 months ago</li>\
+														</ul>\
+														<ul>\
+															<li>${jobs.skills}</li>\
+														</ul>\
+													</div>\
+												</div>\
+												<div class="d-flex">\
+													<div class="job-time mr-auto">\
+														<span>${jobs.workTime}</span>\
+													</div>\
+													<div class="salary-bx">\
+														<span>₹${jobs.minimumSalary} - ₹${jobs.maximumSalary}</span>\
+													</div>\
+												<\/div>\
+											</a>\
+										</li>`
+					});
+						document.getElementById('jobssearched').innerHTML = html
+					}
+					
+				})
+		
+	}
+
+	function myFunction() {
+		var x = document.getElementById("alljosSearched");
+		if (x.style.display === "none") {
+			x.style.display = "block";
+		} else {
+			x.style.display = "none";
+		}
+	} 
+</script>

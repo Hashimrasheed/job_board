@@ -19,24 +19,26 @@
                       <span></span>
                   </button>
                   <!-- extra nav -->
-                  <% if(usersession.profilePic == true) { %>
-                    <div class="extra-nav">
+                  <% if(usersession) {%>
+                    <% if(usersession.profilePic == true) { %>
+                        <div class="extra-nav">
+                            <div class="extra-cell">
+                                <!-- <a href="/logout" class="site-button"><i class="fa fa-user"></i>Logout</a> -->
+                                <!-- <a href="login.html" class="site-button"><i class="fa fa-lock"></i> login</a> -->
+                                <a href="#" style="text-decoration: none;" class="site-button"><%= usersession.name %></a>
+                                <a href="/user/profile/<%= usersession._id %>"><img src="/images/userProfile/<%= usersession._id %>.jpg" style="border-radius: 50%; margin-left: 3rem;" width="50" height="60" alt=" "></a>
+                            </div>
+                        </div>
+                    <% } else if( usersession !== undefined ) {%>
+                        <div class="extra-nav">
                         <div class="extra-cell">
                             <!-- <a href="/logout" class="site-button"><i class="fa fa-user"></i>Logout</a> -->
                             <!-- <a href="login.html" class="site-button"><i class="fa fa-lock"></i> login</a> -->
                             <a href="#" style="text-decoration: none;" class="site-button"><%= usersession.name %></a>
-                            <a href="/user/profile/<%= usersession._id %>"><img src="/images/userProfile/<%= usersession._id %>.jpg" style="border-radius: 50%; margin-left: 3rem;" width="50" height="60" alt=" "></a>
+                            <a href="/user/profile/<%= usersession._id %>"><img src="<%= usersession.pic %>" style="border-radius: 50%; margin-left: 3rem;" width="50" height="60" alt=" "></a>
                         </div>
                     </div>
-                  <% } else if( usersession !== undefined ) {%>
-                    <div class="extra-nav">
-                      <div class="extra-cell">
-                          <!-- <a href="/logout" class="site-button"><i class="fa fa-user"></i>Logout</a> -->
-                          <!-- <a href="login.html" class="site-button"><i class="fa fa-lock"></i> login</a> -->
-                          <a href="#" style="text-decoration: none;" class="site-button"><%= usersession.name %></a>
-                          <a href="/user/profile/<%= usersession._id %>"><img src="<%= usersession.pic %>" style="border-radius: 50%; margin-left: 3rem;" width="50" height="60" alt=" "></a>
-                      </div>
-                  </div>
+                    <% } %>
                   <% } %>
                   <!-- Quik search -->
                   <div class="dez-quik-search bg-primary">
@@ -55,8 +57,10 @@
                           <li>
                               <a href="#">For Candidates <i class="fa fa-chevron-down"></i></a>
                               <ul class="sub-menu">
+                                  <li><a href="/user/alljobs" class="dez-page">Browse Jobs</a></li>
+                                  <% if(usersession) {%>
                                   <li><a href="/user/appliedjobs/<%= usersession._id %>" class="dez-page">Applied Job</a></li>
-                                  <li><a href="/user/alljobs" class="dez-page">All Jobs</a></li>
+                                  <% } %>
                                   <!-- <li><a href="job-detail.html" class="dez-page">Job Detail</a></li> -->
                               </ul>
                           </li>

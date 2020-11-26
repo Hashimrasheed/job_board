@@ -12,7 +12,9 @@ function homeController() {
     return {
         async home(req, res) {
             const jobs = await db.get().collection(collection.JOBS).find({status: 'completed'}).sort({ _id : -1 }).limit(5).toArray();
-            const employers = await db.get().collection(collection.EMPLOYERS).find().toArray();
+            const employers = await db.get().collection(collection.EMPLOYERS).aggregate([]).toArray();
+            const employersCount = await db.get().collection(collection.EMPLOYERS).aggregate([]).count().toArray();
+            console.log(employersCount);
             if(req.session.user) {
                 if(!req.user) {
                         res.render('home', {name: req.session.user.name,pic:'/assets/images/avatars/guest-user.jpg', jobs, employers})

@@ -11,47 +11,36 @@
 					<div class="find-job-bx">
 						<p class="site-button button-sm">Find Jobs, Employment & Career Opportunities</p>
 						<h2>Search Between More Them <br/> <span class="text-primary">50,000</span> Open Jobs.</h2>
-						<form class="dezPlaceAni">
-							<div class="row">
-								<div class="col-lg-4 col-md-6">
+						<form autocomplete="off" action="/user/submitSearch" method="POST" class="dezPlaceAni">
+							<div class="row" onclick="location.href='/user/alljobs'">
+								<div class="col-lg-5 col-md-6">
 									<div class="form-group">
 										<div class="input-group">
-											<input type="text" class="form-control" id="domainInput" onkeyup="displayDomain()" placeholder="Job Title, Keywords, or Phrase">
+											<input type="text" list="domains" class="form-control" name="header" id="domainInput" onkeyup="displayDomain()" placeholder="Job Title, Keywords, or Phrase">
+											<datalist id="domains">
+												
+											  </datalist>
 											<div class="input-group-append">
 											  <span class="input-group-text"><i class="fa fa-search"></i></span>
 											</div>
 										</div>
 									</div>
 								</div>
-
-								<div class="col-lg-3 col-md-6">
+								
+								<div class="col-lg-5 col-md-6">
 									<div class="form-group">
 										<div class="input-group">
-											<input type="text" class="form-control" placeholder="City, State or ZIP">
+											<input type="text" list="location" name="location" class="form-control" onkeyup="displayLocation()" placeholder="City, Location">
+											<datalist id="location">
+												
+											</datalist>
 											<div class="input-group-append">
 											  <span class="input-group-text"><i class="fa fa-map-marker"></i></span>
 											</div>
 										</div>
 									</div>
 								</div>
-								<div class="col-lg-3 col-md-6">
-									<div class="form-group">
-										<select>
-											<option>Select Sector</option>
-											<option>Construction</option>
-											<option>Corodinator</option>
-											<option>Employer</option>
-											<option>Financial Career</option>
-											<option>Information Technology</option>
-											<option>Marketing</option>
-											<option>Quality check</option>
-											<option>Real Estate</option>
-											<option>Sales</option>
-											<option>Supporting</option>
-											<option>Teaching</option> 
-										</select>
-									</div>
-								</div>
+								
 								<div class="col-lg-2 col-md-6">
 									<button type="submit" class="site-button btn-block">Find Job</button>
 								</div>
@@ -176,11 +165,11 @@
 						<div class="icon-bx-wraper">
 							<div class="icon-content">
 								<div class="icon-md text-primary m-b20"><i class="ti-location-pin"></i></div>
-								<a href="#" class="dez-tilte"><%= employers.name %></a>
+								<a href="#" class="dez-tilte"><%= employers.username %></a>
 								<p class="m-a0">198 Open Positions</p>
 								<div class="rotate-icon"><i class="ti-location-pin"></i></div> 
 							</div>
-						</div>				
+						</div>
 					</div>
 					<% }) %>
 					<div class="col-lg-12 text-center m-t30">
@@ -191,7 +180,6 @@
 		</div>
 		<!-- About Us END -->
 		<!-- Call To Action -->
-		
 	</div>
 	<!-- Footer -->
     <footer class="site-footer">
@@ -275,15 +263,16 @@
 <%- include('./partials/footer.ejs') %>
 
 
+
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
 	let domainHeader = [];
-	function displayDomain() {
+	async function displayDomain() {
 		let input = document.getElementById('domainInput').value;
 		input = input.toLowerCase().replace(/\s/g, "")
 		console.log(input);
-		axios.get('/user/searchdomain', {input})
-			.then((res) => {
+		await axios.get('/user/searchdomain', {input})
+			.then(async (res) => {
 				let indexes = [];
 				let x = res.data
 				for (let i = 0; i < x.length; i++) {
@@ -292,36 +281,41 @@
 					}
 				} 
 				if(indexes.length > 0) {
-					axios.post('/user/postDomainIndexes', indexes)
+					await axios.post('/user/postDomainIndexes', indexes)
 						.then(response => {
 							domainHeader = response.data
+							var datalist, i;
+							let option = '';
+				
+							datalist = document.getElementById('domains');
+							for ( i = 0; i < domainHeader.length; i ++ ) {
+								option += '<option value="' + domainHeader[i] + '" />';
+
+							}
+							document.getElementById('domains').innerHTML = option;
 						})
 				}
 			})
+				
+
 	}
-	console.log(domainHeader);
+
+	function displayLocation () {
+		axios.get('/user/getLocations')
+			.then((res) => {
+				let locations = res.data;
+				var datalist, i;
+				let option = '';
+	
+				datalist = document.getElementById('location');
+				for ( i = 0; i < locations.length; i ++ ) {
+					option += '<option value="' + locations[i] + '" />';
+
+				}
+				document.getElementById('location').innerHTML = option;
+			})
+	}
 
 	
 </script>
 
-
-
-<!-- <script>
-
-// JavaScript code 
-function search_animal() {
-    let input = document.getElementById('searchbar').value 
-    input=input.toLowerCase();
-    let x = document.getElementsByClassName('animals'); 
-    
-    for (i = 0; i < x.length; i++) {
-        if (!x[i].innerHTML.toLowerCase().includes(input)) { 
-            x[i].style.display="none"; 
-        }
-        else { 
-            x[i].style.display="list-item";                  
-        } 
-    } 
-} 
-
-</script> -->
