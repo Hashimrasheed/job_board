@@ -9,7 +9,15 @@
                     <div class="app-main__inner">
                         <div class="app-page-title">
                             <div class="page-title-wrapper">
-                                
+                                <div >
+                                    <div class="dropdown d-inline-block">
+                                        <button type="button" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown" class="mb-2 mr-2 dropdown-toggle btn btn-outline-primary">All Requests</button>
+                                        <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu">
+                                            <a href="/employer/approvedJobs" tabindex="0" class="dropdown-item">Approved Requsts</a>
+                                            <a href="/employer/rejectedJobs" tabindex="0" class="dropdown-item">Rejected Requsts</a>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="page-title-actions">
                                     
                                     <div class="d-inline-block ">
@@ -150,5 +158,4 @@
     </div>
 
 
-
-<%- include('../partials/employerFooter.ejs') %>
+</html>

@@ -113,7 +113,6 @@ function jobController() {
                 },
                
             ]).toArray()
-            console.log(jobs[0].questions);
             res.render('employer/jobseekerDetails', { jobs, questions : jobs[0].questions })
         }
     }

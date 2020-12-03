@@ -28,6 +28,8 @@ const dashboardredirect = (req, res, next) => {
 
 app.get('/login', dashboardredirect,loginController().login)
 app.get('/dashboard', loginProtect,loginController().dashboard)
+app.get('/headers', loginProtect,loginController().headers)
+app.get('/requests', loginProtect,loginController().requests)
 app.get('/users', loginProtect,userController().users)
 app.get('/employers', loginProtect,employerController().employers)
 app.get('/editemployer', loginProtect,employerController().editEmployer)

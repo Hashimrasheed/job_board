@@ -4,6 +4,7 @@ const loginController = require('../app/http/controllers/employerController/auth
 const jobController = require('../app/http/controllers/employerController/jobController')
 const jobseekerController = require('../app/http/controllers/employerController/jobseekerController')
 const employerProfileController = require('../app/http/controllers/employerController/employerProfileController')
+const jobrequestController = require('../app/http/controllers/employerController/jobRequestController')
 
 
 
@@ -39,6 +40,10 @@ app.get('/jobrequests/:id', loginProtect,jobseekerController().jobrequests)
 app.get('/jobrequestsDetails/:jobId/:userId', loginProtect,jobseekerController().jobrequestsDetails)
 app.get('/employerProfile', loginProtect,employerProfileController().jobrequestsDetails)
 app.get('/profileEdit', loginProtect,employerProfileController().profileEdit)
+app.get('/approvedJobs', loginProtect,jobrequestController().approvedJobs)
+app.get('/rejectedJobs', loginProtect,jobrequestController().rejectedJobs)
+app.get('/headers', loginProtect,loginController().header)
+
 
 app.post('/login',loginController().postLogin)
 app.post('/otplogin',loginController().postOtpLogin)
@@ -48,5 +53,7 @@ app.post('/logout',loginController().logout)
 app.post('/addjob', jobController().postAddJob)
 app.post('/jobquestions', jobController().postjobQuestions)
 app.post('/editprofile', employerProfileController().postProfileEdit)
+app.post('/rejectrequest/:jobId/:userId', jobrequestController().rejectRequest)
+app.post('/approverequest/:jobId/:userId', jobrequestController().approveRequest)
 
 module.exports = app;

@@ -38,8 +38,35 @@
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
+                                                                                
                                                                             </div>
-                                                                           
+                                                                            <div class="pt-3">
+                                                                                <form action="/employer/rejectrequest/<%= jobs._id %>/<%= jobs.userRequests._id %>" method="POST" style="float: left;">
+                                                                                    <button type="submit" aria-haspopup="true" aria-expanded="false" class="btn-shadow btn btn-info ml-3">
+                                                                                        <span class="btn-icon-wrapper pr-2 opacity-7">
+                                                                                            <i class="fa fa-ban fa-w-20"></i>
+                                                                                        </span>
+                                                                                        Reject
+                                                                                    </button>
+                                                                                </form>
+                                                                                
+                                                                                
+                                                                                <form action="/employer/approverequest/<%= jobs._id %>/<%= jobs.userRequests._id %>" method="POST" style="float: left;">
+                                                                                    <button type="submit" aria-haspopup="true" aria-expanded="false" class="btn-shadow btn btn-info ml-3">
+                                                                                        <span class="btn-icon-wrapper pr-2 opacity-7">
+                                                                                            <i class="fa fa-thumbs-o-up fa-w-20"></i>
+                                                                                        </span>
+                                                                                        Approve
+                                                                                    </button>
+                                                                                </form>
+                                                                                <div class="mb-5">
+                                                                                    <span style="float: right;">
+                                                                                        <i class="fa fa-thumbs-o-up fa-w-20"></i>
+                                                                                    </span>
+                                                                                </div>
+                                                                                
+                                                                                
+                                                                            </div>
                                                                         </a>
                                                                     </li>
                                                                           

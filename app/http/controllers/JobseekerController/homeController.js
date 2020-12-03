@@ -13,20 +13,30 @@ function homeController() {
         async home(req, res) {
             const jobs = await db.get().collection(collection.JOBS).find({status: 'completed'}).sort({ _id : -1 }).limit(5).toArray();
             const employers = await db.get().collection(collection.EMPLOYERS).aggregate([]).toArray();
-            const employersCount = await db.get().collection(collection.EMPLOYERS).aggregate([]).count().toArray();
-            console.log(employersCount);
+            const employersCount = await db.get().collection(collection.EMPLOYERS).aggregate([
+                {
+                    $count: 'empCount'
+                }
+            ]).toArray();
+            const jobsCount = await db.get().collection(collection.JOBS).aggregate([
+                {
+                    $count: 'jobCount'
+                }
+            ]).toArray();
+
+            
             if(req.session.user) {
                 if(!req.user) {
-                        res.render('home', {name: req.session.user.name,pic:'/assets/images/avatars/guest-user.jpg', jobs, employers})
+                        res.render('home', {name: req.session.user.name,pic:'/assets/images/avatars/guest-user.jpg', jobs, employers, empCount: employersCount[0], jobCount: jobsCount[0]})
                 }else {
                     if(req.user.provider == 'facebook') {
-                        res.render('home', {name:req.user.displayName,pic:req.user.photos[0].value, jobs, employers});
+                        res.render('home', {name:req.user.displayName,pic:req.user.photos[0].value, jobs, employers, empCount: employersCount[0], jobCount: jobsCount[0]});
                     } else if(req.user.provider == 'google') {
-                        res.render('home', {name:req.user.displayName,pic:req.user.photos[0].value, jobs, employers})
+                        res.render('home', {name:req.user.displayName,pic:req.user.photos[0].value, jobs, employers, empCount: employersCount[0], jobCount: jobsCount[0]})
                     }
                 }
             } else {
-                res.render('home', {name: null, pic : null , jobs, employers})
+                res.render('home', {name: null, pic : null , jobs, employers, empCount: employersCount[0], jobCount: jobsCount[0]})
             }
             
         },

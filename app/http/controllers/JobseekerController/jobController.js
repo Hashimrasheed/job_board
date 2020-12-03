@@ -29,13 +29,31 @@ function jobController() {
         async jobDetails(req, res) {
             const jobId = new ObjectID(req.params.id)
             const job = await db.get().collection(collection.JOBS).find({_id: jobId}).toArray()
-            res.render('user/jobDetails', {name: null, pic : null , user: true, job: job[0], success: req.flash('success')})
+            res.render('user/jobDetails', {name: null, pic : null , user: true, job: job[0], success: req.flash('success'), error: req.flash('error')})
         },
         async jobQuestions(req, res) {
             const jobId = new ObjectID(req.params.id)
-            const job = await db.get().collection(collection.JOBS).find({_id: jobId}).toArray()
-            
-            res.render('user/jobQuestions', {name: null, pic : null , job: job[0]})
+            const userId = new ObjectID(req.params.userId)
+
+            const user=await db.get().collection(collection.JOBS).aggregate([
+                {
+                    $match: {_id: jobId}
+                },
+                {
+                    $unwind: "$jobrequests"
+                },
+                {
+                    $match: { "jobrequests.userId": ObjectID(userId) }
+                },
+            ]).toArray()
+            if(user.length == 0) {
+                const job = await db.get().collection(collection.JOBS).find({_id: jobId}).toArray()
+                res.render('user/jobQuestions', {name: null, pic : null , job: job[0]})
+            }else {
+                req.flash('error', 'You Already applied for this job')
+                res.redirect(`/user/jobdetails/${jobId}`)
+            }
+
         },
         async postJobQuestions(req, res) {
             const jobquestions = req.body.questions
@@ -51,12 +69,9 @@ function jobController() {
             const jobId = new ObjectID(req.body.id)
             const userId = new ObjectID(req.body.userId)
             // const user = await db.get().collection(collection.USERS).findOne({_id: userId})
-            // console.log(user);
-            console.log(questions);
             await db.get().collection(collection.JOBS).updateOne({_id: jobId}, {$push: {jobrequests:  {userId: ObjectID(userId), questions: questions}}})
-            await db.get().collection(collection.USERS).updateOne({_id: userId}, {$push: {appliedJobs:  {jobId: ObjectID(jobId), createdAt: Date.now()}}})
+            await db.get().collection(collection.USERS).updateOne({_id: userId}, {$push: {appliedJobs:  {jobId: ObjectID(jobId), createdAt: Date.now(), status: 'applied'}}})
             req.flash('success', 'Applied for this job')
-
             res.redirect(`/user/jobdetails/${jobId}`)
         },
         async appliedJobs(req, res) {

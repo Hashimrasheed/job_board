@@ -52,6 +52,47 @@
         </div>
 		<!-- Section Banner END -->
 
+		<!-- About Us -->
+		<div id="companies" class="section-full job-categories  bg-white" style="background-image:url(../images/pattern/pic1.html); padding-top: 80px; padding-bottom: 30px;">
+			<div class="container">
+				<div class="section-head d-flex head-counter clearfix">
+					<div class="mr-auto">
+						<h2 class=""></h2>
+						<!-- <h6 class="fw3">20+ Catetories work wating for you</h6> -->
+					</div>
+					<div class="head-counter-bx">
+						<h2 class=" counter"><%= jobCount.jobCount %></h2>
+						<h6 class="fw3">Jobs Posted</h6>
+					</div>
+					<div class="head-counter-bx">
+						<h2 class=" counter">45</h2>
+						<h6 class="fw3">Total Applications</h6>
+					</div>
+					<div class="head-counter-bx">
+						<h2 class=" counter"><%= empCount.empCount %></h2>
+						<h6 class="fw3">Employers</h6>
+					</div>
+				</div>
+				<!-- <div class="row sp20">
+					<% employers.forEach(function(employers) { %>
+					<div class="col-lg-3 col-md-6 col-sm-6">
+						<div class="icon-bx-wraper">
+							<div class="icon-content">
+								<div class="icon-md text-primary m-b20"><i class="ti-location-pin"></i></div>
+								<a href="#" class="dez-tilte"><%= employers.username %></a>
+								<p class="m-a0">198 Open Positions</p>
+								<div class="rotate-icon"><i class="ti-location-pin"></i></div> 
+							</div>
+						</div>
+					</div>
+					<% }) %>
+					<div class="col-lg-12 text-center m-t30">
+						<button class="site-button radius-xl">All Companies</button>
+					</div>
+				</div> -->
+			</div>
+		</div>
+	
 
 		<!-- Call To Action END -->
 		<!-- Our Job -->
@@ -76,7 +117,7 @@
 											<a href="/user/jobdetails/<%= jobs._id %>">
 												<div class="d-flex m-b30" >
 													<div class="job-post-company">
-														<span><img src="/images/brandLogo/5fb21e814d208a79c6d351a4.png" /></span>
+														<span><img src="/images/brandLogo/<%= jobs._id %>.png" /></span>
 													</div>
 													<div class="job-post-info">
 														<h4 class="job-time"><%= jobs.header %></h4>
@@ -138,49 +179,8 @@
 			</div>
 		</div>
 
-        <!-- About Us -->
-		<div id="companies" class="section-full job-categories content-inner-2 bg-white" style="background-image:url(../images/pattern/pic1.html);">
-			<div class="container">
-				<div class="section-head d-flex head-counter clearfix">
-					<div class="mr-auto">
-						<h2 class="m-b5">Top Companies</h2>
-						<!-- <h6 class="fw3">20+ Catetories work wating for you</h6> -->
-					</div>
-					<div class="head-counter-bx">
-						<h2 class="m-b5 counter">18</h2>
-						<h6 class="fw3">Jobs Posted</h6>
-					</div>
-					<div class="head-counter-bx">
-						<h2 class="m-b5 counter">45</h2>
-						<h6 class="fw3">Tasks Posted</h6>
-					</div>
-					<div class="head-counter-bx">
-						<h2 class="m-b5 counter">15</h2>
-						<h6 class="fw3">Freelancers</h6>
-					</div>
-				</div>
-				<div class="row sp20">
-					<% employers.forEach(function(employers) { %>
-					<div class="col-lg-3 col-md-6 col-sm-6">
-						<div class="icon-bx-wraper">
-							<div class="icon-content">
-								<div class="icon-md text-primary m-b20"><i class="ti-location-pin"></i></div>
-								<a href="#" class="dez-tilte"><%= employers.username %></a>
-								<p class="m-a0">198 Open Positions</p>
-								<div class="rotate-icon"><i class="ti-location-pin"></i></div> 
-							</div>
-						</div>
-					</div>
-					<% }) %>
-					<div class="col-lg-12 text-center m-t30">
-						<button class="site-button radius-xl">All Companies</button>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- About Us END -->
-		<!-- Call To Action -->
 	</div>
+        
 	<!-- Footer -->
     <footer class="site-footer">
         <div class="footer-top">

@@ -7,21 +7,21 @@
                 <!-- this is the main page content -->
                 <div class="app-main__outer">
                     <div class="app-main__inner">
-                        <div class="app-page-title" style="padding: 15px;">
+                        <div class="app-page-title">
                             <div class="page-title-wrapper">
-                                
+                                <div >
+                                    <div class="dropdown d-inline-block">
+                                        <label for=""></label>
+                                        <button type="button" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown" class="mb-2 mr-2 dropdown-toggle btn btn-outline-primary">Rejected Requests</button>
+                                        <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu">
+                                            <a href="/employer/jobs" tabindex="0" class="dropdown-item">All Requsts</a>
+                                            <a href="/employer/approvedJobs" tabindex="0" class="dropdown-item">Approved Requsts</a>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="page-title-actions">
                                     
                                     <div class="d-inline-block ">
-                                        <form action="/employer/addjobs" method="GET">
-                                            <button type="submit"  aria-haspopup="true" aria-expanded="false" class="btn-shadow  btn btn-info">
-                                                <span class="btn-icon-wrapper pr-2 opacity-7">
-                                                    <i class="fa fa-paper-plane fa-w-20"></i>
-                                                </span>
-                                                Post a new job
-                                            </button>
-                                        </form>
-                                        
                                         
                                     </div>
                                 </div>    
@@ -33,46 +33,58 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="main-card mb-3 card">
-                                            <div class="card-body"><h5 class="card-title">Current jobs</h5>
-                                                <div class="row">
-                                                    <div class="col-lg-9">
+                                            <div class="card-body"><h5 class="card-title">Job Requests</h5>
+                                                <div class="row" style="min-height: 50vh;">
+                                                    <div class="col-lg-12">
                                                         
                                                         <ul class="post-job-bx">
                                                             <% if(jobs) {%>
-                                                                <% jobs.forEach(function(jobs) { %>
+                                                                <% jobs.forEach((jobs) => { %>
                                                                     <li>
-                                                                        <a href="/employer/jobrequests/<%= jobs._id %>">
-                                                                            <div class="d-flex m-b30">
+                                                                        <a href="/employer/jobrequestsDetails/<%= jobs._id %>/<%= jobs._id %>" style="padding-top: 10px;padding-bottom: 10px; padding-right: 25px; padding-left: 25px;">
+                                                                            <div class="d-flex m-b5">
                                                                                 <div class="job-post-company">
-                                                                                    <span><img src="/images/brandLogo/<%= jobs._id %>.png"/></span>
+                                                                                    <% if(jobs.profilePic == true) { %>
+                                                                                        <span><img src="/images/userProfile/<%= jobs._id %>.jpg"/></span>
+                                                                                    <% } else {%>
+                                                                                        <span><img src="<%= jobs.pic %>"/></span>
+                                                                                    <% } %>
                                                                                 </div>
                                                                                 <div class="job-post-info">
-                                                                                    <h4 class="job-time"><%= jobs.header %></h4>
+                                                                                    <h4 class="job-time"><%= jobs.name %></h4>
                                                                                     <div class="d-flex">
                                                                                         <div class="job-time mr-auto">
-                                                                                            <span><%= jobs.companyName %></span>
+                                                                                            <span><%= jobs.professionalTitle %></span>
                                                                                         </div>
                                                                                     </div>
-                                                                                    <ul>
-                                                                                        <li><i class="fa fa-map-marker"></i><%= jobs.location %></li>
-                                                                                        <!-- <li><i class="fa fa-bookmark-o"></i> Full Time</li> -->
-                                                                                        <li><i class="fa fa-briefcase"></i><%= jobs.minExp %>-<%= jobs.maxExp %> yrs</li>
-                                                                                        <li><i class="fa fa-clock-o"></i> Published 11 months ago</li>
-                                                                                    </ul>
+                                                                                    
                                                                                     <ul>
                                                                                         <li><%= jobs.skills %></li>
                                                                                         <!-- <li><i class="fa fa-clock-o"></i> Published 11 months ago</li> -->
                                                                                     </ul>
                                                                                 </div>
                                                                             </div>
+                                                                            <div>
+                                                                                <span><span class="text-blue">Email: </span><%= jobs.email %></span>
+                                                                                    <br>
+                                                                                <span><span class="text-blue">Phone: </span><%= jobs.mobile %></span>
+                                                                            </div>
                                                                             <div class="d-flex">
                                                                                 <div class="job-time mr-auto">
-                                                                                    <span><%= jobs.workTime %></span>
+                                                                                    <span><%= jobs.experience %></span>
                                                                                 </div>
+                                                                                
                                                                                 <div class="salary-bx">
-                                                                                    <span>₹<%= jobs.minimumSalary %> - ₹<%= jobs.maximumSalary %></span>
+                                                                                    <button type="submit" aria-haspopup="true" aria-expanded="false" class="btn-shadow btn btn-info">
+                                                                                        <span class="btn-icon-wrapper pr-2 opacity-7">
+                                                                                            <i class="fa fa-info fa-w-20"></i>
+                                                                                        </span>
+                                                                                        View More
+                                                                                    </button>
+                                                                                    
                                                                                 </div>
                                                                             </div>
+                                                                            
                                                                         </a>
                                                                     </li>
                                                                           
@@ -83,26 +95,7 @@
                                                     </div>
                                                     
                                                     
-                                                    <div class="col-lg-3">
-                                                        <div class="sticky-top">
-                                                            <div class="candidates-are-sys m-b30">
-                                                                <div class="candidates-bx">
-                                                                    <div class="testimonial-pic radius"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTI_xOk9ShQP87jx25MByABMrLUanH1Mu2nWaZbCkDCod-U7Em0dUG0Aw98JEQuJjoZTz8bj7CZ_UGJTi93ZQfwhtySwnroG7I&usqp=CAU&ec=45725303" alt="" width="100" height="100"></div>
-                                                                    <div class="testimonial-text">
-                                                                        <p>The moment you have an instinct to act on a goal you must physically move within 5 seconds or your brain will stop you.</p>
-                                                                    </div>
-                                                                    <div class="testimonial-detail"> <strong class="testimonial-name">Mel Robbins</strong> <span class="testimonial-position">Nevada, USA</span> </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="quote-bx">
-                                                                <div class="quote-info">
-                                                                    <h4>Make a Change In Your Career!</h4>
-                                                                    <p><span style="font-weight: bolder; font-size: 3rem;">SPS</span> offers hands on industry relevant technical skill training for more than 12 domains in the field of Information Technology.</p>
-                                                                    <a href="https://packapeer.com/" class="site-button">Link to Site</a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                    
                                                 </div>
                                             </div>
                                         </div>
@@ -156,5 +149,4 @@
     </div>
 
 
-
-<%- include('../partials/employerFooter.ejs') %>
+</html>

@@ -18,6 +18,15 @@
                         
                     </div>
                 <% } %>
+                <% if(error.length > 0) { %>
+                    <div class="alert alert-danger alert-dismissible fade show text-center">
+                        <strong><%= error %></strong>
+                        <button type="button" id="closeAlert" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">X</span>
+                        </button>
+                        
+                    </div>
+                <% } %>
                 <div class="row">
                     <div class="col-lg-4">
                         <div class="sticky-top">
@@ -77,7 +86,7 @@
                             <!-- <span><h5 class="font-weight-600 pt-3"></h5><%= job.hiresNum %></span>
                             <div class="dez-divider divider-2px bg-gray-dark mb-4 mt-0"></div>
                              -->
-                            <a href="/user/jobquestions/<%= job._id %>" class="site-button">Apply This Job</a>
+                            <a href="/user/jobquestions/<%= job._id %>/<%= usersession._id %>" class="site-button">Apply This Job</a>
                         </div>
                     </div>
                 </div>

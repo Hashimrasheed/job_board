@@ -32,7 +32,7 @@ app.get('/facebook/callback', passport.authenticate('facebook', {failureRedirect
 app.get('/logout', homeController().logout)
 app.get('/alljobs',  jobController().displayJobs)
 app.get('/jobdetails/:id',  jobController().jobDetails)
-app.get('/jobquestions/:id', jobController().jobQuestions)
+app.get('/jobquestions/:id/:userId', jobController().jobQuestions)
 app.get('/profile/:id', profileController().userProfile)
 app.get('/profileEdit', profileController().editProfile)
 app.get('/resumeupload', profileController().resumeUpload)

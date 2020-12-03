@@ -1,4 +1,5 @@
 const db = require('../../../config/connection');
+const collection = require('../../../config/collections')
 const bcrypt = require('bcrypt');
 let axios = require('axios')
 let FormData = require('form-data')
@@ -162,10 +163,86 @@ function authController() {
             req.logout();
             res.redirect('/employer/login')
         },
-        dashboard(req, res) {
+        async dashboard(req, res) {
             const employer = req.session.employer
-            console.log(req.session);
-            res.render('employer/dashboard', {employer})
+            let jobsNum = await db.get().collection(collection.JOBS).aggregate([
+                {
+                    $match: { "companyEmail": employer.email}
+                },
+                {
+                    $count: "jobCount"
+                }
+            ]).toArray()
+            let requests = await db.get().collection(collection.JOBS).aggregate([
+                {
+                    $match: { "companyEmail": employer.email}
+                },
+                {
+                    $project: { "jobrequests": 1}
+                },
+                {
+                    $unwind: "$jobrequests"
+                },
+                {
+                    $count: "jobCount"
+                }
+            ]).toArray()
+            let approveNum = await db.get().collection(collection.USERS).aggregate([
+                {$group:{_id:{$gt:["$appliedJobs", null]}, count:{$sum:1}}},
+             
+            ]).toArray()
+            
+            let jobNum = await db.get().collection(collection.JOBS).aggregate([
+                {
+                    $match: { "companyEmail": employer.email}
+                },
+                {
+                    $project: { "jobrequests": 1}
+                },
+            ]).toArray()
+            // console.log(jobName);
+            
+            // console.log(jobNum);
+            let RepliedJobs = approveNum[0].count
+            let reqs = requests[0].jobCount
+            let num = jobsNum[0].jobCount
+            res.render('employer/dashboard', {employer, num, reqs, RepliedJobs})
+        },
+        async header(req, res) {
+            const employer = req.session.employer;
+            let jobName = await db.get().collection(collection.JOBS).aggregate([
+                {
+                    $match: { "companyEmail": employer.email}
+                },
+                {
+                    $project: { "header": 1, _id: 0}
+                },
+            ]).toArray()
+            let jobNum = await db.get().collection(collection.JOBS).aggregate([
+                {
+                    $match: { "companyEmail": employer.email}
+                },
+            ]).toArray()
+            let jobNumArray = []
+            for (let i = 0; i < jobNum.length; i++) {
+                if(jobNum[i].jobrequests) {
+                    jobNumArray = [...jobNumArray, jobNum[i].jobrequests.length]
+                } else {
+                    jobNumArray = [...jobNumArray, 0]
+                }
+                
+            }
+
+            let headerArray = [];
+            for (let i = 0; i < jobName.length; i++) {
+                headerArray = [...headerArray, ...Object.values(jobName[i])]
+                
+            }
+            let datas = {
+                headerArray,
+                jobNumArray
+            }
+            res.json(datas)
         }
     }
 }
