@@ -37,6 +37,16 @@ function authController() {
             let oid = new ObjectID(req.body.id)
             await db.get().collection(collection.EMPLOYERS).updateOne({_id: oid}, { $set: {status: undefined}})
             res.redirect('/admin/blockedemployers')
+        },
+        async employerDelete(req, res) {
+            let oid = req.body.id
+            console.log(oid);
+            await db.get().collection(collection.EMPLOYERS).find({_id: ObjectID(oid)}).toArray().then(async (data)=>{
+                console.log(data);
+                await db.get().collection(collection.EMPLOYERS).deleteOne({_id: ObjectID(oid)})
+                await db.get().collection(collection.JOBS).deleteMany({companyEmail: data[0].email})
+            })
+            res.redirect('/admin/employers')
         }
     }
 }

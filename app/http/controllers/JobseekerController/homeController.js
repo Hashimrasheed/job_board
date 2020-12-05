@@ -3,7 +3,8 @@ const collection = require('../../../config/collections')
 const bcrypt = require('bcrypt');
 const passport = require('passport');
 let axios = require('axios')
-let FormData = require('form-data')
+let FormData = require('form-data');
+const { ObjectID } = require('mongodb');
 
 let otpId;
 let mobile;
@@ -211,6 +212,32 @@ function homeController() {
             res.clearCookie('userCookie');
             req.logout();
             res.redirect('/user/login')
+        },
+        contactUs(req, res) {
+            res.render('user/contactUs')
+        },
+        postContactUs(req, res) {
+            let data = {
+                pic: req.session.user.pic,
+                name: req.body.name,
+                email: req.body.email,
+                message: req.body.message
+            }
+            console.log(data);
+            db.get().collection(collection.MESSAGES).insertOne(data, (err, done) => {
+                if(err) throw err;
+                res.redirect('/user/contactUs')
+            })
+        },
+        async notification(req, res) {
+            let messages = await db.get().collection(collection.USERS).aggregate([
+                {
+                    $match: {_id: ObjectID(req.session.user._id)}
+                }
+            ]).toArray();
+            let msg = messages[0].notifications
+            console.log(msg);
+            res.render('user/notification', {msg})
         }
     }
 }

@@ -24,7 +24,6 @@
                         <button type="button" id="closeAlert" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">X</span>
                         </button>
-                        
                     </div>
                 <% } %>
                 <div class="row">
@@ -33,11 +32,14 @@
                             <div class="row">
                                
                                 <div class="col-lg-12 col-md-6">
-                                    <div class="m-b30">
+                                    <div class="m-b30" >
                                         <img src="/images/brandLogo/<%= job._id %>.png" style="max-width: 50%; margin-left: 5.5rem;" alt="">
                                         <h3 class="m-t0 m-b10 pt-2 ml-5 font-weight-700 title-head">
-                                            <a href="#" class="text-secondry m-r30"><%= job.companyName %></a>
+                                            <a href="#myModal" data-toggle="modal" class="text-secondry m-t30 m-l30 m-r30"><%= job.companyName %></a>
                                         </h3>
+                                        <div class="pl-5">
+                                            <a href="#myModal" style="margin-left: 3rem;" data-toggle="modal" class="site-button ml-5">Apply This Job</a>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-lg-12 col-md-6">
@@ -96,80 +98,53 @@
         
     </div>
 </div>
-<!-- footer -->
-<footer class="site-footer">
-    <div class="footer-top">
-        <div class="container">
-            <div class="row">
-                <div class="col-xl-5 col-lg-4 col-md-12 col-sm-12">
-                    <div class="widget">
-                        <img src="images/logo-white.png" width="180" class="m-b15" alt=""/>
-                        <p class="text-capitalize m-b20">Lorem Ipsum is simply dummy text of the printing and typesetting industry has been the industry's standard dummy text ever since the..</p>
-                        <div class="subscribe-form m-b20">
-                            <form class="dzSubscribe" action="http://job-board.w3itexperts.com/xhtml/script/mailchamp.php" method="post">
-                                <div class="dzSubscribeMsg"></div>
-                                <div class="input-group">
-                                    <input name="dzEmail" required="required"  class="form-control" placeholder="Your Email Id" type="email">
-                                    <span class="input-group-btn">
-                                        <button name="submit" value="Submit" type="submit" class="site-button radius-xl">Subscribe</button>
-                                    </span> 
-                                </div>
-                            </form>
-                        </div>
-                        <ul class="list-inline m-a0">
-                            <li><a href="#" class="site-button white facebook circle "><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="#" class="site-button white google-plus circle "><i class="fa fa-google-plus"></i></a></li>
-                            <li><a href="#" class="site-button white linkedin circle "><i class="fa fa-linkedin"></i></a></li>
-                            <li><a href="#" class="site-button white instagram circle "><i class="fa fa-instagram"></i></a></li>
-                            <li><a href="#" class="site-button white twitter circle "><i class="fa fa-twitter"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-xl-5 col-lg-5 col-md-8 col-sm-8 col-12">
-                    <div class="widget border-0">
-                        <h5 class="m-b30 text-white">Frequently Asked Questions</h5>
-                        <ul class="list-2 list-line">
-                            <li><a href="#">Privacy & Seurty</a></li>
-                            <li><a href="#">Terms of Serice</a></li>
-                            <li><a href="#">Communications</a></li>
-                            <li><a href="#">Referral Terms</a></li>
-                            <li><a href="#">Lending Licnses</a></li>
-                            <li><a href="#">Support</a></li>
-                            <li><a href="#">How It Works</a></li>
-                            <li><a href="#">For Employers</a></li>
-                            <li><a href="#">Underwriting</a></li>
-                            <li><a href="#">Contact Us</a></li>
-                            <li><a href="#">Lending Licnses</a></li>
-                            <li><a href="#">Support</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-12">
-                    <div class="widget border-0">
-                        <h5 class="m-b30 text-white">Find Jobs</h5>
-                        <ul class="list-2 w10 list-line">
-                            <li><a href="#">US Jobs</a></li>
-                            <li><a href="#">Canada Jobs</a></li>
-                            <li><a href="#">UK Jobs</a></li>
-                            <li><a href="#">Emplois en Fnce</a></li>
-                            <li><a href="#">Jobs in Deuts</a></li>
-                            <li><a href="#">Vacatures China</a></li>
-                        </ul>
-                    </div>
-                </div>
+
+<div class="container">
+
+     
+      <!-- Modal -->
+      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header" style="background-color: #2e55fa; align-items: center;">
+                <img src="/images/brandLogo/<%= employer._id %>.png" style="width: 10rem;" alt="">
+                <br>
+              <h4 class="modal-title ml-5"><%= employer.username %></h4>
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
             </div>
-        </div>
-    </div>
-    <!-- footer bottom part -->
-    <div class="footer-bottom">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center"><span><a target="_blank" href="https://www.templateshub.net">Templates Hub</a></span></div>
+            <div class="modal-body">
+                <table>
+                    <tr>
+                        <td>Email:</td>
+                        <td><%= employer.email %></td>
+                    </tr>
+                    <tr>
+                        <td>Professional Title:</td>
+                        <td><%= employer.professionalTitle %></td>
+                    </tr>
+                    <tr>
+                        <td>Location:</td>
+                        <td><%= employer.location %></td>
+                    </tr>
+                    <tr>
+                        <td>Description:</td>
+                        <td><%= employer.aboutCompany %></td>
+                    </tr>
+                </table>
+                
             </div>
-        </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+      
+      
     </div>
-</footer>
-<!-- Footer END -->
+
+<%- include('../partials/userfooter.ejs') %>
+
 <button class="scroltop fa fa-chevron-up"></button>
 
 

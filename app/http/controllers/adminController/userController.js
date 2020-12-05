@@ -1,5 +1,6 @@
 const db = require('../../../config/connection');
-const collection = require('../../../config/collections')
+const collection = require('../../../config/collections');
+const { MESSAGES } = require('../../../config/collections');
 var ObjectID = require('mongodb').ObjectID;
 
 function authController() {
@@ -36,6 +37,14 @@ function authController() {
             let oid = new ObjectID(req.body.id)
             await db.get().collection(collection.USERS).updateOne({_id: oid}, { $set: {status: undefined}})
             res.redirect('/admin/blockedusers')
+        },
+        async messages(req, res) {
+            let msg = await db.get().collection(collection.MESSAGES).aggregate([
+                {
+                    $sort: {_id: -1}
+                }
+            ]).toArray()
+            res.render("admin/messages", {msg})
         }
     }
 }

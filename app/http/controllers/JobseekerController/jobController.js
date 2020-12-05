@@ -29,7 +29,13 @@ function jobController() {
         async jobDetails(req, res) {
             const jobId = new ObjectID(req.params.id)
             const job = await db.get().collection(collection.JOBS).find({_id: jobId}).toArray()
-            res.render('user/jobDetails', {name: null, pic : null , user: true, job: job[0], success: req.flash('success'), error: req.flash('error')})
+            let empEmail = job[0].companyEmail
+            const employer = await db.get().collection(collection.EMPLOYERS).aggregate([
+                {
+                    $match: {email: empEmail}
+                }
+            ]).toArray()
+            res.render('user/jobDetails', {name: null, pic : null , user: true, job: job[0], employer: employer[0], success: req.flash('success'), error: req.flash('error')})
         },
         async jobQuestions(req, res) {
             const jobId = new ObjectID(req.params.id)

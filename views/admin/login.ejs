@@ -5,7 +5,12 @@
 <div class="login-form" style="margin-top:10rem;">
     <form action="/admin/login" method="post">
         <h2 class="text-center">Admin Login</h2>		
+        <% if(error.length > 0) { %>
+            <div class="alert alert-danger">
+                <%= error %>
+            </div>
         
+        <% } %>
         <div class="form-group">
         	<div class="input-group">                
                 <div class="input-group-prepend">

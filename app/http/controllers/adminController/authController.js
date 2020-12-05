@@ -5,16 +5,17 @@ const bcrypt = require('bcrypt');
 function authController() {
     return {
         login(req, res) {
-            res.render('admin/login')
+            res.render('admin/login', {error: req.flash('error')})
         },
         postLogin(req, res) {
             const email = "admin@gmail.com";
             const password = "1234"
-            req.session.admin = email;
             if(req.body.email === email && req.body.password === password) {
+                req.session.admin = email;
                 res.redirect('/admin/dashboard')
             } else {
-                res.render('admin/login')
+                req.flash('error', 'Incorrect password or email')
+                res.redirect('/admin/login')
             }
         },
         logout(req, res){
@@ -65,6 +66,7 @@ function authController() {
                 headerArray = [...headerArray, ...Object.values(jobName[i])]
                 
             }
+            console.log(jobNumArray);
             let datas = {
                 headerArray,
                 jobNumArray
@@ -97,9 +99,6 @@ function authController() {
                             jobNumArray[i] += jobNum[j].jobrequests.length
                         } 
                     }else {
-                        console.log(j);
-                        console.log(jobNum[j]);
-                        console.log(jobName[i].username);
                     }
                 }
             }
@@ -107,8 +106,6 @@ function authController() {
             for (let i = 0; i < jobName.length; i++) {
                 headerArray = [...headerArray, ...Object.values(jobName[i])]
             }
-            console.log(jobNumArray);
-            console.log(jobName);
             let datas = {
                 headerArray,
                 jobNumArray

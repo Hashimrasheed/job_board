@@ -2,5 +2,6 @@
 module.exports = {
         JOBS: 'jobs',
         USERS: 'users',
-        EMPLOYERS: 'employer'
+        EMPLOYERS: 'employer',
+        MESSAGES: 'messages'
 }

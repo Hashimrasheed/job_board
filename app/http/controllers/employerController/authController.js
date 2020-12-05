@@ -14,7 +14,6 @@ function authController() {
             const password = req.body.password;
             if(email && password) {
                 await db.get().collection('employer').findOne({email: req.body.email}, async (err, data) => {
-                    console.log(data);
                     if(data == null) {
                         req.flash('error', 'No employer in this mail')
                         res.redirect('/employer/login')
@@ -24,8 +23,20 @@ function authController() {
                             req.flash('error', 'Incorrect password')
                             res.redirect('/employer/login')
                         }else {
-                            req.session.employer = data;
-                            res.redirect('/employer/dashboard')
+                            console.log(data);
+                            if(data.status) {
+                                if(data.status == "blocked") {
+                                    req.flash('error', 'Your Account is blocked by Job Board')
+                                    res.redirect('/employer/login')
+                                }else {
+                                req.session.employer = data;
+                                res.redirect('/employer/dashboard')
+                            }
+                            }else {
+                                req.session.employer = data;
+                                res.redirect('/employer/dashboard')
+                            }
+                            
                         }
                     }
                     
@@ -57,15 +68,15 @@ function authController() {
                 if(data == null) {
                     db.get().collection('employer').insertOne(employer, (err, done) => {
                         if(err) throw err;
-                        console.log('one employer logged in');
                         req.session.employer = employer
+                        // console.log(req.session.employer);
                         res.redirect('/employer/dashboard')
                     })
 
                 }
                 else {
                     console.log("employer already exist");
-                    res.redirect('/employer/register')
+                    res.redirect('/employer/login')
                 }
             })
 
@@ -192,20 +203,26 @@ function authController() {
              
             ]).toArray()
             
-            let jobNum = await db.get().collection(collection.JOBS).aggregate([
-                {
-                    $match: { "companyEmail": employer.email}
-                },
-                {
-                    $project: { "jobrequests": 1}
-                },
-            ]).toArray()
+            // let jobNum = await db.get().collection(collection.JOBS).aggregate([
+            //     {
+            //         $match: { "companyEmail": employer.email}
+            //     },
+            //     {
+            //         $project: { "jobrequests": 1}
+            //     },
+            // ]).toArray()
             // console.log(jobName);
             
             // console.log(jobNum);
             let RepliedJobs = approveNum[0].count
-            let reqs = requests[0].jobCount
-            let num = jobsNum[0].jobCount
+            let reqs = 0;
+            if(requests[0]) {
+                reqs = requests[0].jobCount
+            }
+            let num = 0;
+            if(jobsNum[0]) {
+                num = jobsNum[0].jobCount
+            }
             res.render('employer/dashboard', {employer, num, reqs, RepliedJobs})
         },
         async header(req, res) {

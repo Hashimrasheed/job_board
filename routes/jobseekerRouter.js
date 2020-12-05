@@ -39,6 +39,8 @@ app.get('/resumeupload', profileController().resumeUpload)
 app.get('/appliedjobs/:id', jobController().appliedJobs)
 app.get('/searchdomain', searchController().domainSearch)
 app.get('/getLocations', searchController().locationSearch)
+app.get('/contactUs', homeController().contactUs)
+app.get('/notification', homeController().notification)
 
 
 //post routers
@@ -51,5 +53,7 @@ app.post('/editprofile', profileController().postEditProfile)
 app.post('/resumeAdd', profileController().resumeAdd)
 app.post('/postDomainIndexes', searchController().postDomainIndexes)
 app.post('/submitSearch', searchController().submitSearch)
+app.post('/contactUs', homeController().postContactUs)
+
 
 module.exports = app;

@@ -36,6 +36,7 @@ app.get('/editemployer', loginProtect,employerController().editEmployer)
 app.get('/edituser', loginProtect,userController().editUser)
 app.get('/blockedusers', loginProtect,userController().blockedUsers)
 app.get('/blockedemployers', loginProtect,employerController().blockedEmployers)
+app.get('/messages', loginProtect,userController().messages)
 
 
 
@@ -47,6 +48,7 @@ app.post('/usereditsave',userController().usereditsave)
 app.post('/employereditsave',employerController().employereditsave)
 app.post('/userblock',userController().userblock)
 app.post('/employerblock',employerController().employerblock)
+app.post('/employerDelete',employerController().employerDelete)
 app.post('/userUnblock',userController().userUnblock)
 app.post('/employerUnblock',employerController().employerUnblock)
 

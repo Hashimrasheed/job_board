@@ -8,14 +8,25 @@ function jobrequestController() {
         async rejectRequest(req, res) {
             const jobId = req.params.jobId
             const userId = req.params.userId
-            
-            await db.get().collection(collection.USERS).updateOne({_id: ObjectID(userId)}, {$set: {appliedJobs: [{jobId: jobId, status: 'rejected'}]}})
+            let jobs = await db.get().collection(collection.JOBS).aggregate([
+                {
+                    $match: {_id: ObjectID(jobId)}
+                }
+            ]).toArray()
+            let msg = `Your application for ${jobs[0].header} is rejected`
+            await db.get().collection(collection.USERS).updateOne({_id: ObjectID(userId)}, {$set: {appliedJobs: [{jobId: jobId, status: 'rejected'}], notifications: [{message: msg}]}})
             res.redirect('/employer/jobs')
         },
         async approveRequest(req, res) {
             const jobId = req.params.jobId
             const userId = req.params.userId
-            await db.get().collection(collection.USERS).updateOne({_id: ObjectID(userId)}, {$set: {appliedJobs: [{jobId: jobId, status: 'approved'}]}})
+            let jobs = await db.get().collection(collection.JOBS).aggregate([
+                {
+                    $match: {_id: ObjectID(jobId)}
+                }
+            ]).toArray()
+            let msg = `Your application for ${jobs[0].header} is approved`
+            await db.get().collection(collection.USERS).updateOne({_id: ObjectID(userId)}, {$set: {appliedJobs: [{jobId: jobId, status: 'approved'}], notifications: [{message: msg}]}})
             res.redirect('/employer/jobs')
         },
         async rejectedJobs(req, res) {
