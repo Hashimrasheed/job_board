@@ -18,8 +18,17 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div >
+                                    <div class="dropdown d-inline-block">
+                                        <button type="button" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown" class="mb-2 mr-2 dropdown-toggle btn btn-outline-primary">Filter by time</button>
+                                        <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu">
+                                            <a href="#" onclick="todayapplications()" tabindex="0" class="dropdown-item">Today Requsts</a>
+                                            <a href="#" onclick="lastWeekApplication()" tabindex="0" class="dropdown-item">Last week Requsts</a>
+                                            <a href="#" onclick="lastMonthApplication()" tabindex="0" class="dropdown-item">Last month Requsts</a>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="page-title-actions">
-                                    
                                     <div class="d-inline-block ">
                                         <form action="/employer/addjobs" method="GET">
                                             <button type="submit"  aria-haspopup="true" aria-expanded="false" class="btn-shadow  btn btn-info">
@@ -36,7 +45,7 @@
                             </div>
                         </div>            
                         
-                        <div class="tab-content">
+                        <div class="tab-content" id="alljosSearched">
                             <div class="tab-pane tabs-animation fade show active" id="tab-content-0" role="tabpanel">
                                 <div class="row">
                                     <div class="col-md-12">
@@ -44,61 +53,63 @@
                                             <div class="card-body"><h5 class="card-title">Job Requests</h5>
                                                 <div class="row" style="min-height: 50vh;">
                                                     <div class="col-lg-12">
+                                                        <input type="hidden" id="jobId" value="<%= jobs[0]._id %>">
                                                         
                                                         <ul class="post-job-bx">
-                                                            <% if(jobs) {%>
-                                                                <% jobs.forEach((jobs) => { %>
-                                                                    <li>
-                                                                        <a href="/employer/jobrequestsDetails/<%= jobs._id %>/<%= jobs.userRequests._id %>" style="padding-top: 10px;padding-bottom: 10px; padding-right: 25px; padding-left: 25px;">
-                                                                            <div class="d-flex m-b5">
-                                                                                <div class="job-post-company">
-                                                                                    <% if(jobs.userRequests.profilePic == true) { %>
-                                                                                        <span><img src="/images/userProfile/<%= jobs.userRequests._id %>.jpg"/></span>
-                                                                                    <% } else {%>
-                                                                                        <span><img src="<%= jobs.userRequests.pic %>"/></span>
-                                                                                    <% } %>
-                                                                                </div>
-                                                                                <div class="job-post-info">
-                                                                                    <h4 class="job-time"><%= jobs.userRequests.name %></h4>
-                                                                                    <div class="d-flex">
-                                                                                        <div class="job-time mr-auto">
-                                                                                            <span><%= jobs.userRequests.professionalTitle %></span>
+                                                            <div id="jobssearched">
+                                                                <% if(jobs) {%>
+                                                                    <% jobs.forEach((jobs) => { %>
+                                                                        <li>
+                                                                            <a href="/employer/jobrequestsDetails/<%= jobs._id %>/<%= jobs.userRequests._id %>" style="padding-top: 10px;padding-bottom: 10px; padding-right: 25px; padding-left: 25px;">
+                                                                                <div class="d-flex m-b5">
+                                                                                    <div class="job-post-company">
+                                                                                        <% if(jobs.userRequests.profilePic == true) { %>
+                                                                                            <span><img src="/images/userProfile/<%= jobs.userRequests._id %>.jpg"/></span>
+                                                                                        <% } else {%>
+                                                                                            <span><img src="<%= jobs.userRequests.pic %>"/></span>
+                                                                                        <% } %>
+                                                                                    </div>
+                                                                                    <div class="job-post-info">
+                                                                                        <h4 class="job-time"><%= jobs.userRequests.name %></h4>
+                                                                                        <div class="d-flex">
+                                                                                            <div class="job-time mr-auto">
+                                                                                                <span><%= jobs.userRequests.professionalTitle %></span>
+                                                                                            </div>
                                                                                         </div>
+                                                                                        
+                                                                                        <ul>
+                                                                                            <li><%= jobs.userRequests.skills %></li>
+                                                                                        </ul>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div>
+                                                                                    <span><span class="text-blue">Email: </span><%= jobs.userRequests.email %></span>
+                                                                                        <br>
+                                                                                    <span><span class="text-blue">Phone: </span><%= jobs.userRequests.mobile %></span>
+                                                                                </div>
+                                                                                <div class="d-flex">
+                                                                                    <div class="job-time mr-auto">
+                                                                                        <span><%= jobs.userRequests.experience %></span>
                                                                                     </div>
                                                                                     
-                                                                                    <ul>
-                                                                                        <li><%= jobs.userRequests.skills %></li>
-                                                                                        <!-- <li><i class="fa fa-clock-o"></i> Published 11 months ago</li> -->
-                                                                                    </ul>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div>
-                                                                                <span><span class="text-blue">Email: </span><%= jobs.userRequests.email %></span>
-                                                                                    <br>
-                                                                                <span><span class="text-blue">Phone: </span><%= jobs.userRequests.mobile %></span>
-                                                                            </div>
-                                                                            <div class="d-flex">
-                                                                                <div class="job-time mr-auto">
-                                                                                    <span><%= jobs.userRequests.experience %></span>
+                                                                                    <div class="salary-bx">
+                                                                                        <button type="submit" aria-haspopup="true" aria-expanded="false" class="btn-shadow btn btn-info">
+                                                                                            <span class="btn-icon-wrapper pr-2 opacity-7">
+                                                                                                <i class="fa fa-info fa-w-20"></i>
+                                                                                            </span>
+                                                                                            View More
+                                                                                        </button>
+                                                                                        
+                                                                                    </div>
                                                                                 </div>
                                                                                 
-                                                                                <div class="salary-bx">
-                                                                                    <button type="submit" aria-haspopup="true" aria-expanded="false" class="btn-shadow btn btn-info">
-                                                                                        <span class="btn-icon-wrapper pr-2 opacity-7">
-                                                                                            <i class="fa fa-info fa-w-20"></i>
-                                                                                        </span>
-                                                                                        View More
-                                                                                    </button>
-                                                                                    <!-- <span>Education: <%= jobs.userRequests.education %></span> -->
-                                                                                    <!-- <span>₹<%= jobs.minimumSalary %> - ₹<%= jobs.maximumSalary %></span> -->
-                                                                                </div>
-                                                                            </div>
-                                                                            
-                                                                        </a>
-                                                                    </li>
-                                                                          
-                                                                <% }) %>
-                                                            <% } %>
+                                                                            </a>
+                                                                        </li>
+                                                                              
+                                                                    <% }) %>
+                                                                <% } %>
+                                                            </div>
+                                                            
                                                         </ul>
                                                           
                                                     </div>
@@ -159,3 +170,240 @@
 
 
 </html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.0/axios.min.js"></script>
+<script>
+    function todayapplications() {
+        let jobId = document.getElementById('jobId').value
+        axios.get(`/employer/todayapplications/${jobId}`).then(res => {
+            let jobs = res.data
+            let html = ''
+            if(jobs.length == 0) {
+                var x = document.getElementById("alljosSearched");
+                if (x.style.display === "block") {
+                    myFunction()
+                }
+
+                html = `<div class="container">\
+                        <div class="card" style="align-items: center; padding-top: 3rem; padding-bottom: 3rem;">\
+                            <div class="img"></div>\
+                            <div class="title"><h3>No Jobs Found!</h3></div>\
+                            <div class="text">\
+                            <p>No jobs available in your category or in your location.</p></div>\
+                        </div>\
+                    </div>`
+
+                document.getElementById('noResult').innerHTML = html
+                    
+            } else {
+                var x = document.getElementById("alljosSearched");
+                if (x.style.display === "none") {
+                    myFunction()
+                }
+                jobs.forEach(function (jobs) {
+                
+                html += `<li>\
+                                    <a href="/employer/jobrequestsDetails/${jobs._id}/${jobs.userRequests._id}" style="padding-top: 10px;padding-bottom: 10px; padding-right: 25px; padding-left: 25px;">\
+                                        <div class="d-flex">\
+                                            <div class="job-post-company">\
+                                                
+                                                <span><img src="/images/userProfile/${jobs.userRequests._id}.jpg" /></span>\
+                                            </div>\
+                                            <div class="job-post-info">\
+                                                <h4 class="job-time">${jobs.userRequests.name}</h4>\
+                                                <div class="d-flex">\
+                                                    <div class="job-time mr-auto">\
+                                                        <span>${jobs.userRequests.professionalTitle}</span>\
+                                                    </div>\
+                                                </div>\
+                                                <ul>\
+                                                    <li>${jobs.userRequests.skills}</li>\
+                                                </ul>\
+                                            </div>\
+                                        </div>\
+                                        <div>\
+                                            <span><span class="text-blue">Email: </span>${ jobs.userRequests.email }</span>\
+                                                <br>\
+                                            <span><span class="text-blue">Phone: </span>${ jobs.userRequests.mobile }</span>\
+                                        </div>\
+                                        <div class="d-flex">\
+                                            <div class="job-time mr-auto">\
+                                                <span>${jobs.userRequests.experience}</span>\
+                                            </div>\
+                                            <div class="salary-bx">\
+                                                <button type="submit" aria-haspopup="true" aria-expanded="false" class="btn-shadow btn btn-info">\
+                                                    <span class="btn-icon-wrapper pr-2 opacity-7">\
+                                                        <i class="fa fa-info fa-w-20"></i>\
+                                                    </span>\
+                                                    View More\
+                                                </button>\
+                                                
+                                            </div>\
+                                        <\/div>\
+                                    </a>\
+                                </li>`
+            });
+                document.getElementById('jobssearched').innerHTML = html
+            }
+        })
+    }
+
+    function lastWeekApplication() {
+        let jobId = document.getElementById('jobId').value
+        axios.get(`/employer/lastweekapplications/${jobId}`).then(res => {
+            let jobs = res.data
+            let html = ''
+            if(jobs.length == 0) {
+                var x = document.getElementById("alljosSearched");
+                if (x.style.display === "block") {
+                    myFunction()
+                }
+
+                html = `<div class="container">\
+                        <div class="card" style="align-items: center; padding-top: 3rem; padding-bottom: 3rem;">\
+                            <div class="img"></div>\
+                            <div class="title"><h3>No Jobs Found!</h3></div>\
+                            <div class="text">\
+                            <p>No jobs available in your category or in your location.</p></div>\
+                        </div>\
+                    </div>`
+
+                document.getElementById('noResult').innerHTML = html
+                    
+            } else {
+                var x = document.getElementById("alljosSearched");
+                if (x.style.display === "none") {
+                    myFunction()
+                }
+                jobs.forEach(function (jobs) {
+                
+                html += `<li>\
+                                    <a href="/employer/jobrequestsDetails/${jobs._id}/${jobs.userRequests._id}" style="padding-top: 10px;padding-bottom: 10px; padding-right: 25px; padding-left: 25px;">\
+                                        <div class="d-flex">\
+                                            <div class="job-post-company">\
+                                                
+                                                <span><img src="/images/userProfile/${jobs.userRequests._id}.jpg" /></span>\
+                                            </div>\
+                                            <div class="job-post-info">\
+                                                <h4 class="job-time">${jobs.userRequests.name}</h4>\
+                                                <div class="d-flex">\
+                                                    <div class="job-time mr-auto">\
+                                                        <span>${jobs.userRequests.professionalTitle}</span>\
+                                                    </div>\
+                                                </div>\
+                                                <ul>\
+                                                    <li>${jobs.userRequests.skills}</li>\
+                                                </ul>\
+                                            </div>\
+                                        </div>\
+                                        <div>\
+                                            <span><span class="text-blue">Email: </span>${ jobs.userRequests.email }</span>\
+                                                <br>\
+                                            <span><span class="text-blue">Phone: </span>${ jobs.userRequests.mobile }</span>\
+                                        </div>\
+                                        <div class="d-flex">\
+                                            <div class="job-time mr-auto">\
+                                                <span>${jobs.userRequests.experience}</span>\
+                                            </div>\
+                                            <div class="salary-bx">\
+                                                <button type="submit" aria-haspopup="true" aria-expanded="false" class="btn-shadow btn btn-info">\
+                                                    <span class="btn-icon-wrapper pr-2 opacity-7">\
+                                                        <i class="fa fa-info fa-w-20"></i>\
+                                                    </span>\
+                                                    View More\
+                                                </button>\
+                                                
+                                            </div>\
+                                        <\/div>\
+                                    </a>\
+                                </li>`
+            });
+                document.getElementById('jobssearched').innerHTML = html
+            }
+        })
+    }
+
+    function lastMonthApplication() {
+        let jobId = document.getElementById('jobId').value
+        axios.get(`/employer/lastmonthapplications/${jobId}`).then(res => {
+            let jobs = res.data
+            let html = ''
+            if(jobs.length == 0) {
+                var x = document.getElementById("alljosSearched");
+                if (x.style.display === "block") {
+                    myFunction()
+                }
+
+                html = `<div class="container">\
+                        <div class="card" style="align-items: center; padding-top: 3rem; padding-bottom: 3rem;">\
+                            <div class="img"></div>\
+                            <div class="title"><h3>No Jobs Found!</h3></div>\
+                            <div class="text">\
+                            <p>No jobs available in your category or in your location.</p></div>\
+                        </div>\
+                    </div>`
+
+                document.getElementById('noResult').innerHTML = html
+                    
+            } else {
+                var x = document.getElementById("alljosSearched");
+                if (x.style.display === "none") {
+                    myFunction()
+                }
+                jobs.forEach(function (jobs) {
+                
+                html += `<li>\
+                                    <a href="/employer/jobrequestsDetails/${jobs._id}/${jobs.userRequests._id}" style="padding-top: 10px;padding-bottom: 10px; padding-right: 25px; padding-left: 25px;">\
+                                        <div class="d-flex">\
+                                            <div class="job-post-company">\
+                                                
+                                                <span><img src="/images/userProfile/${jobs.userRequests._id}.jpg" /></span>\
+                                            </div>\
+                                            <div class="job-post-info">\
+                                                <h4 class="job-time">${jobs.userRequests.name}</h4>\
+                                                <div class="d-flex">\
+                                                    <div class="job-time mr-auto">\
+                                                        <span>${jobs.userRequests.professionalTitle}</span>\
+                                                    </div>\
+                                                </div>\
+                                                <ul>\
+                                                    <li>${jobs.userRequests.skills}</li>\
+                                                </ul>\
+                                            </div>\
+                                        </div>\
+                                        <div>\
+                                            <span><span class="text-blue">Email: </span>${ jobs.userRequests.email }</span>\
+                                                <br>\
+                                            <span><span class="text-blue">Phone: </span>${ jobs.userRequests.mobile }</span>\
+                                        </div>\
+                                        <div class="d-flex">\
+                                            <div class="job-time mr-auto">\
+                                                <span>${jobs.userRequests.experience}</span>\
+                                            </div>\
+                                            <div class="salary-bx">\
+                                                <button type="submit" aria-haspopup="true" aria-expanded="false" class="btn-shadow btn btn-info">\
+                                                    <span class="btn-icon-wrapper pr-2 opacity-7">\
+                                                        <i class="fa fa-info fa-w-20"></i>\
+                                                    </span>\
+                                                    View More\
+                                                </button>\
+                                                
+                                            </div>\
+                                        <\/div>\
+                                    </a>\
+                                </li>`
+            });
+                document.getElementById('jobssearched').innerHTML = html
+            }
+        })
+    }
+
+    function myFunction() {
+		var x = document.getElementById("alljosSearched");
+		if (x.style.display === "none") {
+			x.style.display = "block";
+		} else {
+			x.style.display = "none";
+		}
+    } 
+    
+</script>

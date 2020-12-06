@@ -51,6 +51,9 @@ function jobrequestController() {
                 }
             ]).toArray()
             res.render('employer/approvedJobs', {jobs: users})
+        },
+        jobrequestController(req, res) {
+            
         }
     }
 }

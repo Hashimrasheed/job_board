@@ -43,6 +43,9 @@ app.get('/profileEdit', loginProtect,employerProfileController().profileEdit)
 app.get('/approvedJobs', loginProtect,jobrequestController().approvedJobs)
 app.get('/rejectedJobs', loginProtect,jobrequestController().rejectedJobs)
 app.get('/headers', loginProtect,loginController().header)
+app.get('/todayapplications/:id', loginProtect,jobseekerController().todayapplications)
+app.get('/lastweekapplications/:id', loginProtect,jobseekerController().lastweekapplications)
+app.get('/lastmonthapplications/:id', loginProtect,jobseekerController().lastmonthapplications)
 
 
 app.post('/login',loginController().postLogin)

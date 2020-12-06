@@ -24,7 +24,7 @@ function profileController() {
                 skills: req.body.skills,
                 education: req.body.education,
                 experience: req.body.experience,
-                profilePic: true
+                profilePic: true,
             }
             profilePic = req.files.profilePic
             const userId = new ObjectID(req.body.id)
