@@ -35,7 +35,7 @@ app.use('/user', session({
     name: 'userCookie',
     secret: 'usersecret',
     store: new MongoStore({
-         url: 'mongodb://localhost:27017/jobBoard',
+         url: 'mongodb+srv://Hashim:Hashim@30@cluster0.wysex.mongodb.net/jobBoard?retryWrites=true&w=majority',
          collection: 'userSession'
     }),
     resave: false,
@@ -48,7 +48,7 @@ app.use('/employer', session({
     name: 'employerCookie',
     secret: 'employersecret',
     store: new MongoStore({
-         url: 'mongodb://localhost:27017/jobBoard',
+         url: 'mongodb+srv://Hashim:Hashim@30@cluster0.wysex.mongodb.net/jobBoard?retryWrites=true&w=majority',
          collection: 'employerSession'
     }),
     resave: false,
@@ -61,7 +61,7 @@ app.use('/admin', session({
     name: 'adminCookie',
     secret: 'adminsecret',
     store: new MongoStore({
-         url: 'mongodb://localhost:27017/jobBoard',
+         url: 'mongodb+srv://Hashim:Hashim@30@cluster0.wysex.mongodb.net/jobBoard?retryWrites=true&w=majority',
          collection: 'adminSession'
     }),
     resave: false,

@@ -24,7 +24,7 @@ function jobController() {
                     }
                 }
             } else {
-                res.render('home', {name: null, pic : null , jobs, employers})
+                res.render('user/alljobs', {name: null, pic : null , jobs, employers})
             }
         },
         async jobDetails(req, res) {
