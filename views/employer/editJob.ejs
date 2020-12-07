@@ -1,0 +1,159 @@
+<%- include('../partials/employerHeader.ejs') %>
+
+
+
+
+<div class="container pt-5 app-main__outer">
+    <div class="app-main__inner">
+ 
+
+    <div class="page-wraper">
+        <div id="loading-area"></div>
+            
+            <!-- header END -->
+            <!-- Content -->
+            <div class="page-content bg-white">
+                <!-- inner page banner -->
+                <div class="overlay-black-dark">
+                    <div class="container">
+                        <div class="">
+                            <h1 class="text-white">Edit job</h1>
+                           
+                        </div>
+                    </div>
+                </div>
+                <!-- inner page banner END -->
+                <!-- contact area -->
+                <div class="content-block">
+                    <!-- Submit Resume -->
+                    <div class="section-full bg-white submit-resume">
+                        <div class="container pb-5">
+                            <form action="/employer/addJob" method="POST" enctype="multipart/form-data">
+                                <div class="form-group" aria-required="true">
+                                    <label>Job header</label>
+                                    <input type="text" class="form-control" name="header" value="<%= job.header %>" placeholder="Job header">
+                                </div>
+                                <div class="form-group" aria-required="true">
+                                    <label>Company name for this job</label>
+                                    <input type="text" class="form-control" name="companyName" value="<%= job.companyName %>"  placeholder="company Name">
+                                </div>
+                                <div class="form-group" aria-required="true">
+                                    <label>Location</label>
+                                    <input type="text" class="form-control" name="location" value="<%= job.location %>"  placeholder="Location">
+                                </div>
+                                <div class="form-group" aria-required="true">
+                                    <label>How many hires?</label>
+                                    <input type="number" class="form-control" name="hiresNum" value="<%= job.hiresNum %>"  placeholder="number of hires">
+                                </div>
+                                <label>How much experience?</label>
+                                <div class="d-flex" aria-required="true">
+                                    <div class="form-group">
+                                        <input type="number" class="form-control" name="minExp" value="<%= job.minExp %>"  placeholder="Minimum Experience">
+                                    </div>
+                                    <h6 class="mx-5"> to </h6>
+
+                                    <div class="form-group">
+                                        <input type="number" class="form-control" name="maxExp" value="<%= job.maxExp %>"  placeholder="Maximum Experience">
+                                    </div>
+                                </div>
+                                <label>Minimum Salary</label>
+                                <div class="d-flex" aria-required="true">
+                                    <div class="form-group">
+                                        <input type="number" class="form-control" name="minimumSalary" value="<%= job.minimumSalary %>"  placeholder="Minimum Salary">
+                                    </div>
+                                    <h6 class="mx-5"> to </h6>
+
+                                    <div class="form-group">
+                                        <input type="number" class="form-control" name="maximumSalary" value="<%= job.maximumSalary %>"  placeholder="Maximum Salary">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group" aria-required="true">
+                                    <label>Logo</label>
+                                    <div class="custom-file">
+                                        <input type="file" class="site-button" name="logo" id="customFile">
+                                    </div>
+                                </div>
+                                <div class="form-group" aria-required="true">
+                                    <label>What type of employment is it?</label>
+                                    <div class="form-group">
+                                        <select name="workTime">
+                                            <option>Full Time</option>
+                                            <option>Part Time</option>
+                                            <option>Temporary</option>
+                                        </select>
+                                    </div>
+                                    <!-- <input type="text" class="form-control" name="workTime" placeholder="Type of employment"> -->
+                                </div>
+                                
+                                <div class="form-group" aria-required="true">
+                                    <label>Job Description</label>
+                                    <textarea class="form-control" name="description"  value="<%= job.description %>" placeholder="Job Discription"></textarea>
+                                </div>
+                                <div class="form-group" aria-required="true">
+                                    <label>Required Skills</label>
+                                    <input type="text" class="form-control" name="skills"  value="<%= job.skills %>" placeholder="Required Skills">
+                                </div>
+
+                                <div class="form-group" aria-required="true">
+                                    <label>Job Requirements</label>
+                                    <a href="javascript:void(0);" class="add_button" title="Add field"><button class=" btn btn-primary" type="button" style=" margin:5px;">Add More Field</button></a>
+
+                                    <div class="input_field_wrapper">
+                                        <div>
+                                                <input type="text" style="width: 95%; float: left; margin-bottom: 3rem;" class="form-control" name="jobrequirements" value=""/>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div>
+                                    <input type="hidden" name="email" value="<%= employer.email %>">
+                                    <a href="/employer/jobs" class="px-3"><input class="btn btn-danger" style="height: 2.7rem;" type="button" value="Cancel"></a>
+                                    <button type="submit" class="site-button">Submit</button>
+                                </div>
+                                
+                            </form>
+                        </div>
+                    </div>
+                    <!-- Submit Resume END -->
+                </div>
+            </div>
+            <!-- Content END-->
+           
+            <button class="scroltop fa fa-chevron-up"></button>
+
+
+    </div>
+</div>
+
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"
+			  integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+			  crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        console.log('hiadjfk');
+        var maxFieldLimit = 6; //Input fields increment limitation
+        // var add_more_button = $('.add_button'); //Add button selector
+        // var Fieldwrapper = $('.input_field_wrapper'); //Input field wrapper
+        var fieldHTML = '<div><input type="text" style="width: 95%; float: left; margin-bottom: 3rem;" class="form-control pt-5" name="jobrequirements" value=""/><a href="javascript:void(0);" class="remove_button" style=" float: left;" title="Remove field"><i style="padding: 1rem;" class="fa fa-times" aria-hidden="true"></i></a></div>'; //New input field html 
+        var x = 1; //Initial field counter is 1
+        $('.add_button').click(function(){ //Once add button is clicked
+            if(x < maxFieldLimit){ //Check maximum number of input fields
+                x++; //Increment field counter
+                $('.input_field_wrapper').append(fieldHTML); // Add field html
+            }
+        });
+        $('.input_field_wrapper').on('click', '.remove_button', function(e){ //Once remove button is clicked
+            e.preventDefault();
+            $(this).parent('div').remove(); //Remove field html
+            x--; //Decrement field counter
+        });
+    });
+</script>
+
+
+<%- include('../partials/employerFooter.ejs') %>

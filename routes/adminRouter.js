@@ -8,7 +8,7 @@ const employerController = require('../app/http/controllers/adminController/empl
 
 const loginProtect = (req, res, next) => {
 
-    if (req.session.admin === null) {
+    if (req.session.admin == undefined) {
         res.redirect('/admin/login');
     }else {
         next();

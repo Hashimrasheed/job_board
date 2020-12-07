@@ -38,7 +38,7 @@
                                             <a href="#myModal" data-toggle="modal" class="text-secondry m-t30 m-l30 m-r30"><%= job.companyName %></a>
                                         </h3>
                                         <div class="pl-5">
-                                            <a href="#myModal" style="margin-left: 3rem;" data-toggle="modal" class="site-button ml-5">Apply This Job</a>
+                                            <a href="#myModal" style="margin-left: 3rem;" data-toggle="modal" class="site-button ml-5">View Profile</a>
                                         </div>
                                     </div>
                                 </div>
@@ -88,7 +88,11 @@
                             <!-- <span><h5 class="font-weight-600 pt-3"></h5><%= job.hiresNum %></span>
                             <div class="dez-divider divider-2px bg-gray-dark mb-4 mt-0"></div>
                              -->
-                            <a href="/user/jobquestions/<%= job._id %>/<%= usersession._id %>" class="site-button">Apply This Job</a>
+                             <% if(usersession) { %>
+                                <a href="/user/jobquestions/<%= job._id %>/<%= usersession._id %>" class="site-button">Apply This Job</a>
+                            <% }else { %>
+                                <a href="/user/login" class="site-button">Login to Apply</a>
+                            <% } %>
                         </div>
                     </div>
                 </div>

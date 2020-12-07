@@ -61,15 +61,23 @@
 						<!-- <h6 class="fw3">20+ Catetories work wating for you</h6> -->
 					</div>
 					<div class="head-counter-bx">
-						<h2 class=" counter"><%= jobCount.jobCount %></h2>
+						<% if(jobCount) { %>
+							<h2 class=" counter"><%= jobCount.jobCount %></h2>
+						<% } %>
+
 						<h6 class="fw3">Jobs Posted</h6>
 					</div>
 					<div class="head-counter-bx">
-						<h2 class=" counter">45</h2>
+						<% if(jobCount) { %>
+							<h2 class=" counter"><%= jobCount.jobCount %></h2>
+						<% } %>
 						<h6 class="fw3">Total Applications</h6>
 					</div>
 					<div class="head-counter-bx">
+						<% if(jobCount) { %>
 						<h2 class=" counter"><%= empCount.empCount %></h2>
+						<% } %>
+
 						<h6 class="fw3">Employers</h6>
 					</div>
 				</div>
@@ -170,7 +178,7 @@
 								<div class="quote-info">
 									<h4>Make a Change In Your Career!</h4>
 									<p><span style="font-weight: bolder; font-size: 3rem;">SPS</span> offers hands on industry relevant technical skill training for more than 12 domains in the field of Information Technology.</p>
-									<a href="https://packapeer.com/" class="site-button">Link to Site</a>
+									<a href="https://spsonline.in/" class="site-button">Link to Site</a>
 								</div>
 							</div>
 						</div>

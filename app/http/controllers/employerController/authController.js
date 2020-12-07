@@ -202,19 +202,10 @@ function authController() {
                 {$group:{_id:{$gt:["$appliedJobs", null]}, count:{$sum:1}}},
              
             ]).toArray()
-            
-            // let jobNum = await db.get().collection(collection.JOBS).aggregate([
-            //     {
-            //         $match: { "companyEmail": employer.email}
-            //     },
-            //     {
-            //         $project: { "jobrequests": 1}
-            //     },
-            // ]).toArray()
-            // console.log(jobName);
-            
-            // console.log(jobNum);
-            let RepliedJobs = approveNum[0].count
+            let RepliedJobs = 0
+            if(requests[0]) {
+                RepliedJobs = approveNum[0].count
+            }
             let reqs = 0;
             if(requests[0]) {
                 reqs = requests[0].jobCount

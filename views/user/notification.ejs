@@ -25,7 +25,8 @@ style="@import url(https://fonts.googleapis.com/css?family=Rubik:300,400,500,700
                   <tr>
                     <td>
                       <table width="100%"  cellpadding="0" cellspacing="0">
-                          <% if(msg.legth != 0) { %>
+                          <% if(msg) { %>
+                            <% if(msg.legth != 0) { %>
                             <% for(let i = 0; i < msg.length; i++){ %>
                         <tr
                           style="border-bottom:1px solid #ebebeb; margin-bottom:26px; padding-bottom:29px; display:block;">
@@ -39,6 +40,7 @@ style="@import url(https://fonts.googleapis.com/css?family=Rubik:300,400,500,700
                         <% } %>
 
                         <% } %>
+                        <% }  %>
                       </table>
                     </td>
                   </tr>

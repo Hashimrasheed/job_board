@@ -45,6 +45,22 @@ function jobController() {
                 })
             })
         },
+        async editJob(req, res) {
+            const employer = req.session.employer
+            let id = req.params.id
+            const job = await db.get().collection(collection.JOBS).aggregate([
+                {
+                    $match: {_id: ObjectID(id)}
+                }
+            ]).toArray()
+            console.log(job);
+            res.render('employer/editJob', {employer, job: job[0]})
+        },
+        async deletejob(req, res) {
+            let id = req.params.id
+            await db.get().collection(collection.JOBS).deleteOne({_id: ObjectID(id)})
+            res.redirect('/employer/jobs')
+        },
         async jobQuestions(req, res) {
             const jobId = new ObjectID(req.params.id)
             res.render('employer/jobquestions', {jobId})

@@ -46,6 +46,8 @@ app.get('/headers', loginProtect,loginController().header)
 app.get('/todayapplications/:id', loginProtect,jobseekerController().todayapplications)
 app.get('/lastweekapplications/:id', loginProtect,jobseekerController().lastweekapplications)
 app.get('/lastmonthapplications/:id', loginProtect,jobseekerController().lastmonthapplications)
+app.get('/deletejob/:id', loginProtect,jobController().deletejob)
+app.get('/editJob/:id', loginProtect,jobController().editJob)
 
 
 app.post('/login',loginController().postLogin)

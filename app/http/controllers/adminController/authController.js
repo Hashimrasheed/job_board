@@ -20,28 +20,41 @@ function authController() {
         },
         logout(req, res){
             req.session.destroy();
-            res.clearCookie('employerCookie');
+            res.clearCookie('adminCookie');
             req.logout();
             res.redirect('/admin/login')
         },
         async dashboard(req, res) {
             const admin = req.session.admin
-            let jobsNum = await db.get().collection(collection.JOBS).aggregate([
+            let jobsNum = []
+            let userNum = []
+            let empNum = []
+            jobsNum = await db.get().collection(collection.JOBS).aggregate([
                 {
                     $count: 'count'
                 }
             ]).toArray()
-            let userNum = await db.get().collection(collection.USERS).aggregate([
+            userNum = await db.get().collection(collection.USERS).aggregate([
                 {
                     $count: 'count'
                 }
             ]).toArray()
-            let empNum = await db.get().collection(collection.EMPLOYERS).aggregate([
+            empNum = await db.get().collection(collection.EMPLOYERS).aggregate([
                 {
                     $count: 'count'
                 }
             ]).toArray()
-            res.render('admin/dashboard', {jobsNum: jobsNum[0].count, userNum: userNum[0].count, empNum: empNum[0].count})
+            let dashdetails = 0 
+            if(jobsNum && userNum && empNum) {
+                dashdetails = {jobsNum: jobsNum[0].count, userNum: userNum[0].count, empNum: empNum[0].count}
+                res.render('admin/dashboard', dashdetails)
+            } else {
+                dashdetails = {jobsNum: 0, userNum: 0, empNum: 0}
+                res.render('admin/dashboard', dashdetails)
+            }
+            
+
+
         },
         async headers(req, res) {
             let jobName = await db.get().collection(collection.EMPLOYERS).aggregate([

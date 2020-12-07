@@ -55,7 +55,7 @@ function jobController() {
                 },
                
             ]).toArray()
-            res.render('employer/jobrequests', { jobs })
+            res.render('employer/jobrequests', { jobs, jobId })
         },
         async todayapplications(req, res) {
             const jobId = req.params.id
@@ -308,7 +308,7 @@ function jobController() {
                 },
                
             ]).toArray()
-            res.render('employer/jobseekerDetails', { jobs, questions : jobs[0].questions })
+            res.render('employer/jobseekerDetails', { jobs, jobId, questions : jobs[0].questions })
         }
     }
 }

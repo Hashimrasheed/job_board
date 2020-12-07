@@ -30,14 +30,24 @@
                                 </div>
                                 <div class="page-title-actions">
                                     <div class="d-inline-block ">
-                                        <form action="/employer/addjobs" method="GET">
-                                            <button type="submit"  aria-haspopup="true" aria-expanded="false" class="btn-shadow  btn btn-info">
-                                                <span class="btn-icon-wrapper pr-2 opacity-7">
-                                                    <i class="fa fa-paper-plane fa-w-20"></i>
-                                                </span>
-                                                Post a new job
-                                            </button>
-                                        </form>
+                                            <form action="/employer/deletejob/<%= jobId %>" method="GET" style="float: left;">
+                                                <button type="submit" onclick="return confirm('Are you sure to Delete this job?')" aria-haspopup="true" aria-expanded="false" class="btn-shadow  btn btn-info">
+                                                    <span class="btn-icon-wrapper pr-2 opacity-7">
+                                                        <i class="fa fa-trash fa-w-20"></i>
+                                                    </span>
+                                                    Remove job
+                                                </button>
+                                            </form>
+                                            <form action="/employer/editJob/<%= jobId %>" method="GET" style="float: left; margin-left: 1rem;">
+                                                <button type="submit"  aria-haspopup="true" aria-expanded="false" class="btn-shadow  btn btn-info">
+                                                    <span class="btn-icon-wrapper pr-2 opacity-7">
+                                                        <i class="fa fa-pencil-square-o fa-w-20"></i>
+                                                    </span>
+                                                    Edit job
+                                                </button>
+                                                
+                                            </form>
+                                        
                                         
                                         
                                     </div>
@@ -53,8 +63,10 @@
                                             <div class="card-body"><h5 class="card-title">Job Requests</h5>
                                                 <div class="row" style="min-height: 50vh;">
                                                     <div class="col-lg-12">
-                                                        <input type="hidden" id="jobId" value="<%= jobs[0]._id %>">
-                                                        
+                                                        <% if(jobs[0]) {%>
+                                                            <input type="hidden" id="jobId" value="<%= jobs[0]._id %>">
+                                                        <% } %>
+                                                            
                                                         <ul class="post-job-bx">
                                                             <div id="jobssearched">
                                                                 <% if(jobs) {%>
@@ -127,43 +139,6 @@
                         </div>
                     </div>
                     <!-- footer part -->
-                    <div class="app-wrapper-footer">
-                        <div class="app-footer">
-                            <div class="app-footer__inner">
-                                <div class="app-footer-left">
-                                    <ul class="nav">
-                                        <li class="nav-item">
-                                            <a href="javascript:void(0);" class="nav-link">
-                                                Footer Link 1
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="javascript:void(0);" class="nav-link">
-                                                Footer Link 2
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="app-footer-right">
-                                    <ul class="nav">
-                                        <li class="nav-item">
-                                            <a href="javascript:void(0);" class="nav-link">
-                                                Footer Link 3
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="javascript:void(0);" class="nav-link">
-                                                <div class="badge badge-success mr-1 ml-0">
-                                                    <small>NEW</small>
-                                                </div>
-                                                Footer Link 4
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>    
                 </div>
         </div>
     </div>
