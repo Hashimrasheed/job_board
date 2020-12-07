@@ -17,7 +17,7 @@ passport.deserializeUser(function(user, done) {
 passport.use(new GoogleStrategy({
     clientID: '149726536644-483oep39csd6bd7bh9o1rg77lgilkvpq.apps.googleusercontent.com',
     clientSecret: '_BamcoGQyBjdxSoLW1RjyaMq',
-    callbackURL: "http://localhost:3000/user/google/callback"
+    callbackURL: "http://jobboard.hashimrasheed.co/user/google/callback"
   },
   function(accessToken, refreshToken, profile, done) {
 
