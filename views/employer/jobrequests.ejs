@@ -25,6 +25,7 @@
                                             <a href="#" onclick="todayapplications()" tabindex="0" class="dropdown-item">Today Requsts</a>
                                             <a href="#" onclick="lastWeekApplication()" tabindex="0" class="dropdown-item">Last week Requsts</a>
                                             <a href="#" onclick="lastMonthApplication()" tabindex="0" class="dropdown-item">Last month Requsts</a>
+                                            <a href="#" data-toggle="modal" data-target="#exampleModalCenter" tabindex="0" class="dropdown-item">Custom filter</a>
                                         </div>
                                     </div>
                                 </div>
@@ -142,11 +143,41 @@
                 </div>
         </div>
     </div>
+    <div id="hio">
 
+    </div>
 
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Filter Job Requests</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="#hio">
+            <div class="modal-body">
+                <label for="">Starting Date</label>
+              <input type="date" id="sTime" name="sTime" required>
+              <br>
+              <label for="">Ending Date</label>
+              <input type="date" id="lTime" name="lTime" required>
+            </div>
+            <div class="modal-footer">
+              <input type="hidden" id="modelclose" data-dismiss="modal">
+              <button type="button" onclick="customDate()" class="btn btn-primary">Search</button>
+            </div>
+        </form>
+        
+      </div>
+    </div>
+  </div>
 </html>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.0/axios.min.js"></script>
 <script>
+
     function todayapplications() {
         let jobId = document.getElementById('jobId').value
         axios.get(`/employer/todayapplications/${jobId}`).then(res => {
@@ -163,11 +194,11 @@
                             <div class="img"></div>\
                             <div class="title"><h3>No Jobs Found!</h3></div>\
                             <div class="text">\
-                            <p>No jobs available in your category or in your location.</p></div>\
+                                <p>No jobs requests.</p></div>\
                         </div>\
                     </div>`
 
-                document.getElementById('noResult').innerHTML = html
+                document.getElementById('jobssearched').innerHTML = html
                     
             } else {
                 var x = document.getElementById("alljosSearched");
@@ -238,11 +269,11 @@
                             <div class="img"></div>\
                             <div class="title"><h3>No Jobs Found!</h3></div>\
                             <div class="text">\
-                            <p>No jobs available in your category or in your location.</p></div>\
+                                <p>No jobs requests.</p></div>\
                         </div>\
                     </div>`
 
-                document.getElementById('noResult').innerHTML = html
+                document.getElementById('jobssearched').innerHTML = html
                     
             } else {
                 var x = document.getElementById("alljosSearched");
@@ -313,11 +344,11 @@
                             <div class="img"></div>\
                             <div class="title"><h3>No Jobs Found!</h3></div>\
                             <div class="text">\
-                            <p>No jobs available in your category or in your location.</p></div>\
+                                <p>No jobs requests.</p></div>\
                         </div>\
                     </div>`
 
-                document.getElementById('noResult').innerHTML = html
+                document.getElementById('jobssearched').innerHTML = html
                     
             } else {
                 var x = document.getElementById("alljosSearched");
@@ -368,6 +399,92 @@
                                 </li>`
             });
                 document.getElementById('jobssearched').innerHTML = html
+            }
+        })
+    }
+
+    function customDate() {
+        let jobId = document.getElementById('jobId').value
+        let sTime = document.getElementById('sTime').value
+        let lTime = document.getElementById('lTime').value
+        console.log(jobId + ' ' + sTime + " " + lTime);
+        axios.get(`/employer/customDate/${jobId}/${sTime}/${lTime}`).then(res => {
+            let jobs = res.data
+            let html = ''
+            console.log(jobs);
+
+            if(jobs.length == 0) {
+                var x = document.getElementById("alljosSearched");
+                if (x.style.display === "block") {
+                    myFunction()
+                }
+
+                html = `<div class="container">\
+                        <div class="card" style="align-items: center; padding-top: 3rem; padding-bottom: 3rem;">\
+                            <div class="img"></div>\
+                            <div class="title"><h3>No Jobs Found!</h3></div>\
+                            <div class="text">\
+                            <p>No jobs requests.</p></div>\
+                        </div>\
+                    </div>`
+                document.getElementById('modelclose').click();
+                document.getElementById('jobssearched').innerHTML = html
+                    
+            } else {
+                console.log('jobs found');
+
+                var x = document.getElementById("alljosSearched");
+                console.log(x);
+
+                if (x.style.display === "none") {
+                    myFunction()
+                }
+                jobs.forEach(function (jobs) {
+                
+                html += `<li>\
+                                    <a href="/employer/jobrequestsDetails/${jobs._id}/${jobs.userRequests._id}" style="padding-top: 10px;padding-bottom: 10px; padding-right: 25px; padding-left: 25px;">\
+                                        <div class="d-flex">\
+                                            <div class="job-post-company">\
+                                                
+                                                <span><img src="/images/userProfile/${jobs.userRequests._id}.jpg" /></span>\
+                                            </div>\
+                                            <div class="job-post-info">\
+                                                <h4 class="job-time">${jobs.userRequests.name}</h4>\
+                                                <div class="d-flex">\
+                                                    <div class="job-time mr-auto">\
+                                                        <span>${jobs.userRequests.professionalTitle}</span>\
+                                                    </div>\
+                                                </div>\
+                                                <ul>\
+                                                    <li>${jobs.userRequests.skills}</li>\
+                                                </ul>\
+                                            </div>\
+                                        </div>\
+                                        <div>\
+                                            <span><span class="text-blue">Email: </span>${ jobs.userRequests.email }</span>\
+                                                <br>\
+                                            <span><span class="text-blue">Phone: </span>${ jobs.userRequests.mobile }</span>\
+                                        </div>\
+                                        <div class="d-flex">\
+                                            <div class="job-time mr-auto">\
+                                                <span>${jobs.userRequests.experience}</span>\
+                                            </div>\
+                                            <div class="salary-bx">\
+                                                <button type="submit" aria-haspopup="true" aria-expanded="false" class="btn-shadow btn btn-info">\
+                                                    <span class="btn-icon-wrapper pr-2 opacity-7">\
+                                                        <i class="fa fa-info fa-w-20"></i>\
+                                                    </span>\
+                                                    View More\
+                                                </button>\
+                                                
+                                            </div>\
+                                        <\/div>\
+                                    </a>\
+                                </li>`
+            });
+                document.getElementById('modelclose').click();
+                document.getElementById('jobssearched').innerHTML = html
+
             }
         })
     }

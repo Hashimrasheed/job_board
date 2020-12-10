@@ -5,7 +5,7 @@ var ObjectID = require('mongodb').ObjectID;
 function searchController() {
     return {
         async domainSearch(req, res) {
-            const allJobs = await db.get().collection(collection.JOBS).find({status: 'completed'}).sort({ _id : -1 }).toArray();
+            const allJobs = await db.get().collection(collection.JOBS).find({status: 'completed', block: false}).sort({ _id : -1 }).toArray();
             let headers = [];
             for (let i in allJobs) {
                 let str = allJobs[i].header.toLowerCase().replace(/\s/g, "")
@@ -15,7 +15,7 @@ function searchController() {
             
         },
         async postDomainIndexes(req, res){
-            const allJobs = await db.get().collection(collection.JOBS).find({status: 'completed'}).sort({ _id : -1 }).toArray();
+            const allJobs = await db.get().collection(collection.JOBS).find({status: 'completed', block: false}).sort({ _id : -1 }).toArray();
             let headers = [];
             for (let i in allJobs) {
                 let str = allJobs[i].header
@@ -29,7 +29,7 @@ function searchController() {
             res.json(domains)
         },
         async locationSearch(req, res) {
-            const allJobs = await db.get().collection(collection.JOBS).find({status: 'completed'}).sort({ _id : -1 }).toArray();
+            const allJobs = await db.get().collection(collection.JOBS).find({status: 'completed', block: false}).sort({ _id : -1 }).toArray();
             let location = [];
             for (let i in allJobs) {
                 let str = allJobs[i].location.toLowerCase().replace(/\s/g, "")

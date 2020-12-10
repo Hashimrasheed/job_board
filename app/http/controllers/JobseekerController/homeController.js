@@ -12,7 +12,7 @@ let mobile;
 function homeController() {
     return {
         async home(req, res) {
-            const jobs = await db.get().collection(collection.JOBS).find({status: 'completed'}).sort({ _id : -1 }).limit(5).toArray();
+            const jobs = await db.get().collection(collection.JOBS).find({status: 'completed', block: false}).sort({ _id : -1 }).limit(5).toArray();
             const employers = await db.get().collection(collection.EMPLOYERS).aggregate([]).toArray();
             const employersCount = await db.get().collection(collection.EMPLOYERS).aggregate([
                 {
@@ -233,9 +233,32 @@ function homeController() {
             let messages = await db.get().collection(collection.USERS).aggregate([
                 {
                     $match: {_id: ObjectID(req.session.user._id)}
-                }
+                },
+                {
+                    $unwind: "$appliedJobs"
+                },
+                {
+                    $unwind: "$notifications"
+                },
+                {
+                    $project: {
+                        notification: '$notifications.message',
+                        jobs: '$appliedJobs.jobId',
+                    }
+                },
+                {
+                    $lookup: {
+                        from: collection.JOBS,
+                        localField: 'jobs',
+                        foreignField: '_id',
+                        as: 'jobDetails'
+                    }
+                },
+                // {
+                //     $unwind: "$jobDetails"
+                // },
             ]).toArray();
-            let msg = messages[0].notifications
+            let msg = messages
             console.log(msg);
             res.render('user/notification', {msg})
         }

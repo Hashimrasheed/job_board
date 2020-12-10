@@ -6,7 +6,7 @@ let moment = require('moment')
 function jobController() {
     return {
         async displayJobs(req, res) {
-            const jobs = await db.get().collection(collection.JOBS).find({status: 'completed'}).toArray()
+            const jobs = await db.get().collection(collection.JOBS).find({status: 'completed', block: false}).toArray()
             const employers = await db.get().collection(collection.EMPLOYERS).find().toArray();
             
             if(req.session.user) {

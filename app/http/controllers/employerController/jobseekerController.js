@@ -53,7 +53,6 @@ function jobController() {
                         skills: '$skills'
                     }
                 },
-               
             ]).toArray()
             res.render('employer/jobrequests', { jobs, jobId })
         },
@@ -309,6 +308,73 @@ function jobController() {
                
             ]).toArray()
             res.render('employer/jobseekerDetails', { jobs, jobId, questions : jobs[0].questions })
+        },
+        async customDate(req, res) {
+            const jobId = req.params.id
+            const users = await db.get().collection(collection.JOBS).aggregate([
+                {
+                    $match: { _id: ObjectID(jobId) }
+                },
+                {
+                    $unwind: "$jobrequests"
+                },
+                {
+                    $project: {
+                        header: '$header',
+                        companyName: '$companyName',
+                        workTime: '$workTime',
+                        skills: '$skills',
+                        hiresNum: '$hiresNum',
+                        userId: '$jobrequests.userId',
+                        time: '$jobrequests.time',
+                        profilePic: '$profilePic',
+                        professionalTitle: '$professionalTitle',
+                        skills: '$skills'
+                    }
+                },
+                {
+                    $lookup: {
+                        from: collection.USERS,
+                        localField: 'userId',
+                        foreignField: '_id',
+                        as: 'userRequests'
+                        
+                    }
+                },
+                {
+                    $unwind: "$userRequests"
+                },
+                {
+                    $project: {
+                        header: '$header',
+                        hiresNum: '$hiresNum',
+                        userRequests: 1,
+                        companyName: '$companyName',
+                        workTime: '$workTime',
+                        skills: '$skills',
+                        profilePic: '$profilePic',
+                        professionalTitle: '$professionalTitle',
+                        skills: '$skills',
+                        time: '$time',
+                    }
+                },
+            ]).toArray()
+            
+            // {
+            //     $match: {time: moment().format('DD/MM/YYYY')}
+            // }
+            let jobs = [];
+
+            let Stime = moment(req.params.lTime).format('YYYY/MM/DD')
+            let Etime = moment(req.params.sTime).format('YYYY/MM/DD');
+            for (let i = 0; i < users.length; i++) {
+            // console.log(moment(users[i].time).isBetween(Stime, Etime));
+                if(users[i].time <= Stime && users[i].time >= Etime){
+                    jobs = [...jobs, users[i]]
+                }
+                
+            }
+            res.json(jobs)
         }
     }
 }

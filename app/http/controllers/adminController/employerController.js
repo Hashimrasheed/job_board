@@ -26,7 +26,19 @@ function authController() {
         },
         async employerblock(req, res) {
             let oid = new ObjectID(req.body.id)
+            let emps = await db.get().collection(collection.EMPLOYERS).aggregate([
+                {
+                    $match: {_id: oid}
+                }
+            ]).toArray()
+            let empEmail = emps[0].email;
             await db.get().collection(collection.EMPLOYERS).updateOne({_id: oid}, { $set: {status: 'blocked'}})
+            let jobs = await db.get().collection(collection.JOBS).aggregate([
+                {
+                    $match: {companyEmail: empEmail}
+                }
+            ]).toArray()
+            await db.get().collection(collection.JOBS).updateMany({companyEmail: empEmail}, { $set: {block: true}})
             res.redirect('/admin/employers')
         },
         async blockedEmployers(req, res) {
@@ -35,14 +47,25 @@ function authController() {
         },
         async employerUnblock(req, res) {
             let oid = new ObjectID(req.body.id)
+            let emps = await db.get().collection(collection.EMPLOYERS).aggregate([
+                {
+                    $match: {_id: oid}
+                }
+            ]).toArray()
+            let empEmail = emps[0].email;
             await db.get().collection(collection.EMPLOYERS).updateOne({_id: oid}, { $set: {status: undefined}})
+            let jobs = await db.get().collection(collection.JOBS).aggregate([
+                {
+                    $match: {companyEmail: empEmail}
+                }
+            ]).toArray()
+            await db.get().collection(collection.JOBS).updateMany({companyEmail: empEmail}, { $set: {block: false}})
             res.redirect('/admin/blockedemployers')
         },
         async employerDelete(req, res) {
             let oid = req.body.id
             console.log(oid);
             await db.get().collection(collection.EMPLOYERS).find({_id: ObjectID(oid)}).toArray().then(async (data)=>{
-                console.log(data);
                 await db.get().collection(collection.EMPLOYERS).deleteOne({_id: ObjectID(oid)})
                 await db.get().collection(collection.JOBS).deleteMany({companyEmail: data[0].email})
             })
