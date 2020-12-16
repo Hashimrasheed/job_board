@@ -246,14 +246,14 @@ function homeController() {
                         jobs: '$appliedJobs.jobId',
                     }
                 },
-                {
-                    $lookup: {
-                        from: collection.JOBS,
-                        localField: 'jobs',
-                        foreignField: '_id',
-                        as: 'jobDetails'
-                    }
-                },
+                // {
+                //     $lookup: {
+                //         from: collection.JOBS,
+                //         localField: 'jobs',
+                //         foreignField: '_id',
+                //         as: 'jobDetails'
+                //     }
+                // },
                 // {
                 //     $unwind: "$jobDetails"
                 // },
